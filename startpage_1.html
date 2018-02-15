@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Arrival Vehicle Attributes Tool">
+    <meta name="author" content="Murray Schofield">
+
+    <!-- Bootstrap CSS -->
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="NEDC_100.js" type="text/javascript"></script>
+<!-- Latest compiled and minified JavaScript -->
+	
+	
+	
+	
+	
+    <title>Attributes Tool</title>
+	
+	    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+    <script type="text/javascript">
+
+    </script>
+  </head>
+  <body>
+  
+     <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ARRIVAL</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">Arrival Vehicle Attributes Tool</h1>
+          <p class="lead">Enter your vehicle inputs then click "Run Simulation".</p>
+				</br>
+				</br>
+		  
+		  </div>
+	   </div>
+	   
+	    <div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="mt-5">Vehicle Parameters</h2>	  
+			</div>
+	    </div>
+		
+		<div class="row">		
+		 <!-- Button -->
+			<div class="col-lg-4 col-md-offset-2">
+				
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">Total Vehicle Mass (kg)</span>
+						<input id="mass" type="text" class="form-control" placeholder="Value in kg." aria-describedby="basic-addon1">
+					</div>
+					</br>
+					
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">Rolling Resistance Coefficient</span>
+						<input id="rr" type="text" class="form-control" placeholder="e.g. 0.0067." aria-describedby="basic-addon1">
+					</div>
+					</br>
+					
+				</div>
+			</div>
+			<div class="col-lg-4 ">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">Frontal Area (m^2)</span>
+						<input id="fa" type="text" class="form-control" placeholder="Value in m^2." aria-describedby="basic-addon1">
+					</div>
+					</br>
+					
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">Drag Coefficient</span>
+						<input id="cd" type="text" class="form-control" placeholder="e.g. 0.44." aria-describedby="basic-addon1">
+					</div>
+					</br>
+					
+				</div>
+			</div>
+		
+		</div>
+		<div class="row">		
+			
+
+				<div class="form-group">
+			
+					<label class="col-md-4 control-label" for="singlebutton"></label>
+					<div class="col-md-4 text-center"> 
+						<button id="singlebutton" name="singlebutton" class="btn btn-lg btn-primary">Run Simulation</button> 
+					</div>
+					
+				</div>
+				
+				<div id="chart" style="width:400; height:300"></div>
+			
+		</div>
+	</div>
+      
+
+	
+	
+
+	
+	<script src="./papaparse.min.js"></script>
+	<script>
+	  $(document).ready(function(){
+		
+	  });
+	  
+	  function runSimulation(p1, p2) {
+	  
+
+			var m = parseFloat( $('#mass').val() );
+			var rr = parseFloat( $('#rr').val() );
+			var fa = parseFloat( $('#fa').val() );
+			var cd = parseFloat( $('#cd').val() );
+			
+			timeStep = NEDC_100_array
+			for (i = 1; i < 1200; i++) { 
+			  currentTime = i;
+			  
+			  var previousTimeStep = timeStep[currentTime-1];
+			  var currentTimeStep = timeStep[currentTime];
+			  var nextTimeStep = timeStep[currentTime+1];
+			  var v = currentTimeStep.speed;
+			  var a = currentTimeStep.speed - previousTimeStep.speed ;
+			  
+			  currentTimeStep.accel = a;
+			  
+			  currentTimeStep.aerodynamicDragPower = 0.5 * cd * 1.19 * fa * v*v*v;
+			  
+			  currentTimeStep.rollingResistancePower = m * rr * 9.81 * v;
+			  
+			  currentTimeStep.accelerationPower = m * Math.max(a,0) * v;
+			  
+			  currentTimeStep.deccelerationPower = m * Math.min(a,0) * v;
+			  
+			  currentTimeStep.powerAtWheels = currentTimeStep.aerodynamicDragPower + currentTimeStep.rollingResistancePower + currentTimeStep.accelerationPower ;
+			  
+			  currentTimeStep.batteryPower = currentTimeStep.powerAtWheels / 0.95 / 0.95 / 0.85 / 0.95;
+			  
+			  console.log(timeStep[currentTime]);
+			  
+			  
+			  
+			}
+		return p1 * p2;              
+		}
+	</script>
+	
+  </body>
+  
+  
+	<script>
+		$(document).ready(function(){
+		
+		//Set default values for inputs
+		$('#mass').val(4250)
+		$('#rr').val(0.0067)
+		$('#fa').val(4.7)
+		$('#cd').val(0.44)
+		
+		displayChart();
+/*	
+		    // Load the Visualization API and the piechart package.
+google.load('visualization', '1.1', {packages: ['line']});
+
+// Set a callback to run when the Google Visualization API is loaded.
+google.setOnLoadCallback(drawChart);
+
+// Callback that creates and populates a data table, 
+// instantiates the pie chart, passes in the data and
+// draws it.
+function drawChart() {
+
+  // Create the data table.
+  var data = new google.visualization.DataTable();
+  data.addColumn('number', 'Day');
+  data.addColumn('number', 'Guardians of the Galaxy');
+  data.addColumn('number', 'The Avengers');
+      data.addColumn('number', 'Transformers: Age of Extinction');
+
+      data.addRows([
+        [1,  37.8, 80.8, 41.8],
+        [2,  30.9, 69.5, 32.4],
+        [3,  25.4,   57, 25.7],
+        [4,  11.7, 18.8, 10.5],
+        [5,  11.9, 17.6, 10.4],
+        [6,   8.8, 13.6,  7.7],
+        [7,   7.6, 12.3,  9.6],
+        [8,  12.3, 29.2, 10.6],
+        [9,  16.9, 42.9, 14.8],
+        [10, 12.8, 30.9, 11.6],
+        [11,  5.3,  7.9,  4.7],
+        [12,  6.6,  8.4,  5.2],
+        [13,  4.8,  6.3,  3.6],
+        [14,  4.2,  6.2,  3.4]
+      ]);
+
+
+  // Set chart options
+  var options = {
+    chart: {
+      title:'Box Office Earnings in First Two Weeks of Opening',
+      subtitle: 'in millions of dollars (USD)'
+    },
+                 'width':  900,
+                 'height': 500};
+
+  // Instantiate and draw our chart, passing in some options.
+  var chart = new google.charts.Line(document.getElementById('chart'));
+  
+  chart.draw(data, options);
+}
+		
+		*/
+		
+			$("button").click(function(){
+				runSimulation(0,1);
+				
+				
+			});
+		});
+		
+		
+		function displayChart(){
+		    
+  
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		function displayPieChart(){
+		    
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+		}
+		
+		
+		
+	</script>
+	
+
+</html>

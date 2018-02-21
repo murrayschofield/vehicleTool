@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Arrival Vehicle Tool">
+    <meta name="author" content="Murray Schofield">
+
+    <title>Arrival Vehicle Tool</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="dist/js/sb-admin-2.js"></script>
+	 
+	<script> 
+		$(function(){
+		  //$("#navBarsideBar").load("pages/navBarsideBar.html");  
+		  console.log("Hello");
+		  defineDriveCycleClicked();
+		  standardDriveButtonClicked();
+		  
+		  document.getElementById('simProgressBar').style.visibility = 'visible';
+		  document.getElementById('simProgressBar').style.visibility = 'hidden';
+		  
+		});
+		
+		
+		function collapseAllSections(){
+			console.log("Collapsing All Section");	
+			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
+			//document.getElementById("vehicleInputsSection").style.visibility = 'hidden';
+			
+			document.getElementById("gettingStartedGuideSection").className = "collapse";
+			document.getElementById("vehicleInputsSection").className = "collapse";
+			document.getElementById("defineDriveCycleSection").className = "collapse";
+			document.getElementById("energyBreakdownSection").className = "collapse";
+			document.getElementById("UIExamplesSection").className = "collapse";
+			document.getElementById("resetVehicleSection").className = "collapse";			
+		}
+		
+		function gettingStartedClicked(){
+			console.log("Getting Started Clicked");
+			collapseAllSections();
+			document.getElementById("gettingStartedGuideSection").className = "collapse.show";
+			
+		}
+		
+		
+		
+		function enterVehicleInputsClicked(){
+			console.log("Enter Vehicle Inputs Clicked");
+			collapseAllSections();
+			document.getElementById("vehicleInputsSection").className = "collapse.show";
+		}
+		
+		function defineDriveCycleClicked(){
+			console.log("Define Drive Cycles Clicked");
+			collapseAllSections();
+			document.getElementById("defineDriveCycleSection").className = "collapse.show";
+		}
+		
+		function energyBreakdownClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("energyBreakdownSection").className = "collapse.show";
+		}
+		
+		
+		function UIExamplesClicked(){
+			console.log("UI Examples Clicked");
+			collapseAllSections();
+			document.getElementById("UIExamplesSection").className = "collapse.show";
+		}
+		
+		function resetClicked(){
+			console.log("Reset Clicked");
+			collapseAllSections();
+			document.getElementById("resetVehicleSection").className = "collapse.show";
+		}
+		
+	</script> 
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+		<!--<div id="navBarsideBar"></div>-->
+
+		<!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" >ARRIVAL Vehicle  Tool v1.0 -  built by the Battery Team.</a>				
+            </div>
+            <!-- /.navbar-header -->
+
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+						</br>
+						</br>
+						</br>
+						<li>  
+                        </li>
+						<li>
+                            <a onclick="gettingStartedClicked()"><i class="fa fa-book fa-fw"></i> Getting Started Guide</a>
+                        </li>
+                        
+						<li>
+                            <a onclick="enterVehicleInputsClicked()"><i class="fa fa-car fa-fw"></i>  Enter Vehicle Inputs</a>
+                        </li>
+						<li>
+                            <a onclick="defineDriveCycleClicked()" ><i class="fa fa-road fa-fw"></i> Define Drive Cycle</a>
+                        </li>
+                        <li>
+                            <a ><i class="fa fa-bar-chart-o fa-fw"></i> Simulation Results<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
+                                </li>
+                                <li>
+                                    <a ><i class="fa fa-arrow-circle-right fa-fw"></i> Range</a>
+                                </li>
+								<li>
+                                    <a ><i class="fa fa-database fa-fw"></i> Battery SOC</a>
+                                </li>
+                                <li>
+                                    <a ><i class="fa fa-dashboard fa-fw"></i> Vehicle Performance</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a onclick="UIExamplesClicked()" ><i class="fa fa-wrench fa-fw"></i> UI Example Elements</a>
+                        </li>                      
+                       
+						</br>
+						<li style="padding-left: 10px;padding-right: 10px;">
+                            <a  class="btn btn-success btn-lg"  onclick="runSimulationClicked()" role="button">Run Simulation</a>
+							
+							</br>
+						</br>
+						</br>
+						</br>
+						</br>
+						</br>
+						</br>
+						</br>						
+							<a  onclick="resetClicked()" class="btn btn-warning "  onclick="runSimulationClicked()" role="button">Reset Vehicle Tool</a>
+                        
+						</br>
+						</br>
+						</li>
+						<li id="simProgressBar">
+						<div class="collapse">
+							<div class="progress">
+							  <div  class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 2%;">
+								2%
+							  </div>
+							</div>
+						</div>
+						</li>
+						
+
+						
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+		
+        <div id="page-wrapper">
+		
+		<div id="gettingStartedGuideSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Getting Started Guide</h1>
+					<p> 1. Click on "Enter Vehicle Inputs" on the side menu and enter vehicle inputs. </p>
+					<p> 2. Click on "Define Drive Cycle" on the side menu and define the drive cycle, you can choose from standard cycles, or constant speeds and other scenarios. </p>
+					<p> 3. Click on the "Run Simulation" Button to generate results. You have to do this every time you change an input value. </p>
+					<p> 4. Under "Simulation Results" in the side menu you can explore many different results and graphs from the simulation. </p>
+					</br>
+					<p> To request new features or changes please contact Murray Schofield on telegram: @murrayschof </p>
+					
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="resetVehicleSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">The Vehicle Tool is Now Reset</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="vehicleInputsSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Enter Vehicle Inputs</h1>
+					
+                </div>
+				<div class="col-lg-12">
+                    <!-- Load Vehicle button -->
+					<div class="btn-group">
+					  <button type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Click Here to Load a Default Vehicle <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="#">Reset All Inputs</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Load ATX</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Load T4</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Load T8</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Load POD</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Load B12</a></li>
+					  </ul>
+					</div>
+                </div>
+				<div class="col-lg-12">
+				</br>
+				</div>
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Vehicle Parameters </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Vehicle Total Mass including Payload (kg):</label>
+                                            <input class="form-control" placeholder="Enter total mass for simulation, including payload.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Frontal Area (m^2):</label>
+                                            <input class="form-control" placeholder="Find this value accurately using a CAD package.">
+                                        </div>
+										<div class="form-group">
+                                            <label>Drag Coefficient:</label>
+                                            <input class="form-control" placeholder="Usually a value between 0.1 and 1.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                    </form>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Battery Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Battery Module Type:</label>
+                                            <select class="form-control">
+                                                <option>12s 20p 50v Prototype Module</option>
+                                                <option>12s 18p 50v Arrival Module</option>
+                                                <option>108s 2p 450v Arrival module</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>System Voltage:</label>
+                                            <select class="form-control">
+                                                <option>50v (Like ATX)</option>
+												<option>400v (8x 50v modules in series)</option>
+												<option>450v (450v modules in parallel)</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Total Number of Modules in Vehicle:</label>
+                                            <input class="form-control" placeholder="The total number of physical modules in the vehicle.">
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Drivetrain Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Motor Type:</label>
+                                            <select class="form-control">
+                                                <option>CRA (One motor per drive unit)</option>
+												<option>CRA (Two motors per drive unit for B12)</option>
+                                                <option>CRB Motor</option>
+                                                <option>T4 Motor</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Gear Ratio in Drive Unit:</label>
+                                            <input class="form-control" placeholder="e.g. if the ratio is 12:1, enter 12 here.">	
+                                        </div>
+										<div class="form-group">
+                                            <label>Front Drive Units: </label>
+											<label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline2" id="optionsRadiosInline2" value="option3" checked>0
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline2" id="optionsRadiosInline2" value="option4" >1
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline2" id="optionsRadiosInline2" value="option5">2
+                                            </label>
+                                        </div>
+										<div class="form-group">
+                                            <label>Rear Drive Units: </label>
+											<label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline3" id="optionsRadiosInline3" value="option6" >0
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline3" id="optionsRadiosInline3" value="option7" checked>1
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="optionsRadiosInline3" id="optionsRadiosInline3" value="option8">2
+                                            </label>
+                                        </div>
+										<div class="form-group">
+                                            <label>Inverter Efficiency (%):</label>
+                                            <input class="form-control" placeholder="Default Value: 95.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+										
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Wheel Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Single Wheel Rolling Resistance</label>
+                                            <input class="form-control" placeholder="Usually a value between 0.005 and 0.015.">	
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tyre Diameter (mm)</label>
+                                            <input class="form-control" placeholder="Value in millimeters.">
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Regenerative Braking </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Percentage of available braking energy regenerated.</label>
+                                            <input class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <p class="help-block">More options coming soon.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Auxiliary Power Consumption </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Constant Auxiliary Power Consumption (kW).</label>
+                                            <input class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <p class="help-block">More options coming soon.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<script>
+		
+		function collapsedriveCyclePanels(){
+			console.log("Collapsing All Section");	
+			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
+			//document.getElementById("vehicleInputsSection").style.visibility = 'hidden';
+			
+			//document.getElementById("standardDriveButton").className = "collapse";
+			
+			$("#standardDriveButton").removeClass("btn-primary");
+			$("#standardDriveButton").addClass("btn-default");
+			
+			$("#constantSpeedButton").removeClass("btn-primary");
+			$("#constantSpeedButton").addClass("btn-default");
+			
+			$("#accelProfileButton").removeClass("btn-primary");
+			$("#accelProfileButton").addClass("btn-default");
+			
+			$("#staticChargeButton").removeClass("btn-primary");
+			$("#staticChargeButton").addClass("btn-default");
+			
+			$("#hillClimbButton").removeClass("btn-primary");
+			$("#hillClimbButton").addClass("btn-default");
+			
+			document.getElementById("standardCyclePanel").className = "collapse";
+			document.getElementById("constantSpeedPanel").className = "collapse";
+			document.getElementById("accelProfilePanel").className = "collapse";
+			document.getElementById("staticChargePanel").className = "collapse";
+			document.getElementById("hillClimbPanel").className = "collapse";
+			
+		}
+		
+		function standardDriveButtonClicked(){
+			collapsedriveCyclePanels();
+			document.getElementById("standardCyclePanel").className = "collapse.show";
+			$("#standardDriveButton").removeClass("btn-default");
+			$("#standardDriveButton").addClass("btn-primary");
+		}
+		
+		function constantSpeedButtonClicked(){
+			collapsedriveCyclePanels();
+			document.getElementById("constantSpeedPanel").className = "collapse.show";
+			$("#constantSpeedButton").removeClass("btn-default");
+			$("#constantSpeedButton").addClass("btn-primary");
+		}
+		
+		function accelProfileButtonClicked(){
+			collapsedriveCyclePanels();
+			document.getElementById("accelProfilePanel").className = "collapse.show";
+			$("#accelProfileButton").removeClass("btn-default");
+			$("#accelProfileButton").addClass("btn-primary");
+		}
+		
+		function staticChargeButtonClicked(){
+			collapsedriveCyclePanels();
+			document.getElementById("staticChargePanel").className = "collapse.show";
+			$("#staticChargeButton").removeClass("btn-default");
+			$("#staticChargeButton").addClass("btn-primary");
+		}
+		
+		function hillClimbButtonClicked(){
+			collapsedriveCyclePanels();
+			document.getElementById("hillClimbPanel").className = "collapse.show";
+			$("#hillClimbButton").removeClass("btn-default");
+			$("#hillClimbButton").addClass("btn-primary");
+		}
+		
+		</script>
+		
+		
+		<div id="defineDriveCycleSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Define Drive Cycle</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+				<div class="col-lg-12">
+				<h2> Select Drive Cycle Type: </h2>
+                    <div class="btn-group btn-group-justified  " role="group" aria-label="...">
+				  <div class="btn-group" role="group">
+					<button id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary btn-lg" id="standardDriveButton">Use Standard Drive Cycle</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default btn-lg">Use Constant Speed</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default btn-lg">Use Acceleration Profile</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default btn-lg">Use Static Charging</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default btn-lg">Use Hill Climb</button>
+				  </div>
+				</div>
+                </div>
+				<div class="col-lg-12">
+
+                </div>
+            </div>
+			</br>
+			<div class="row">
+
+			<div class="col-lg-6">
+			<div class="row">
+			
+			<div id="standardCyclePanel" class="col-lg-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Choose Standard Drive Cycle: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                            <label>Drive Cycle:</label>
+                                            <select class="form-control">
+                                                <option>NEDC 70 (1200 seconds)</option>
+												<option>NEDC 100 (1200 seconds)</option>
+												<option>NEDC 120 (1200 seconds)</option>
+                                                <option>WLTP 3a (1800 seconds)</option>
+                                                <option>WLTP 3b (1800 seconds)</option>
+												<option>Royal Mail (15,993 seconds)</option>
+                                                <option>Farmdrop 64km (23,664 seconds)</option>
+                                                <option>Farmdrop 87km (20,184 seconds)</option>
+                                            </select>
+                            </div>
+							
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			<div id="constantSpeedPanel" class="col-lg-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Choose Constant Speed: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Constant Speed (kmph):</label>
+                                            <input class="form-control" placeholder="">	
+                                            
+                                        </div>
+										</br>
+										</br>
+										<div class="form-group">
+                                            <label>Starting Condition:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>Start at the constant speed.
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >Accelerate with maximum torque to constant speed from stationary.
+                                                </label>
+                                            </div>
+										</div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			<div id="accelProfilePanel" class="col-lg-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Acceleration Profile: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Acceleration profile tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			<div id="staticChargePanel" class="col-lg-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Static Charging: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Static charging tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			<div id="hillClimbPanel" class="col-lg-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Hill Climb: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Hill climb tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			</div>
+			</div>
+			<div class="col-lg-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define State of Charge (SOC): </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Starting SOC:</label>
+                                            <select class="form-control">
+                                                <option>100% (Full Charge)</option>
+												<option>90%</option>
+												<option>80%</option>
+												<option>70%</option>
+												<option>60%</option>
+												<option>50%</option>
+												<option>40%</option>
+												<option>30%</option>
+												<option>20%</option>
+												<option>10%</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>SOC State:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked>Variable SOC (Charges and Discharges)
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >Fixed at starting SOC
+                                                </label>
+                                            </div>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Environmental Conditions: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+										<div class="form-group">
+                                            <label>Ambient Temperature:</label>
+                                            <select class="form-control">
+                                                <option>25 degC Ambient</option>
+												<option>30 degC Ambient</option>
+												<option>40 degC Ambient</option>
+												<option>50 degC Ambient</option>
+												<option>20 degC Ambient</option>
+												<option>15 degC Ambient</option>
+												<option>10 degC Ambient</option>
+												<option>0 degC Ambient</option>
+												<option>-10degC Ambient</option>
+												<option>-20degC Ambient</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Starting Battery Pack Temperature:</label>
+                                            <select class="form-control">
+                                                <option>25 degC Battery</option>
+												<option>30 degC Battery</option>
+												<option>40 degC Battery</option>
+												<option>50 degC Battery</option>
+												<option>20 degC Battery</option>
+												<option>15 degC Battery</option>
+												<option>10 degC Battery</option>
+												<option>0 degC Battery</option>
+												<option>-10degC Battery</option>
+												<option>-20degC Battery</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Wind:</label>
+                                            <select class="form-control">
+                                                <option>0 kmph</option>
+												<option>10 kmph headwind</option>
+												<option>20 kmph headwind</option>
+												<option>50 kmph headwind</option>
+												<option>10 kmph tailwind</option>
+												<option>20 kmph tailwind</option>
+												<option>50 kmph tailwind</option>
+                                            </select>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+			</div>
+		</div>
+		
+		<div id="energyBreakdownSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Energy Breakdown</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		
+		<div id="UIExamplesSection" >
+			<!-- /#collapsible section 1 -->		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">UI Example Elements</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Default Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Primary Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Success Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Info Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            Warning Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            Danger Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            Green Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            Yellow Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            Red Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Collapsible Accordion Panel Group
+                        </div>
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Collapsible Group Item #1</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Collapsible Group Item #2</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Collapsible Group Item #3</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Basic Tabs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home" data-toggle="tab">Home</a>
+                                </li>
+                                <li><a href="#profile" data-toggle="tab">Profile</a>
+                                </li>
+                                <li><a href="#messages" data-toggle="tab">Messages</a>
+                                </li>
+                                <li><a href="#settings" data-toggle="tab">Settings</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="home">
+                                    <h4>Home Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile">
+                                    <h4>Profile Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="messages">
+                                    <h4>Messages Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="settings">
+                                    <h4>Settings Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pill Tabs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#home-pills" data-toggle="tab">Home</a>
+                                </li>
+                                <li><a href="#profile-pills" data-toggle="tab">Profile</a>
+                                </li>
+                                <li><a href="#messages-pills" data-toggle="tab">Messages</a>
+                                </li>
+                                <li><a href="#settings-pills" data-toggle="tab">Settings</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="home-pills">
+                                    <h4>Home Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile-pills">
+                                    <h4>Profile Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="messages-pills">
+                                    <h4>Messages Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="settings-pills">
+                                    <h4>Settings Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="well">
+                        <h4>Normal Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="well well-lg">
+                        <h4>Large Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="well well-sm">
+                        <h4>Small Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="jumbotron">
+                        <h1>Jumbotron</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
+                        <p><a class="btn btn-primary btn-lg" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        
+		</div>
+		
+		
+		
+		
+		</div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    
+
+</body>
+
+
+
+</html>

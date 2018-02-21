@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+
+	
+    var url = "https://script.google.com/macros/u/0/s/AKfycbw17ieDL5Y-RXP-uwF4oitCAVbrRSUNKxKiEnff2wgnjkQjng-T/exec?callback=ctrlq&name=";
+    var name = "Murray"
+
+    var request = jQuery.ajax({
+      crossDomain: true,
+      url: url + encodeURIComponent(name),
+      method: "GET",
+      dataType: "jsonp"
+    });
+
+	
+	
+	
+    });
+});
+
+  // print the returned data
+  function ctrlq(e) {
+    console.log(e.result)
+  }
+
+</script>
+</head>
+<body>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
+
+</body>
+</html>

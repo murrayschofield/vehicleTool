@@ -1,0 +1,138 @@
+
+
+Vehicle Inputs
+**********************************
+veh_inputs_total_mass
+veh_inputs_frontal_area
+veh_inputs_drag_coefficient
+
+
+veh_inputs_module_type
+value=1 >12s 20p 50v Prototype Module
+value=2 >12s 18p 50v Arrival Module
+value=3 >108s 2p 450v Arrival module
+
+veh_inputs_system_voltage
+value=1 >400v (8x 50v modules in series)
+value=2 >50v (Like ATX)</option>
+value=3 >450v (450v modules in parallel)
+
+veh_inputs_number_of_modules
+
+veh_inputs_motor_type
+value=1 >CRA (One motor per drive unit)
+value=2 >CRA (Two motors per drive unit for B12)
+value=3 >CRB Motor
+value=4 >T4 Motor
+value=5 >ATX Motor (13.5kW 55Nm Continuous)
+
+veh_inputs_gear_ratio
+
+veh_inputs_frontDriveUnits0 = 0 front units
+veh_inputs_frontDriveUnits1 = 1 front units
+veh_inputs_frontDriveUnits2 = 2 front units
+veh_inputs_rearDriveUnits0 = 0 rear units
+veh_inputs_rearDriveUnits1 = 1 rear units
+veh_inputs_rearDriveUnits2 = 2 rear units
+
+veh_inputs_inverter_efficiency
+
+veh_inputs_rolling_resistance
+
+veh_inputs_tyre_diameter
+
+veh_inputs_regen_percentage
+
+veh_inputs_constant_aux_load
+
+**********************************
+
+
+Drive Cycle Definition
+**********************************
+
+DRIVE_CYCLE_TYPE
+1: standard cycle
+2: constant speed
+3: acceleration profile
+4: static charging
+5: hill climb
+
+
+STANDARD CYCLE TYPE
+drive_inputs_driveCycleChoice
+value=1 >NEDC 70 (1200 seconds)
+value=2 >NEDC 100 (1200 seconds)
+value=3 >NEDC 120 (1200 seconds)
+value=4 >WLTP 3a (1800 seconds)
+value=5 >WLTP 3b (1800 seconds)
+value=6 >Royal Mail (15,993 seconds)
+value=7 >Farmdrop 64km (23,664 seconds)
+value=8 >Farmdrop 87km (20,184 seconds)
+
+drive_inputs_cyclesToRun1 =  run 1 cycles
+drive_inputs_cyclesToRun5 =  run 5 cycles
+drive_inputs_cyclesToRun10 =  run 10 cycles
+drive_inputs_cyclesToRun99 =  run cycles until SOC at 0%
+
+drive_inputs_standardDrive_Elevation_Profile
+value=0 >0% (Flat road)
+value=2 >2% (Up hill)
+value=5 >5% (Up hill)
+value=-2 >2% (Down hill)
+value=-5 >5% (Down hill)
+
+
+CONSTANT SPEED TYPE
+drive_inputs_constant_speed_val
+
+drive_inputs_constSpeed_StartType1 = Start at constant speed
+drive_inputs_constSpeed_StartType2 = start at stationary
+
+
+drive_inputs_constSpeed_RunFor_30 =  run for 30 seconds
+drive_inputs_constSpeed_RunFor_60 =  run for 60 seconds
+drive_inputs_constSpeed_RunFor_600 =  run for 600 seconds
+drive_inputs_constSpeed_RunFor_99  =  run until SOC at 0%
+
+
+drive_inputs_constSpeed_Elevation_Profile
+value=0 >0% (Flat road)
+value=1 >1% (Up hill)
+value=2 >2% (Up hill)
+value=5 >5% (Up hill)
+value=10 >10% (Up hill)
+value=-1 >1% (Down hill)
+value=-2 >2% (Down hill)
+value=-5 >5% (Down hill)
+value=-10 >10% (Down hill)
+
+
+DRIVE CYCLE COMMON INPUTS
+drive_inputs_starting_SOC
+Values = Value
+
+drive_inputs_SOC_State_1 = variableSOC
+drive_inputs_SOC_State_2 = FixedSOC
+
+drive_inputs_ambientTemp
+Values = Value
+
+drive_inputs_starting_batt_Temp
+Values = Value
+
+drive_inputs_windSpeed
+value=0 >0 kmph
+value=10 >10 kmph headwind
+value=20 >20 kmph headwind
+value=50 >50 kmph headwind
+value=-10 >10 kmph tailwind
+value=-20 >20 kmph tailwind
+value=-50 >50 kmph tailwind
+												
+**********************************
+
+
+
+
+

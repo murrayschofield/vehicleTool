@@ -62,7 +62,7 @@ function runSimulationClicked(){
 	totalAeroEnergy = 0;
 	totalRollingEnergy = 0;
 	totalAncillaryEnergy = 0;
-	for( k = 0; k<10; k++ ){
+	//for( k = 0; k<10; k++ ){
 	for (i = 1; i <= 1200; i++) { 
 		currentTime = i;
 		
@@ -109,7 +109,7 @@ function runSimulationClicked(){
 		
 		//console.log(timeStep[currentTime]);
 	}
-	}
+	//}
 	//}
 	//document.getElementById('simProgressBar').className = "collapse";
 	console.log("Accel Energy:");

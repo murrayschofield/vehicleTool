@@ -27,12 +27,27 @@
 	 
 	<!-- Standard Drivecycles -->
 	<script src="NEDC_100.js" type="text/javascript"></script>
+	<script src="NEDC_70.js" type="text/javascript"></script>
+	<script src="NEDC_120.js" type="text/javascript"></script>
+	<script src="Farmdrop64.js" type="text/javascript"></script>
+	<script src="Farmdrop87.js" type="text/javascript"></script>
+	<script src="RoyalMail_1.js" type="text/javascript"></script>
+	<script src="WLTP3a.js" type="text/javascript"></script>
+	<script src="WLTP3b.js" type="text/javascript"></script>
+	 
+	<style>
+	.selectedMenuItem {
+		background-color: rgba(238, 238, 238, 1);
+		<!--style="background-color: rgba(238, 238, 238, 1);"--> 
+	} 
+	</style> 
 	 
 	<script> 
 		$(function(){
 		  //$("#navBarsideBar").load("pages/navBarsideBar.html");  
 		  //enterVehicleInputsClicked();
 		  //modifyChartJS();
+		  invalidateSimulation();
 		  gettingStartedClicked();
 		  //defineDriveCycleClicked();
 		  standardDriveButtonClicked();
@@ -46,6 +61,26 @@
 		});
 		
 		
+		function invalidateSimulation(){
+			document.getElementById("energyBreakdownMenuItem").style.visibility = 'hidden';
+			document.getElementById("rangeMenuItem").style.visibility = 'hidden';
+			document.getElementById("batterySOCMenuItem").style.visibility = 'hidden';
+			document.getElementById("vehiclePerformanceMenuItem").style.visibility = 'hidden';
+			console.log("Invalidating SImulation Results Now.")
+			$("#simProgressBarValues").removeClass("progress-bar-success");
+			$("#simButton").addClass("btn-primary");
+			$("#simButton").removeClass("btn-success");
+			$('#simProgressBarValues').css('width', '0%');
+		}
+		
+		function validateSimulation(){
+			document.getElementById("energyBreakdownMenuItem").style.visibility = 'visible';
+			document.getElementById("rangeMenuItem").style.visibility = 'visible';
+			document.getElementById("batterySOCMenuItem").style.visibility = 'visible';
+			document.getElementById("vehiclePerformanceMenuItem").style.visibility = 'visible';
+			console.log("Revealing SImulation Results Now.")
+		}
+		
 		function collapseAllSections(){
 			console.log("Collapsing All Section");	
 			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
@@ -56,14 +91,25 @@
 			document.getElementById("defineDriveCycleSection").className = "collapse";
 			document.getElementById("energyBreakdownSection").className = "collapse";
 			document.getElementById("UIExamplesSection").className = "collapse";
-			document.getElementById("resetVehicleSection").className = "collapse";			
+			document.getElementById("resetVehicleSection").className = "collapse";	
+			
+			
+			$("#gettingStartedMenuItem").removeClass("selectedMenuItem");
+			$("#vehicleInputsMenuItem").removeClass("selectedMenuItem");
+			$("#driveCycleMenuItem").removeClass("selectedMenuItem");
+			$("#simulationResultsMenuItem").removeClass("selectedMenuItem");
+			$("#energyBreakdownMenuItem").removeClass("selectedMenuItem");
+			$("#rangeMenuItem").removeClass("selectedMenuItem");
+			$("#batterySOCMenuItem").removeClass("selectedMenuItem");
+			$("#vehiclePerformanceMenuItem").removeClass("selectedMenuItem");
 		}
 		
 		function gettingStartedClicked(){
 			console.log("Getting Started Clicked");
 			collapseAllSections();
 			document.getElementById("gettingStartedGuideSection").className = "collapse.show";
-			
+			$("#gettingStartedMenuItem").addClass("selectedMenuItem");
+			$( "#simulationResultsMenuItem" ).click();
 		}
 		
 		
@@ -72,18 +118,22 @@
 			console.log("Enter Vehicle Inputs Clicked");
 			collapseAllSections();
 			document.getElementById("vehicleInputsSection").className = "collapse.show";
+			$("#vehicleInputsMenuItem").addClass("selectedMenuItem");
 		}
 		
 		function defineDriveCycleClicked(){
 			console.log("Define Drive Cycles Clicked");
 			collapseAllSections();
 			document.getElementById("defineDriveCycleSection").className = "collapse.show";
+			$("#driveCycleMenuItem").addClass("selectedMenuItem");
+			$("#simulationResultsMenuItem").addClass("active");
 		}
 		
 		function energyBreakdownClicked(){
 			console.log("Energy Breakdown Clicked");
 			collapseAllSections();
 			document.getElementById("energyBreakdownSection").className = "collapse.show";
+			$("#energyBreakdownMenuItem").addClass("selectedMenuItem");
 		}
 		
 		
@@ -91,12 +141,17 @@
 			console.log("UI Examples Clicked");
 			collapseAllSections();
 			document.getElementById("UIExamplesSection").className = "collapse.show";
+			
 		}
 		
 		function resetClicked(){
+			invalidateSimulation();
 			console.log("Reset Clicked");
 			collapseAllSections();
 			document.getElementById("resetVehicleSection").className = "collapse.show";
+			$("#gettingStartedMenuItem").addClass("selectedMenuItem");
+			standardDriveButtonClicked();
+		    resetVehicleInputsClicked();
 		}
 		
 	</script> 
@@ -125,50 +180,25 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-						</br>
-						</br>
-						</br>
+
 						<li>  
                         </li>
-						<li>
-                            <a onclick="gettingStartedClicked()"><i class="fa fa-book fa-fw"></i> Getting Started Guide</a>
+						<li id="gettingStartedMenuItem"  > 
+                            <a href="#" onclick="gettingStartedClicked()"><i class="fa fa-book fa-fw"></i> Getting Started Guide</a>
                         </li>
                         
-						<li>
-                            <a onclick="enterVehicleInputsClicked()"><i class="fa fa-car fa-fw"></i>  Enter Vehicle Inputs</a>
+						<li id="vehicleInputsMenuItem" >
+                            <a href="#" onclick="enterVehicleInputsClicked()"><i class="fa fa-car fa-fw"></i>  Enter Vehicle Inputs</a>
                         </li>
-						<li>
-                            <a onclick="defineDriveCycleClicked()" ><i class="fa fa-road fa-fw"></i> Define Drive Cycle</a>
+						<li id="driveCycleMenuItem" >
+                            <a href="#" onclick="defineDriveCycleClicked()" ><i class="fa fa-road fa-fw"></i> Define Drive Cycle</a>
                         </li>
-                        <li>
-                            <a ><i class="fa fa-bar-chart-o fa-fw"></i> Simulation Results<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
-                                </li>
-                                <li>
-                                    <a ><i class="fa fa-arrow-circle-right fa-fw"></i> Range</a>
-                                </li>
-								<li>
-                                    <a ><i class="fa fa-database fa-fw"></i> Battery SOC</a>
-                                </li>
-                                <li>
-                                    <a ><i class="fa fa-dashboard fa-fw"></i> Vehicle Performance</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a onclick="UIExamplesClicked()" ><i class="fa fa-wrench fa-fw"></i> UI Example Elements</a>
-                        </li>                      
-                       
+						
 						</br>
-						<li style="padding-left: 10px;padding-right: 10px;">
-                            <a  id="simButton" class="btn btn-primary btn-lg"  onclick="runSimulationClicked()" role="button">Run Simulation</a>
-
-
+						<li style="padding-left: 10px;padding-right: 10px;" id="gettingStartedMenuItem">
+                            <a href="#"  id="simButton" class="btn btn-primary btn-lg"  onclick="runSimulationClicked()" role="button">Run Simulation</a>
 						</li>
-						</br>
+						
 						<li >
 						<div id="simProgressBar">
 							<div class="progress">
@@ -178,9 +208,32 @@
 							  </div>
 							</div>
 						</div>
+						
 						</li>
-						</br>
-						</br>
+						
+						
+                        <!--<li id="simulationResultsMenuItem" class="active" >
+                            <a ><i class="fa fa-bar-chart-o fa-fw"></i> Simulation Results<span class="fa arrow"></span></a>
+                            <ul  class="nav nav-second-level"> -->
+                                <li id="energyBreakdownMenuItem" >
+                                    <a  href="#" onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
+                                </li id="gettingStartedMenuItem">
+                                <li id="rangeMenuItem" >
+                                    <a  href="#" ><i class="fa fa-arrow-circle-right fa-fw"></i> Range</a>
+                                </li id="gettingStartedMenuItem">
+								<li id="batterySOCMenuItem" >
+                                    <a  href="#" ><i class="fa fa-database fa-fw"></i> Battery SOC</a>
+                                </li>
+                                <li id="vehiclePerformanceMenuItem" >
+                                    <a  href="#" ><i class="fa fa-dashboard fa-fw"></i> Vehicle Performance</a>
+                                </li>
+                            <!--</ul>-->
+                            <!-- /.nav-second-level -->
+                        <!--</li>-->
+                        <li >
+                            <a onclick="UIExamplesClicked()" ><i class="fa fa-wrench fa-fw"></i> UI Example Elements</a>
+                        </li >                      
+
 						</br>
 						<li style="padding-left: 10px;padding-right: 10px;">
 						</br>						
@@ -278,6 +331,7 @@
 		}
 		
 		
+		
 		function resetVehicleInputsClicked(){
 		console.log("resetVehicleInputsClicked");
 			$("#veh_inputs_total_mass").val("");
@@ -304,6 +358,7 @@
 		}
 		
 		function loadATXClicked(){
+		invalidateSimulation();
 		console.log("loadATXClicked");
 			$("#veh_inputs_total_mass").val("575");
 			$("#veh_inputs_frontal_area").val("1.99");
@@ -328,6 +383,7 @@
 		}
 		
 		function loadT4Clicked(){
+		invalidateSimulation();
 		console.log("loadT4Clicked");			
 			$("#veh_inputs_total_mass").val("1825");
 			$("#veh_inputs_frontal_area").val("4.7");
@@ -409,17 +465,17 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Vehicle Total Mass including Payload (kg):</label>
-                                            <input id="veh_inputs_total_mass" class="form-control" placeholder="Enter total mass for simulation, including payload.">
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_total_mass" class="form-control" placeholder="Enter total mass for simulation, including payload.">
 											
                                             <!--<p class="help-block">Example block-level help text here.</p>-->
                                         </div>
                                         <div class="form-group">
                                             <label>Frontal Area (m^2):</label>
-                                            <input id="veh_inputs_frontal_area" class="form-control" placeholder="Find this value accurately using a CAD package.">
+                                            <input onclick="invalidateSimulation()"  id="veh_inputs_frontal_area" class="form-control" placeholder="Find this value accurately using a CAD package.">
                                         </div>
 										<div class="form-group">
                                             <label>Drag Coefficient:</label>
-                                            <input id="veh_inputs_drag_coefficient" class="form-control" placeholder="Usually a value between 0.1 and 1.">
+                                            <input onclick="invalidateSimulation()"  id="veh_inputs_drag_coefficient" class="form-control" placeholder="Usually a value between 0.1 and 1.">
 											
                                             <!--<p class="help-block">Example block-level help text here.</p>-->
                                         </div>
@@ -440,7 +496,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Battery Module Type:</label>
-                                            <select id="veh_inputs_module_type" class="form-control">
+                                            <select onclick="invalidateSimulation()"  id="veh_inputs_module_type" class="form-control">
                                                 <option value=1 >12s 20p 50v Prototype Module</option>
                                                 <option value=2 >12s 18p 50v Arrival Module</option>
                                                 <option value=3 >108s 2p 450v Arrival module</option>
@@ -448,7 +504,7 @@
                                         </div>
 										<div class="form-group">
                                             <label>System Voltage:</label>
-                                            <select id="veh_inputs_system_voltage" class="form-control">
+                                            <select onclick="invalidateSimulation()" id="veh_inputs_system_voltage" class="form-control">
 												<option value=1 >400v (8x 50v modules in series)</option>
 												<option value=2 >50v (Like ATX)</option>
 												<option value=3 >450v (450v modules in parallel)</option>
@@ -456,7 +512,7 @@
                                         </div>
 										<div class="form-group">
                                             <label>Total Number of Modules in Vehicle:</label>
-                                            <input id="veh_inputs_number_of_modules" class="form-control" placeholder="The total number of physical modules in the vehicle.">
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_number_of_modules" class="form-control" placeholder="The total number of physical modules in the vehicle.">
                                         </div>
                             </form>
                         </div>
@@ -473,7 +529,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Motor Type:</label>
-                                            <select id="veh_inputs_motor_type"  class="form-control">
+                                            <select onclick="invalidateSimulation()" id="veh_inputs_motor_type"  class="form-control">
                                                 <option value=1 >CRA (One motor per drive unit)</option>
 												<option value=2 >CRA (Two motors per drive unit for B12)</option>
                                                 <option value=3 >CRB Motor</option>
@@ -483,35 +539,35 @@
                                         </div>
 										<div class="form-group">
                                             <label>Gear Ratio in Drive Unit:</label>
-                                            <input id="veh_inputs_gear_ratio" class="form-control" placeholder="e.g. if the ratio is 12:1, enter 12 here.">	
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_gear_ratio" class="form-control" placeholder="e.g. if the ratio is 12:1, enter 12 here.">	
                                         </div>
 										<div class="form-group">
                                             <label>Front Drive Units: </label>
 											<label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits0" value="1" checked>0
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits0" value="1" checked>0
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits1" value="2" >1
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits1" value="2" >1
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits2" value="3" >2
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits2" value="3" >2
                                             </label>
                                         </div>
 										<div class="form-group">
                                             <label>Rear Drive Units: </label>
 											<label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits0" value="option6" >0
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits0" value="option6" >0
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits1" value="option7" checked>1
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits1" value="option7" checked>1
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits2" value="option8">2
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits2" value="option8">2
                                             </label>
                                         </div>
 										<div class="form-group">
                                             <label>Inverter Efficiency (%):</label>
-                                            <input id="veh_inputs_inverter_efficiency" class="form-control" placeholder="Default Value: 95.">
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_inverter_efficiency" class="form-control" placeholder="Default Value: 95.">
 											
                                             <!--<p class="help-block">Example block-level help text here.</p>-->
                                         </div>
@@ -531,12 +587,12 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Single Wheel Rolling Resistance</label>
-                                            <input id="veh_inputs_rolling_resistance" class="form-control" placeholder="Usually a value between 0.005 and 0.015.">	
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_rolling_resistance" class="form-control" placeholder="Usually a value between 0.005 and 0.015.">	
                                             <!--<p class="help-block">Example block-level help text here.</p>-->
                                         </div>
                                         <div class="form-group">
                                             <label>Tyre Diameter (mm)</label>
-                                            <input id="veh_inputs_tyre_diameter" class="form-control" placeholder="Value in millimeters.">
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_tyre_diameter" class="form-control" placeholder="Value in millimeters.">
                                         </div>
                             </form>
                         </div>
@@ -553,7 +609,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Percentage of available braking energy regenerated.</label>
-                                            <input id="veh_inputs_regen_percentage" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_regen_percentage" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
                                             <p class="help-block">More options coming soon.</p>
                                         </div>
                             </form>
@@ -571,7 +627,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Constant Auxiliary Power Consumption (kW).</label>
-                                            <input id="veh_inputs_constant_aux_load" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_constant_aux_load" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
                                             <p class="help-block">More options coming soon.</p>
                                         </div>
                             </form>
@@ -748,11 +804,11 @@
                             <h4> Choose Drive Cycle Type: </h1>
                         </div>
                         <div class="panel-body">
-                            <button id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary " id="standardDriveButton">Use Standard Drive Cycle</button>
-							<button id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default ">Use Constant Speed</button>
-							<button id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default ">Use Acceleration Profile</button>
-							<button id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default ">Use Static Charging</button>
-							<button id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default ">Use Hill Climb</button>
+                            <button onclick="invalidateSimulation()" id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary " id="standardDriveButton">Use Standard Drive Cycle</button>
+							<button onclick="invalidateSimulation()" id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default ">Use Constant Speed</button>
+							<button onclick="invalidateSimulation()" id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default ">Use Acceleration Profile</button>
+							<button onclick="invalidateSimulation()" id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default ">Use Static Charging</button>
+							<button onclick="invalidateSimulation()" id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default ">Use Hill Climb</button>
                         </div>
                         <div class="panel-footer">
                         </div>
@@ -771,7 +827,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                             <label>Drive Cycle:</label>
-                                            <select  id="drive_inputs_driveCycleChoice" class="form-control">
+                                            <select onclick="invalidateSimulation()"  id="drive_inputs_driveCycleChoice" class="form-control">
                                                 <option value=1 >NEDC 70 (1200 seconds)</option>
 												<option value=2 >NEDC 100 (1200 seconds)</option>
 												<option value=3 >NEDC 120 (1200 seconds)</option>
@@ -787,28 +843,28 @@
                                             
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun1" value="option1" checked>For 1 Cycle
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun1" value="option1" checked>For 1 Cycle
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun5" value="option2" >For 5 Cycle
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun5" value="option2" >For 5 Cycle
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun10" value="option3" >For 10 Cycles
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun10" value="option3" >For 10 Cycles
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun99" value="option4" >Repeat cycle until 0% SOC
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun99" value="option4" >Repeat cycle until 0% SOC
                                                 </label>
                                             </div>
                             </div>
 							<div class="form-group">
                                             <label>Elevation Profile:</label>
-                                            <select id="drive_inputs_standardDrive_Elevation_Profile" class="form-control">
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_standardDrive_Elevation_Profile" class="form-control">
                                                 <option value=0 >0% (Flat road)</option>
 												<option value=2 >2% (Up hill)</option>
                                                 <option value=5 >5% (Up hill)</option>
@@ -834,7 +890,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Constant Speed (kmph):</label>
-                                            <input  id="drive_inputs_constant_speed_val"  class="form-control" placeholder="">	
+                                            <input onclick="invalidateSimulation()"  id="drive_inputs_constant_speed_val"  class="form-control" placeholder="">	
                                             
                                         </div>
 										</br>
@@ -843,12 +899,12 @@
                                             <label>Starting Condition:</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType1" value="option2" checked>Start at the constant speed.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType1" value="option2" checked>Start at the constant speed.
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType2" value="option1" >Accelerate with maximum torque to constant speed from stationary.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType2" value="option1" >Accelerate with maximum torque to constant speed from stationary.
                                                 </label>
                                             </div>
 										</div>
@@ -857,28 +913,28 @@
                                             
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_30" value="option1" checked>For 30 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_30" value="option1" checked>For 30 Seconds
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_60" value="option2" >For 60 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_60" value="option2" >For 60 Seconds
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_600" value="option3" >For 600 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_600" value="option3" >For 600 Seconds
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_99" value="option4" >Until 0% SOC
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_99" value="option4" >Until 0% SOC
                                                 </label>
                                             </div>
 										</div>
 										<div class="form-group">
                                             <label>Gradient:</label>
-                                            <select id="drive_inputs_constSpeed_Elevation_Profile" class="form-control">
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_constSpeed_Elevation_Profile" class="form-control">
                                                 <option value=0 >0% (Flat road)</option>
 												<option value=1 >1% (Up hill)</option>
 												<option value=2 >2% (Up hill)</option>
@@ -967,7 +1023,7 @@
                             <form role="form">
                                         <div class="form-group">
                                             <label>Starting SOC:</label>
-                                            <select id="drive_inputs_starting_SOC" class="form-control">
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_starting_SOC" class="form-control">
                                                 <option value=100 >100% (Full Charge)</option>
 												<option value=90 >90%</option>
 												<option value=80 >80%</option>
@@ -984,12 +1040,12 @@
                                             <label>SOC State:</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_SOC_State_1" value="option1" checked>Variable SOC (Charges and Discharges)
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_SOC_State_1" value="option1" checked>Variable SOC (Charges and Discharges)
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="drive_inputs_SOC_State_2" value="option2" >Fixed at starting SOC
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_SOC_State_2" value="option2" >Fixed at starting SOC
                                                 </label>
                                             </div>
                                         </div>
@@ -1011,7 +1067,7 @@
                             <form role="form">
 										<div class="form-group">
                                             <label>Ambient Temperature:</label>
-                                            <select id="drive_inputs_ambientTemp"  class="form-control">
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_ambientTemp"  class="form-control">
                                                 <option value=25 >25 degC Ambient</option>
 												<option value=30 >30 degC Ambient</option>
 												<option value=40 >40 degC Ambient</option>
@@ -1026,7 +1082,7 @@
                                         </div>
 										<div class="form-group">
                                             <label>Starting Battery Pack Temperature:</label>
-                                            <select id="drive_inputs_starting_batt_Temp" class="form-control">
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_starting_batt_Temp" class="form-control">
                                                 <option value=25 >25 degC Battery</option>
 												<option value=30 >30 degC Battery</option>
 												<option value=40 >40 degC Battery</option>
@@ -1041,7 +1097,7 @@
                                         </div>
 										<div class="form-group">
                                             <label>Wind:</label>
-                                            <select  id="drive_inputs_windSpeed" class="form-control">
+                                            <select onclick="invalidateSimulation()"  id="drive_inputs_windSpeed" class="form-control">
                                                 <option value=0 >0 kmph</option>
 												<option value=10 >10 kmph headwind</option>
 												<option value=20 >20 kmph headwind</option>

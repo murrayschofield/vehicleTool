@@ -1,4 +1,14 @@
-
+Drive Cycles
+**********************************
+NEDC_100.js : NEDC_100_array
+NEDC_70.js : NEDC_70_array
+NEDC_120.js : NEDC_120_array
+Farmdrop64.js : Farmdrop64_array
+Farmdrop87.js : Farmdrop87_array
+RoyalMail_1.js : RoyalMail_1_array
+WLTP3a.js : WLTP3a_array
+WLTP3b.js : WLTP3b_array
+**********************************
 
 Vehicle Inputs
 **********************************

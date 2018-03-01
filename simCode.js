@@ -11,12 +11,12 @@ var totalAncillaryEnergy = 0;
 
 function runSimulationClicked(){
 	
-	$("#simProgressBarValues").removeClass("progress-bar-success");
-	$("#simButton").addClass("btn-primary");
-	$("#simButton").removeClass("btn-success");
-	$('#simProgressBarValues').css('width', '0%');
+	
+	
+	
 	
 	getVehicleInputValues();
+	getDriveCylceInputValues();
 	console.log("success, sim now running!");
 
 	$("#simProgressBarValues").animate({
@@ -35,17 +35,29 @@ function runSimulationClicked(){
 	console.log("vehicle mass is");
 	console.log(veh_inputs_total_mass);
 	
+	console.log("drive cycle choice is");
+	console.log(drive_inputs_driveCycleChoice);
 	
 	// Generate timestep array with 1 second being each array entry
 	velocityArray = [];
 	accelArray = [];
 	timeArray = [];
 	timeArray100Second = [];
+	//timeStep = NEDC_100_array;
 	
-	timeStep = NEDC_100_array;
+	if(drive_inputs_driveCycleChoice ==  1){ timeStep = NEDC_70_array;}
+	else if(drive_inputs_driveCycleChoice ==  2){ timeStep = NEDC_100_array;}
+	else if(drive_inputs_driveCycleChoice ==  3){ timeStep = NEDC_120_array;}
+	else if(drive_inputs_driveCycleChoice ==  4){ timeStep = WLTP3a_array;}
+	else if(drive_inputs_driveCycleChoice ==  5){ timeStep = WLTP3b_array;}
+	else if(drive_inputs_driveCycleChoice ==  6){ timeStep = RoyalMail_1_array;}
+	else if(drive_inputs_driveCycleChoice ==  7){ timeStep = Farmdrop64_array;}
+	else if(drive_inputs_driveCycleChoice ==  8){ timeStep = Farmdrop87_array;}
 	
-	var totalTime = timeStep.length;
 	
+	var totalTime = timeStep.length - 1;
+	console.log("total time is");
+	console.log(totalTime);
 	//simProgressBarValues
 	
 	var d = new Date();
@@ -63,7 +75,7 @@ function runSimulationClicked(){
 	totalRollingEnergy = 0;
 	totalAncillaryEnergy = 0;
 	//for( k = 0; k<10; k++ ){
-	for (i = 1; i <= 1200; i++) { 
+	for (i = 1; i <= totalTime; i++) { 
 		currentTime = i;
 		
 		var previousTimeStep = timeStep[currentTime-1];
@@ -96,7 +108,7 @@ function runSimulationClicked(){
 		totalRollingEnergy += currentTimeStep.rollingResistancePower/3600000;
 		totalAncillaryEnergy += veh_inputs_constant_aux_load*1000/3600000;
 		
-		if(currentTime/500 == Math.round(currentTime/500) ){
+		if(currentTime/100 == Math.round(currentTime/100) ){
 			//console.log(currentTime);
 			timeArray100Second.push(i);
 
@@ -131,6 +143,7 @@ function runSimulationClicked(){
 
 
 function completeSimulationStage1(){
+	validateSimulation();
 energyBreakdownClicked();
 			new Chart(document.getElementById("line-chart"), {
 			  type: 'line',
@@ -169,7 +182,7 @@ energyBreakdownClicked();
      
                                 autoSkip: false,
                                 //maxTicksLimit: 10,
-								max: 1200,
+								//max: 1200,
 								min: 0,
                             }
 				}],
@@ -246,7 +259,7 @@ function completeSimulationStage2(){
      
                                 autoSkip: false,
                                 //maxTicksLimit: 10,
-								max: 1200,
+								//max: 1800,
 								min: 0,
                             }
 				}],

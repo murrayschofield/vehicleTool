@@ -21,10 +21,15 @@
 	<script src="simCode.js"></script>
     <script src="dist/js/sb-admin-2.js"></script>
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+	
+	
+	
+	<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>-->
 	<!--<script src="chartmodify.js" type="text/javascript"></script>-->
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	 
+	<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
+	 <script src="piecelabel.js"></script>
+	 <!--<script src="chartjs-plugin-zoom.js"></script>-->
 	<!-- Standard Drivecycles -->
 	<script src="NEDC_100.js" type="text/javascript"></script>
 	<script src="NEDC_70.js" type="text/javascript"></script>
@@ -34,7 +39,8 @@
 	<script src="RoyalMail_1.js" type="text/javascript"></script>
 	<script src="WLTP3a.js" type="text/javascript"></script>
 	<script src="WLTP3b.js" type="text/javascript"></script>
-	 
+	<script src="30ms_60seconddrive.js" type="text/javascript"></script>
+	
 	<style>
 	.selectedMenuItem {
 		background-color: rgba(238, 238, 238, 1);
@@ -52,20 +58,108 @@
 		  //defineDriveCycleClicked();
 		  standardDriveButtonClicked();
 		  resetVehicleInputsClicked();
-		  //loadT4Clicked();
+		  loadT4Clicked();
+		  //runSimulationClicked();
 		  
 		  //document.getElementById('simProgressBar').style.visibility = 'visible';
 		  //document.getElementById('simProgressBar').style.visibility = 'hidden';
 		  //document.getElementById('simProgressBar').className = "collapse.show";
+		  
+		  //Adjust chart to add center text
+		  Chart.pluginService.register({
+  beforeDraw: function (chart) {
+    if (chart.config.options.elements.center) {
+      //Get ctx from string
+      var ctx = chart.chart.ctx;
+
+      //Get options from the center object in options
+      var centerConfig = chart.config.options.elements.center;
+      var fontStyle = centerConfig.fontStyle || 'Arial';
+      var txt = centerConfig.text;
+      var color = centerConfig.color || '#000';
+      var sidePadding = centerConfig.sidePadding || 20;
+      var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+      //Start with a base font of 30px
+      ctx.font = "30px " + fontStyle;
+
+      //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+      var stringWidth = ctx.measureText(txt).width;
+      var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+      // Find out how much the font can grow in width.
+      var widthRatio = elementWidth / stringWidth;
+      var newFontSize = Math.floor(30 * widthRatio);
+      var elementHeight = (chart.innerRadius * 2);
+
+      // Pick a new font size so it will not be larger than the height of label.
+      var fontSizeToUse = Math.min(newFontSize, elementHeight);
+
+      //Set font settings to draw it correctly.
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+      var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+      ctx.font = fontSizeToUse+"px " + fontStyle;
+      ctx.fillStyle = color;
+
+      //Draw text in center
+      ctx.fillText(txt, centerX, centerY);
+    }
+  }
+});
+		  //End of adjust chart
+			summaryLineChart = new Chart(document.getElementById("line-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+
+			energyBreakdownChart = new Chart(document.getElementById("doughnut-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+			
+			master_plots_line_chart = new Chart(document.getElementById("master-line-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+			
 		  
 		});
 		
 		
 		function invalidateSimulation(){
 			document.getElementById("energyBreakdownMenuItem").style.visibility = 'hidden';
-			document.getElementById("rangeMenuItem").style.visibility = 'hidden';
-			document.getElementById("batterySOCMenuItem").style.visibility = 'hidden';
-			document.getElementById("vehiclePerformanceMenuItem").style.visibility = 'hidden';
+			document.getElementById("rangeSectionMenuItem").style.visibility = 'hidden';
+			document.getElementById("batterySectionMenuItem").style.visibility = 'hidden';
+			document.getElementById("plotsMenuItem").style.visibility = 'hidden';
+			document.getElementById("UIMenuItem").style.visibility = 'hidden';
 			console.log("Invalidating SImulation Results Now.")
 			$("#simProgressBarValues").removeClass("progress-bar-success");
 			$("#simButton").addClass("btn-primary");
@@ -75,9 +169,9 @@
 		
 		function validateSimulation(){
 			document.getElementById("energyBreakdownMenuItem").style.visibility = 'visible';
-			document.getElementById("rangeMenuItem").style.visibility = 'visible';
-			document.getElementById("batterySOCMenuItem").style.visibility = 'visible';
-			document.getElementById("vehiclePerformanceMenuItem").style.visibility = 'visible';
+			document.getElementById("rangeSectionMenuItem").style.visibility = 'visible';
+			document.getElementById("batterySectionMenuItem").style.visibility = 'visible';
+			document.getElementById("plotsMenuItem").style.visibility = 'visible';
 			console.log("Revealing SImulation Results Now.")
 		}
 		
@@ -92,15 +186,20 @@
 			document.getElementById("energyBreakdownSection").className = "collapse";
 			document.getElementById("UIExamplesSection").className = "collapse";
 			document.getElementById("resetVehicleSection").className = "collapse";	
-			
-			
+			document.getElementById("batterySection").className = "collapse";
+			document.getElementById("rangeSection").className = "collapse";	
+			document.getElementById("PlotsSection").className = "collapse";	
+
+			$("#plotsMenuItem").removeClass("selectedMenuItem");
+			$("#batterySection").removeClass("selectedMenuItem");
+			$("#rangeSection").removeClass("selectedMenuItem");
 			$("#gettingStartedMenuItem").removeClass("selectedMenuItem");
 			$("#vehicleInputsMenuItem").removeClass("selectedMenuItem");
 			$("#driveCycleMenuItem").removeClass("selectedMenuItem");
 			$("#simulationResultsMenuItem").removeClass("selectedMenuItem");
 			$("#energyBreakdownMenuItem").removeClass("selectedMenuItem");
-			$("#rangeMenuItem").removeClass("selectedMenuItem");
-			$("#batterySOCMenuItem").removeClass("selectedMenuItem");
+			$("#rangeSectionMenuItem").removeClass("selectedMenuItem");
+			$("#batterySectionMenuItem").removeClass("selectedMenuItem");
 			$("#vehiclePerformanceMenuItem").removeClass("selectedMenuItem");
 		}
 		
@@ -136,6 +235,26 @@
 			$("#energyBreakdownMenuItem").addClass("selectedMenuItem");
 		}
 		
+		function rangeSectionClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("rangeSection").className = "collapse.show";
+			$("#rangeSectionMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function batterySectionClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("batterySection").className = "collapse.show";
+			$("#batterySectionMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function plotsSectionClicked(){
+			console.log("PlotsSection Clicked");
+			collapseAllSections();
+			document.getElementById("PlotsSection").className = "collapse.show";
+			$("#plotsMenuItem").addClass("selectedMenuItem");
+		}
 		
 		function UIExamplesClicked(){
 			console.log("UI Examples Clicked");
@@ -153,6 +272,7 @@
 			standardDriveButtonClicked();
 		    resetVehicleInputsClicked();
 		}
+		
 		
 	</script> 
 </head>
@@ -218,19 +338,20 @@
                                 <li id="energyBreakdownMenuItem" >
                                     <a onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
                                 </li id="gettingStartedMenuItem">
-                                <li id="rangeMenuItem" >
-                                    <a ><i class="fa fa-arrow-circle-right fa-fw"></i> Range</a>
-                                </li id="gettingStartedMenuItem">
-								<li id="batterySOCMenuItem" >
-                                    <a ><i class="fa fa-database fa-fw"></i> Battery SOC</a>
+								<li id="plotsMenuItem" >
+                                    <a onclick="plotsSectionClicked()"><i class="fa fa-bar-chart-o fa-fw"></i> Results Plots</a>
+                                </li>   
+                                <li id="rangeSectionMenuItem" >
+                                    <a onclick="rangeSectionClicked()"><i class="fa fa-dashboard fa-fw"></i> Range Predictions</a>
+                                </li > 
+								<li id="batterySectionMenuItem" >
+                                    <a onclick="batterySectionClicked()"><i class="fa fa-database fa-fw"></i> Battery Configuration and SOC</a>
                                 </li>
-                                <li id="vehiclePerformanceMenuItem" >
-                                    <a ><i class="fa fa-dashboard fa-fw"></i> Vehicle Performance</a>
-                                </li>
+                                
                             <!--</ul>-->
                             <!-- /.nav-second-level -->
                         <!--</li>-->
-                        <li >
+                        <li id="UIMenuItem" >
                             <a onclick="UIExamplesClicked()" ><i class="fa fa-wrench fa-fw"></i> UI Example Elements</a>
                         </li >                      
 
@@ -275,6 +396,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">The Vehicle Tool is Now Reset</h1>
+					</br>
+					<a onclick="enterVehicleInputsClicked()"> Click here to go to vehicle inputs.</a>
+                        
+					
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -376,7 +501,7 @@
 			
 			$("#veh_inputs_inverter_efficiency").val("95");
 			
-			$("#veh_inputs_rolling_resistance").val("0.067");
+			$("#veh_inputs_rolling_resistance").val("0.0067");
 			$("#veh_inputs_tyre_diameter").val("546");
 			$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("1");
@@ -401,7 +526,7 @@
 			
 			$("#veh_inputs_inverter_efficiency").val("95");
 			
-			$("#veh_inputs_rolling_resistance").val("0.067");
+			$("#veh_inputs_rolling_resistance").val("0.0067");
 			$("#veh_inputs_tyre_diameter").val("685");
 			$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("3");
@@ -644,6 +769,7 @@
 		
 		function collapsedriveCyclePanels(){
 			console.log("Collapsing All Drive Cycle Panels");	
+			invalidateSimulation();
 			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
 			//document.getElementById("vehicleInputsSection").style.visibility = 'hidden';
 			
@@ -687,6 +813,7 @@
 			document.getElementById("constantSpeedPanel").className = "collapse.show";
 			$("#constantSpeedButton").removeClass("btn-default");
 			$("#constantSpeedButton").addClass("btn-primary");
+			console.log("Constant speed cycle clicked");
 		}
 		
 		function accelProfileButtonClicked(){
@@ -758,13 +885,14 @@
 			if ( $('#drive_inputs_constSpeed_RunFor_99').prop('checked') == true){ drive_inputs_constSpeed_RunFor = 99; }
 			
 			drive_inputs_starting_SOC = parseFloat($("#drive_inputs_starting_SOC").val());
+			drive_inputs_lower_limit_SOC = parseFloat($("#drive_inputs_lower_limit_SOC").val());
 			if ( $('#drive_inputs_SOC_State_1').prop('checked') == true){ drive_inputs_SOC_State = 1; }
 			if ( $('#drive_inputs_SOC_State_2').prop('checked') == true){ drive_inputs_SOC_State = 2; }
 			
 			drive_inputs_ambientTemp = parseFloat($("#drive_inputs_ambientTemp").val());
 			drive_inputs_windSpeed = parseFloat($("#drive_inputs_starting_windSpeed").val());
-			
-
+			console.log("Got windspeed as:");
+			console.log(drive_inputs_windSpeed);
 		}
 		</script>
 		
@@ -804,11 +932,11 @@
                             <h4> Choose Drive Cycle Type: </h1>
                         </div>
                         <div class="panel-body">
-                            <button onclick="invalidateSimulation()" id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary " id="standardDriveButton">Use Standard Drive Cycle</button>
-							<button onclick="invalidateSimulation()" id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default ">Use Constant Speed</button>
-							<button onclick="invalidateSimulation()" id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default ">Use Acceleration Profile</button>
-							<button onclick="invalidateSimulation()" id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default ">Use Static Charging</button>
-							<button onclick="invalidateSimulation()" id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default ">Use Hill Climb</button>
+                            <button  id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary " id="standardDriveButton">Use Standard Drive Cycle</button>
+							<button  id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default ">Use Constant Speed</button>
+							<button  id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default ">Use Acceleration Profile</button>
+							<button  id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default ">Use Static Charging</button>
+							<button  id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default ">Use Hill Climb</button>
                         </div>
                         <div class="panel-footer">
                         </div>
@@ -846,21 +974,21 @@
                                                     <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun1" value="option1" checked>For 1 Cycle
                                                 </label>
                                             </div>
-											<div class="radio">
+											<!--<div class="radio">
                                                 <label>
                                                     <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun5" value="option2" >For 5 Cycle
                                                 </label>
-                                            </div>
-											<div class="radio">
+                                            </div>-->
+											<!--<div class="radio">
                                                 <label>
                                                     <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun10" value="option3" >For 10 Cycles
                                                 </label>
-                                            </div>
-											<div class="radio">
+                                            </div>-->
+											<!--<div class="radio">
                                                 <label>
                                                     <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun99" value="option4" >Repeat cycle until 0% SOC
                                                 </label>
-                                            </div>
+                                            </div>-->
                             </div>
 							<div class="form-group">
                                             <label>Elevation Profile:</label>
@@ -899,12 +1027,12 @@
                                             <label>Starting Condition:</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType1" value="option2" checked>Start at the constant speed.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType1" value="option2" checked>Start at the constant speed.
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_StartType2" value="option1" >Accelerate with maximum torque to constant speed from stationary.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType2" value="option1" >Accelerate with maximum torque to constant speed from stationary.
                                                 </label>
                                             </div>
 										</div>
@@ -913,24 +1041,24 @@
                                             
 											<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_30" value="option1" checked>For 30 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_30" value="option1" checked>For 30 Seconds
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_60" value="option2" >For 60 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_60" value="option2" >For 60 Seconds
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_600" value="option3" >For 600 Seconds
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_600" value="option3" >For 10 Minutes
                                                 </label>
                                             </div>
-											<div class="radio">
+											<!--<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_constSpeed_RunFor_99" value="option4" >Until 0% SOC
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_99" value="option4" >Until 0% SOC
                                                 </label>
-                                            </div>
+                                            </div>-->
 										</div>
 										<div class="form-group">
                                             <label>Gradient:</label>
@@ -1022,22 +1150,32 @@
                         <div class="panel-body">
                             <form role="form">
                                         <div class="form-group">
-                                            <label>Starting SOC:</label>
+                                            <label>Starting SOC (When vehicle starts in range calculation):</label>
                                             <select onclick="invalidateSimulation()" id="drive_inputs_starting_SOC" class="form-control">
                                                 <option value=100 >100% (Full Charge)</option>
+												<option value=95 >95%</option>
 												<option value=90 >90%</option>
+												<option value=85 >85%</option>
 												<option value=80 >80%</option>
-												<option value=70 >70%</option>
 												<option value=60 >60%</option>
-												<option value=50 >50%</option>
 												<option value=40 >40%</option>
-												<option value=30 >30%</option>
 												<option value=20 >20%</option>
 												<option value=10 >10%</option>
                                             </select>
                                         </div>
 										<div class="form-group">
-                                            <label>SOC State:</label>
+                                            <label>SOC Lower Limit (When vehicle stops in range calculation):</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_lower_limit_SOC" class="form-control">
+                                                <option value=0 >0% (Full discharge, not recommended)</option>
+												<option value=5 >5%</option>
+												<option value=10 >10%</option>
+												<option value=15 >15%</option>
+												<option value=50 >50%</option>
+												<option value=80 >80%</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>SOC State For Drive Cycle:</label>
                                             <div class="radio">
                                                 <label>
                                                     <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_SOC_State_1" value="option1" checked>Variable SOC (Charges and Discharges)
@@ -1097,7 +1235,7 @@
                                         </div>
 										<div class="form-group">
                                             <label>Wind:</label>
-                                            <select onclick="invalidateSimulation()"  id="drive_inputs_windSpeed" class="form-control">
+                                            <select onclick="invalidateSimulation()"  id="drive_inputs_starting_windSpeed" class="form-control">
                                                 <option value=0 >0 kmph</option>
 												<option value=10 >10 kmph headwind</option>
 												<option value=20 >20 kmph headwind</option>
@@ -1126,10 +1264,21 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <h4> Energy Breakdown </h1>
+							
                         </div>
                         <div class="panel-body">
-
-							<canvas id="doughnut-chart" width="100%" height="60%"></canvas>
+							<form role="form">
+							<div class="form-group">
+                                            <label>Display as: </label>
+											<label class="radio-inline">
+                                                <input onclick="displayAsEnergyPerKilometer()" type="radio" name="plotType1" id="displayAsEnergyPerKilometerbox" value="1" checked>Energy per kilometer
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="displayAsTotalEnergy()" type="radio" name="plotType1" id="displayAsTotalEnergybox" value="2" >Percentage of Total Energy
+                                            </label>   
+                            </div>
+							</form>
+							<canvas id="doughnut-chart" width="100%" height="73%"></canvas>
 							
                         </div>
                         <div class="panel-footer">
@@ -1145,7 +1294,35 @@
                         </div>
                         <div class="panel-body">
 
-							<canvas id="line-chart" width="100%" height="60%"></canvas>
+							<canvas id="line-chart" width="100%" height="80%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+				
+		<div id="PlotsSection"  >		
+            <div class="row">
+                <!--<div class="col-lg-12">
+                    <h1 class="page-header">Results Plots</h1>
+                </div>-->
+				<br/>
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <!--<h4>Header  </h1>-->
+                        </div>
+                        <div class="panel-body">
+
+							<canvas id="master-line-chart" width="100%" height="48%"></canvas>
 							
                         </div>
                         <div class="panel-footer">
@@ -1160,6 +1337,66 @@
             </div>
 		</div>
 		
+		<div id="rangeSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Range Information</h1>
+                </div>
+				
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Range Header</h4>
+                        </div>
+                        <div class="panel-body">
+							<div id="rangePanelContent">
+							
+							
+							
+							</div>
+							
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="batterySection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Battery Information</h1>
+                </div>
+				
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Battery Info</h4>
+                        </div>
+                        <div class="panel-body">
+
+							<canvas id="battery-line-chart" width="100%" height="80%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+
 		
 		<div id="UIExamplesSection" >
 			<!-- /#collapsible section 1 -->		

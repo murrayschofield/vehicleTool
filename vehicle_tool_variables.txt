@@ -96,14 +96,14 @@ value=-5 >5% (Down hill)
 CONSTANT SPEED TYPE
 drive_inputs_constant_speed_val
 
-drive_inputs_constSpeed_StartType1 = Start at constant speed
-drive_inputs_constSpeed_StartType2 = start at stationary
+drive_inputs_constSpeed_StartType,  1 = Start at constant speed
+drive_inputs_constSpeed_StartType,  2 = start at stationary
 
 
-drive_inputs_constSpeed_RunFor_30 =  run for 30 seconds
-drive_inputs_constSpeed_RunFor_60 =  run for 60 seconds
-drive_inputs_constSpeed_RunFor_600 =  run for 600 seconds
-drive_inputs_constSpeed_RunFor_99  =  run until SOC at 0%
+drive_inputs_constSpeed_RunFor, 30 =  run for 30 seconds
+drive_inputs_constSpeed_RunFor, 60 =  run for 60 seconds
+drive_inputs_constSpeed_RunFor, 600 =  run for 600 seconds
+drive_inputs_constSpeed_RunFor_99  =  run until SOC at 0% (NOT USED)
 
 
 drive_inputs_constSpeed_Elevation_Profile
@@ -120,6 +120,7 @@ value=-10 >10% (Down hill)
 
 DRIVE CYCLE COMMON INPUTS
 drive_inputs_starting_SOC
+drive_inputs_lower_limit_SOC
 Values = Value
 
 drive_inputs_SOC_State_1 = variableSOC

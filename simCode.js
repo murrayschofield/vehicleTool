@@ -4,6 +4,7 @@ var actualvelocityArray = [];
 var accelArray = [];
 var timeArray = [];
 var timeArray10Second = [];
+var timeStep = [];
 
 var totalAccelEnergy = 0;
 var totalAeroEnergy = 0;
@@ -85,7 +86,7 @@ function runSimulationClicked(){
 	timeArray100Second = [];
 	//timeStep = NEDC_100_array;
 	var timeStepDuration = 1 // seconds (default)
-	timeStep = [];
+	timeStep.length = 0;
 	
 	if(DRIVE_CYCLE_TYPE ==1){
 		var startingSpeed = 0;
@@ -101,7 +102,6 @@ function runSimulationClicked(){
 	
 	
 	else if(DRIVE_CYCLE_TYPE ==2){
-		timeStep = [];
 		timeStepDuration = 0.01 // seconds
 		for(n = 0; n < (drive_inputs_constSpeed_RunFor*100)+1; n++) {
 			
@@ -229,7 +229,7 @@ function runSimulationClicked(){
 			
 		}
 		
-		//console.log("currentTimeStep is: " + currentTimeStepNum);
+		console.log("currentTimeStep is: " + currentTimeStepNum);
 		//console.log("currentSpeed is: " + currentSpeed);
 		//console.log("targetSpeed is: " + targetSpeed);
 		
@@ -500,7 +500,8 @@ function completeSimulationStage1(){
 		  title: {
 			display: true,
 			text: 'Energy Use Per km (Wh/km)'
-		  },			  
+		  },	
+			responsive: true,		  
 		   pieceLabel: {
 			render: function (args) {
 				return args.value + ' Wh/km' ;
@@ -551,7 +552,8 @@ function completeSimulationStage1(){
 		  title: {
 			display: true,
 			text: 'Energy Use (kWh)'
-		  },			  
+		  },
+			responsive: true,		  
 		   pieceLabel: {
 			render: 'percentage',
 			//precision: 2,

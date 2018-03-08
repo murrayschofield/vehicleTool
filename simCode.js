@@ -35,6 +35,34 @@ var totalEnergyUsedSoFarResults = [];
 var distanceTravelledResults = [];
 var accelerationResults = [];
 
+var PLOTtargetVelocityResults = [];
+var PLOTactualVelocityResults = [];
+var PLOTwheelRPMResults = [];
+var PLOTmotorRPMResults = [];
+var PLOTmotorTorqueResults = [];
+var PLOTmaxMotorTorqueResults = [];
+var PLOTtorqueInToWheelsResults = [];
+var PLOTmotorEfficiencyResults = [];
+var PLOTpowerInToMotorResults = [];
+var PLOTpowerLossesInMotorResults = [];
+var PLOTpowerInToInverterResults = [];
+var PLOTpowerLossesInInverterResults = [];
+var PLOTpowerInToWheelsResults = [];
+var PLOTpowerInToGearboxResults = [];
+var PLOTpowerLossesInGearboxResults = [];
+var PLOTdragForceResults = [];
+var PLOTrollingResistanceForceResults = [];
+var PLOTpowerToOvercomeDragResults = [];
+var PLOTpowerToOvercomeGradientResults = [];
+var PLOTpowerToOvercomeRollingResistanceResults = [];
+var PLOTSOCResults = [];
+var PLOTauxLoadResults = [];
+var PLOTbattTempResults = [];
+var PLOTpowerOutOfBatteryResults = [];
+var PLOTpowerLossesInBatteryResults = [];
+var PLOTtotalEnergyUsedSoFarResults = [];
+var PLOTdistanceTravelledResults = [];
+var PLOTaccelerationResults = [];
 
 var totalTime = 0;
 var totalAccelEnergy = 0;
@@ -59,6 +87,10 @@ var master_plots_line_chart = 0;
 var totalDistanceinKM = 0;
 var totalDistanceinM = 0;
 var totalEnergyUsed = 0;		  
+
+function add(a, b) {
+    return a + b;
+}
 
 function toAngSpeed(linearSpeed){
 		var omega = 2*linearSpeed /(veh_inputs_tyre_diameter / 1000);
@@ -119,6 +151,35 @@ function runSimulationClicked(){
 	distanceTravelledResults = [];
 	accelerationResults = [];
 
+	
+	PLOTtargetVelocityResults = [];
+	PLOTactualVelocityResults = [];
+	PLOTwheelRPMResults = [];
+	PLOTmotorRPMResults = [];
+	PLOTmotorTorqueResults = [];
+	PLOTmaxMotorTorqueResults = [];
+	PLOTtorqueInToWheelsResults = [];
+	PLOTmotorEfficiencyResults = [];
+	PLOTpowerInToMotorResults = [];
+	PLOTpowerLossesInMotorResults = [];
+	PLOTpowerInToInverterResults = [];
+	PLOTpowerLossesInInverterResults = [];
+	PLOTpowerInToWheelsResults = [];
+	PLOTpowerInToGearboxResults = [];
+	PLOTpowerLossesInGearboxResults = [];
+	PLOTdragForceResults = [];
+	PLOTrollingResistanceForceResults = [];
+	PLOTpowerToOvercomeDragResults = [];
+	PLOTpowerToOvercomeGradientResults = [];
+	PLOTpowerToOvercomeRollingResistanceResults = [];
+	PLOTSOCResults = [];
+	PLOTauxLoadResults = [];
+	PLOTbattTempResults = [];
+	PLOTtotalEnergyUsedSoFarResults = [];
+	PLOTpowerOutOfBatteryResults = [];
+	PLOTpowerLossesInBatteryResults = [];
+	PLOTdistanceTravelledResults = [];
+	PLOTaccelerationResults = [];
 	
 	
 	$("#simProgressBarValues").animate({
@@ -257,7 +318,7 @@ function runSimulationClicked(){
 	totalEnergyUsed = 0;
 	
 	//for( k = 0; k<10; k++ ){
-	for (i = 0; i < totalTime*1+0*31; i++) { 
+	for (i = 0; i < totalTime*1+0*10; i++) { 
 		currentTimeStepNum = i;
 		currentTime = i * timeStepDuration;
 		//console.log("Time:");
@@ -381,8 +442,11 @@ function runSimulationClicked(){
 		var actualEnergyIntoInverter =  actualEnergyIntoMotor/(veh_inputs_inverter_efficiency/100);
 		var EnergyLossInInverter = actualEnergyIntoInverter - actualEnergyIntoMotor;
 		
-		var actualEnergyOutOfBattery =  actualEnergyIntoInverter/0.9; //*** need to add battery efficiency
-		var EnergyLossInBattery = actualEnergyOutOfBattery - actualEnergyIntoInverter;	
+		var energytoAuxilliaries = veh_inputs_constant_aux_load * timeStepDuration / 1000;
+		
+		
+		var actualEnergyOutOfBattery =  (actualEnergyIntoInverter + energytoAuxilliaries)/0.9; //*** need to add battery efficiency
+		var EnergyLossInBattery = actualEnergyOutOfBattery - actualEnergyIntoInverter - energytoAuxilliaries;	
 		
 		var distanceTraveled = currentSpeed*timeStepDuration;
 			
@@ -398,17 +462,14 @@ function runSimulationClicked(){
 			
 		totalDistanceinM += distanceTraveled;
 		totalDistanceinKM += distanceTraveled/1000;
-		totalEnergyUsed += actualEnergyOutOfBattery*timeStepDuration/3600; 
+		totalEnergyUsed += 1000*actualEnergyOutOfBattery/3600000; 
 
 		var motorTorqueGenerated = torqueGenerated;
 		if(motorTorqueGenerated < 0){motorTorqueGenerated = 0;}
 		var maxMotorTorque = generateTorque(9999,currentMotorSpeedRPM);
-		
-		
-		
-		
+				
 
-		
+
 		
 		totalEnergyLossInBattery += EnergyLossInBattery/3600000;
 		totalEnergyLossInInverter += EnergyLossInInverter/3600000;
@@ -435,10 +496,6 @@ function runSimulationClicked(){
 		//axisLabelTimeStep = 250;
 		//summaryPlotTimeStep = 10;
 		
-	
-		
-		if(currentTimeStepNum/summaryPlotTimeStep == Math.round(currentTimeStepNum/summaryPlotTimeStep) || currentTimeStepNum == totalTime-1){
-			
 		targetVelocityResults.push(targetSpeed*3.6); 
 		actualVelocityResults.push(currentSpeed*3.6);
 		wheelRPMResults.push(currentWheelAngSpeedRPM);
@@ -467,6 +524,38 @@ function runSimulationClicked(){
 		powerLossesInBatteryResults.push(EnergyLossInBattery/timeStepDuration);
 		distanceTravelledResults.push(totalDistanceinM);
 		accelerationResults.push(actualAcceleration);
+		
+		if(currentTimeStepNum/summaryPlotTimeStep == Math.round(currentTimeStepNum/summaryPlotTimeStep) || currentTimeStepNum == totalTime-1){
+			
+		PLOTtargetVelocityResults.push(targetSpeed*3.6); 
+		PLOTactualVelocityResults.push(currentSpeed*3.6);
+		PLOTwheelRPMResults.push(currentWheelAngSpeedRPM);
+		PLOTmotorRPMResults.push(currentMotorSpeedRPM);
+		PLOTmotorTorqueResults.push(motorTorqueGenerated);
+		PLOTmaxMotorTorqueResults.push(maxMotorTorque);
+		PLOTtorqueInToWheelsResults.push(torqueGenerated);
+		PLOTmotorEfficiencyResults.push(motor_efficiency);
+		PLOTpowerInToMotorResults.push(actualEnergyIntoMotor/timeStepDuration);
+		PLOTpowerLossesInMotorResults.push(EnergyLossInMotor/timeStepDuration);
+		PLOTpowerInToInverterResults.push(actualEnergyIntoInverter/timeStepDuration);
+		PLOTpowerLossesInInverterResults.push(EnergyLossInInverter/timeStepDuration);
+		PLOTpowerInToWheelsResults.push(actualEnergyIntoWheels/timeStepDuration);
+		PLOTpowerInToGearboxResults.push(actualEnergyIntoGearbox/timeStepDuration);
+		PLOTpowerLossesInGearboxResults.push(EnergyLossInGearbox/timeStepDuration);
+		PLOTdragForceResults.push(aerodynamicDragForce);
+		PLOTrollingResistanceForceResults.push(rollingResistanceForce);
+		PLOTpowerToOvercomeDragResults.push(aerodynamicDragEnergy/timeStepDuration);
+		PLOTpowerToOvercomeGradientResults.push(gradientEnergy/timeStepDuration);
+		PLOTpowerToOvercomeRollingResistanceResults.push(rollingResistanceEnergy/timeStepDuration);
+		PLOTSOCResults.push(drive_inputs_starting_SOC);
+		PLOTauxLoadResults.push(veh_inputs_constant_aux_load*1000);
+		PLOTbattTempResults.push(drive_inputs_starting_batt_Temp);
+		PLOTtotalEnergyUsedSoFarResults.push(totalEnergyUsed);
+		PLOTpowerOutOfBatteryResults.push(actualEnergyOutOfBattery/timeStepDuration);
+		PLOTpowerLossesInBatteryResults.push(EnergyLossInBattery/timeStepDuration);
+		PLOTdistanceTravelledResults.push(totalDistanceinM);
+		PLOTaccelerationResults.push(actualAcceleration);
+		
 			
 			targetvelocityArray.push(Math.round(previousTargetSpeed*3.6*10)/10); 
 			
@@ -482,8 +571,13 @@ function runSimulationClicked(){
 			}
 		}
 		
+		//EnergyLossInGearbox/timeStepDuration*timeStepDuration
+		//console.log("Input to Array is " + EnergyLossInGearbox/timeStepDuration*timeStepDuration);
+		//console.log("Add to total is: " + EnergyLossInGearbox);
+				
 		
-		//console.log(timeStep[currentTime]);
+		//console.log("Total sum is: " + totalEnergyLossInGearbox);
+		//console.log("Array sum is: " + powerLossesInGearboxResults.reduce(add, 0)*timeStepDuration/3600000 );
 	}
 	//}
 	//}
@@ -526,14 +620,27 @@ function runSimulationClicked(){
 	
 	
 	
-	var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
-	var totalEnergy = totalAncillaryEnergy + totalRollingEnergy + totalAeroEnergy + totalAccelEnergy + totalgradientEnergy + totalLosses;	
+	console.log("Total gearbox loss sum is: " + totalEnergyLossInGearbox + "kWh");
+	console.log("Sum of gearbox losses array is: " + powerLossesInGearboxResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
 	
 	
-	totalEnergy = Math.round( totalEnergy*100 )/100;
-	totalEnergyText = "Total: " + totalEnergy.toString() + " kWh";
 	
-	totalEnergyperKM = 1000*totalEnergy/totalDistanceinKM;
+	console.log("Total gearbox loss sum is: " + totalEnergyLossInGearbox + "kWh");
+	console.log("Sum of gearbox losses array is: " + powerLossesInGearboxResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
+	
+	
+	//var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
+	var totalEnergyUsed = powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000;	
+	
+	
+	
+	console.log("Total Energy sum is: " + totalEnergyUsed + "kWh");
+	console.log("Sum of Energy use is: " + powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
+	
+	totalEnergyUsed = Math.round( totalEnergyUsed*100 )/100;
+	totalEnergyText = "Total: " + totalEnergyUsed.toString() + " kWh";
+	
+	totalEnergyperKM = 1000*totalEnergyUsed/totalDistanceinKM;
 	totalEnergyperKM = Math.round( totalEnergyperKM*10 )/10;
 	totalEnergyTextperKM = "Total: " + totalEnergyperKM.toString() + " Wh/km";
 
@@ -660,6 +767,27 @@ function runSimulationClicked(){
 		motorTorquePlotRPM.push(plotRPM);
 		motorTorquePlotValues.push(generateTorque(9999,plotRPM))
 	}
+	//generate drive train efficiency panel content
+	
+	//motorEfficenciesContent = $("#motorEfficenciesContent").html();
+	
+	
+	//document.getElementById("motorEfficenciesContent").innerHTML = motorEfficenciesContent;
+	//motorEfficenciesContent
+	
+	drivetrainEfficenciesContent = $("#drivetrainEfficenciesContent").html();
+	
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("battery_efficiency","90");
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("veh_inputs_inverter_efficiency",veh_inputs_inverter_efficiency);
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("motor_efficiency",motor_efficiency);
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("gearbox_efficiency","90");
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("veh_inputs_regen_percentage",veh_inputs_regen_percentage);
+	
+	
+	
+	
+	document.getElementById("drivetrainEfficenciesContent").innerHTML = drivetrainEfficenciesContent;
+	//drivetrainEfficenciesContent
 	
 
  }
@@ -950,7 +1078,7 @@ function completeSimulationStage3(){
 				  },
 				  
 				{ 
-					data: targetVelocityResults,
+					data: PLOTtargetVelocityResults,
 					label: "Target Velocity (kmph)",
 					borderColor: randomColor(0,1,2),
 					backgroundColor: randomColor(0,1,2),
@@ -961,7 +1089,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: actualVelocityResults,
+					data: PLOTactualVelocityResults,
 					label: "Vehicle Velocity (kmph)",
 					borderColor: randomColor(1,3,6),
 					backgroundColor: randomColor(1,3,6),
@@ -972,7 +1100,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: wheelRPMResults,
+					data: PLOTwheelRPMResults,
 					label: "Wheel Speed (RPM)",
 					borderColor: randomColor(2,6,2),
 					backgroundColor: randomColor(2,6,2),
@@ -983,7 +1111,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: motorRPMResults,
+					data: PLOTmotorRPMResults,
 					label: "Motor Speed (RPM)",
 					borderColor: randomColor(3,1,9),
 					backgroundColor: randomColor(3,1,9),
@@ -994,7 +1122,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: motorTorqueResults,
+					data: PLOTmotorTorqueResults,
 					label: "Motor Torque Output (Nm)",
 					borderColor: randomColor(4,9,9),
 					backgroundColor: randomColor(4,9,9),
@@ -1005,7 +1133,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: maxMotorTorqueResults,
+					data: PLOTmaxMotorTorqueResults,
 					label: "Max Motor Torque Possible(Nm)",
 					borderColor: randomColor(5,6,1),
 					backgroundColor: randomColor(5,6,1),
@@ -1016,7 +1144,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: torqueInToWheelsResults,
+					data: PLOTtorqueInToWheelsResults,
 					label: "Torque In To Wheels (Nm)",
 					borderColor: randomColor(6,6,4),
 					backgroundColor: randomColor(6,6,4),
@@ -1027,7 +1155,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: motorEfficiencyResults,
+					data: PLOTmotorEfficiencyResults,
 					label: "Motor Efficiency (%)",
 					borderColor: randomColor(7,2,4),
 					backgroundColor: randomColor(7,2,4),
@@ -1038,7 +1166,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerInToMotorResults,
+					data: PLOTpowerInToMotorResults,
 					label: "Power In To Motor (W)",
 					borderColor: randomColor(8,9,3),
 					backgroundColor: randomColor(8,9,3),
@@ -1049,7 +1177,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerLossesInMotorResults,
+					data: PLOTpowerLossesInMotorResults,
 					label: "Power Losses in Motor (W)",
 					borderColor: randomColor(9,2,7),
 					backgroundColor: randomColor(9,2,7),
@@ -1060,7 +1188,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerInToInverterResults,
+					data: PLOTpowerInToInverterResults,
 					label: "Power In To Inverter (W)",
 					borderColor: randomColor(0,7,3),
 					backgroundColor: randomColor(0,7,3),
@@ -1071,7 +1199,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerLossesInInverterResults,
+					data: PLOTpowerLossesInInverterResults,
 					label: "Power Losses in Inverter (W)",
 					borderColor: randomColor(1,2,6),
 					backgroundColor: randomColor(1,2,6),
@@ -1082,7 +1210,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerInToWheelsResults,
+					data: PLOTpowerInToWheelsResults,
 					label: "Power In To Wheels (W)",
 					borderColor: randomColor(2,8,3),
 					backgroundColor: randomColor(2,8,3),
@@ -1093,7 +1221,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerInToGearboxResults,
+					data: PLOTpowerInToGearboxResults,
 					label: "Power In To Gearbox (W)",
 					borderColor: randomColor(3,9,3),
 					backgroundColor: randomColor(3,9,3),
@@ -1104,7 +1232,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerLossesInGearboxResults,
+					data: PLOTpowerLossesInGearboxResults,
 					label: "Power Losses in Gearbox (W)",
 					borderColor: randomColor(4,2,7),
 					backgroundColor: randomColor(4,2,7),
@@ -1115,7 +1243,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: dragForceResults,
+					data: PLOTdragForceResults,
 					label: "Drag Force (N)",
 					borderColor: randomColor(5,7,5),
 					backgroundColor: randomColor(5,7,5),
@@ -1126,7 +1254,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: rollingResistanceForceResults,
+					data: PLOTrollingResistanceForceResults,
 					label: "Rolling Resistance Force (N)",
 					borderColor: randomColor(6,9,2),
 					backgroundColor: randomColor(6,9,2),
@@ -1137,7 +1265,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerToOvercomeDragResults,
+					data: PLOTpowerToOvercomeDragResults,
 					label: "Power To Overcome Drag (W)",
 					borderColor: randomColor(7,6,4),
 					backgroundColor: randomColor(7,6,4),
@@ -1148,7 +1276,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerToOvercomeGradientResults,
+					data: PLOTpowerToOvercomeGradientResults,
 					label: "Power to Overcome Gradient (W)",
 					borderColor: randomColor(8,4,3),
 					backgroundColor: randomColor(8,4,3),
@@ -1159,7 +1287,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerToOvercomeRollingResistanceResults,
+					data: PLOTpowerToOvercomeRollingResistanceResults,
 					label: "Rolling Resistance Power (W)",
 					borderColor: randomColor(9,1,9),
 					backgroundColor: randomColor(9,1,9),
@@ -1170,7 +1298,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: SOCResults,
+					data: PLOTSOCResults,
 					label: "Battery SOC (%)",
 					borderColor: randomColor(0,8,3),
 					backgroundColor: randomColor(0,8,3),
@@ -1181,7 +1309,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: auxLoadResults,
+					data: PLOTauxLoadResults,
 					label: "Auxilliary Loads (W)",
 					borderColor: randomColor(1,0,3),
 					backgroundColor: randomColor(1,0,3),
@@ -1192,7 +1320,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: battTempResults,
+					data: PLOTbattTempResults,
 					label: "Battery Temperature (degC)",
 					borderColor: randomColor(2,7,2),
 					backgroundColor: randomColor(2,7,2),
@@ -1203,7 +1331,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: totalEnergyUsedSoFarResults,
+					data: PLOTtotalEnergyUsedSoFarResults,
 					label: "Total Energy Used (Wh)",
 					borderColor: randomColor(3,2,4),
 					backgroundColor: randomColor(3,2,4),
@@ -1214,7 +1342,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerOutOfBatteryResults,
+					data: PLOTpowerOutOfBatteryResults,
 					label: "Power out of Battery Pack (W)",
 					borderColor: randomColor(4,0,1),
 					backgroundColor: randomColor(4,0,1),
@@ -1225,7 +1353,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: powerLossesInBatteryResults,
+					data: PLOTpowerLossesInBatteryResults,
 					label: "Power Losses in Battery (W)",
 					borderColor: randomColor(5,0,7),
 					backgroundColor: randomColor(5,0,7),
@@ -1236,7 +1364,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: distanceTravelledResults,
+					data: PLOTdistanceTravelledResults,
 					label: "Distance Travelled (m)",
 					borderColor: randomColor(6,4,9),
 					backgroundColor: randomColor(6,4,9),
@@ -1247,7 +1375,7 @@ function completeSimulationStage3(){
 					borderWidth: 3,
 				},
 				{ 
-					data: accelerationResults,
+					data: PLOTaccelerationResults,
 					label: "Acceleration (m/s/s)",
 					borderColor: randomColor(7,2,5),
 					fill: false,
@@ -1342,7 +1470,7 @@ function completeSimulationStage3(){
 				datasets: [
 				{ 
 					data: motorTorquePlotValues,
-					label: "Maximum Motor Torque (Nm)",
+					label: "Maximum Motor Torque (Nm) for Varying Motor Speed (RPM)",
 					borderColor: "#3e95cd",
 					fill: false,
 					lineTension: 0,

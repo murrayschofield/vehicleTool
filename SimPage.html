@@ -579,7 +579,7 @@
 			$("#veh_inputs_number_of_modules").val("8");
 			
 			$("#veh_inputs_motor_type").val("5");
-			$("#veh_inputs_gear_ratio").val("");
+			$("#veh_inputs_gear_ratio").val("6");
 			
 			$("#veh_inputs_frontDriveUnits0").prop("checked", true);
 			$("#veh_inputs_rearDriveUnits0").prop("checked", true);
@@ -615,8 +615,6 @@
 			$("#veh_inputs_tyre_diameter").val("685");
 			$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("3");
-
-			getVehicleInputValues();		
 		}
 		
 		function loadT8Clicked(){
@@ -630,8 +628,30 @@
 		}
 		
 		function loadB12Clicked(){
-		console.log("loadB12Clicked");
+
+		}
 		
+		function loadMustangClicked(){
+			$("#veh_inputs_total_mass").val("2000");
+			$("#veh_inputs_frontal_area").val("2.2");
+			$("#veh_inputs_drag_coefficient").val("0.45");
+			
+			$("#veh_inputs_module_type").val("1");
+			$("#veh_inputs_system_voltage").val("400");
+			$("#veh_inputs_number_of_modules").val("16");
+			
+			$("#veh_inputs_motor_type").val("1");
+			$("#veh_inputs_gear_ratio").val("6.25");
+			
+			$("#veh_inputs_frontDriveUnits2").prop("checked", true);
+			$("#veh_inputs_rearDriveUnits2").prop("checked", true);
+			
+			$("#veh_inputs_inverter_efficiency").val("95");
+			
+			$("#veh_inputs_rolling_resistance").val("0.0067");
+			$("#veh_inputs_tyre_diameter").val("655");
+			$("#veh_inputs_regen_percentage").val("0");
+			$("#veh_inputs_constant_aux_load").val("5");
 		}
 		
 		</script>
@@ -655,11 +675,11 @@
 						<li role="separator" class="divider"></li>
 						<li><a href="#" onclick="loadT4Clicked()">Load T4</a></li>
 						<li role="separator" class="divider"></li>
-						<!-- <li><a href="#" onclick="loadT8Clicked()">Load T8</a></li>
+						<!--<li><a href="#" onclick="loadT8Clicked()">Load T8</a></li>
 						<li role="separator" class="divider"></li>
-						<li><a href="#" onclick="loadPodClicked()">Load POD</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#" onclick="loadB12Clicked()">Load B12</a></li> -->
+						<li><a href="#" onclick="loadB12Clicked()">Load B12</a></li>
+						<li role="separator" class="divider"></li>-->
+						<li><a href="#" onclick="loadMustangClicked()">Load Mustang</a></li>
 					  </ul>
 					</div>
                 </div>
@@ -1599,15 +1619,79 @@
                     </div>
                 </div>
 				
+				<!--
 				<div class="col-lg-6">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <h4> Motor Efficiency </h1>
                         </div>
                         <div class="panel-body">
+							<div id="motorEfficenciesContent">
+								
+							
+							
+							</div>
+							
+							
+                        </div>
+                        <div class="panel-footer">
 
+                        </div>
+                    </div>
+                </div>
+				-->
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Static Efficiencies </h1>
+                        </div>
+                        <div class="panel-body">
+							<div id="drivetrainEfficenciesContent">
+							<p> All efficiencies are assumed static at the moment. They are also assumed identical in regen mode. Dynamic efficiencies from test data will be added soon.</p>
+								<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Assumed Efficiency</th>
+											<th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+										<tr>
+                                            <td>Battery Pack</td>
+                                            <td>battery_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Inverter</td>
+                                            <td>veh_inputs_inverter_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Motor</td>
+                                            <td>motor_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Gearbox</td>
+                                            <td>gearbox_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Regenerative Braking Amount</td>
+                                            <td>veh_inputs_regen_percentage</td>
+											<td>%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 							
 							
+							
+							</div>
                         </div>
                         <div class="panel-footer">
 

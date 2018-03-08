@@ -144,6 +144,40 @@ value=-50 >50 kmph tailwind
 **********************************
 
 
+Output Variables
+**********************************
+target velocity = targetVelocityResults[];
+actual velocity = actualVelocityResults[];
+wheel rotational speed = wheelRPMResults[];
+motor rotational speed = motorRPMResults[];
+motor output torque = motorTorqueResults[];
+motor max possible torque = maxMotorTorqueResults[];
+torque into wheels = torqueInToWheelsResults[];
+motor efficiency = motorEfficiencyResults[];
+power in to motor = powerInToMotorResults[];
+power losses in motor = powerLossesInMotorResults[];
+power in to inverter = powerInToInverterResults[];
+power losses in inverter = powerLossesInInverterResults[];
+power in to wheels = powerInToWheelsResults[];
+power in to gearbox = powerInToGearboxResults[];
+power losses in gearbox = powerLossesInGearboxResults[];
+drag force = dragForceResults[];
+rolling resistance force = rollingResistanceForceResults[];
+power to overcome drag = powerToOvercomeDragResults[];
+power to overcome gradient = powerToOvercomeGradientResults[];
+power to overcome rolling resistance = powerToOvercomeRollingResistanceResults[];
+SOC = SOCResults[];
+auxilary load = auxLoadResults[];
+battery temperature = battTempResults[];
+total energy used in drive cycle = totalEnergyUsedSoFarResults[];
+power out of battery = powerOutOfBatteryResults = [];
+power losses in battery = powerLossesInBatteryResults = [];
+distance travelled = distanceTravelledResults[];
+acceleration = accelerationResults[];
+total energy used = totalEnergyUsedResults[];
+**********************************
+
+
 
 
 

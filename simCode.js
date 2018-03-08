@@ -6,6 +6,37 @@ var timeArray = [];
 var timeArray10Second = [];
 var timeStep = [];
 
+var targetVelocityResults = [];
+var actualVelocityResults = [];
+var wheelRPMResults = [];
+var motorRPMResults = [];
+var motorTorqueResults = [];
+var maxMotorTorqueResults = [];
+var torqueInToWheelsResults = [];
+var motorEfficiencyResults = [];
+var powerInToMotorResults = [];
+var powerLossesInMotorResults = [];
+var powerInToInverterResults = [];
+var powerLossesInInverterResults = [];
+var powerInToWheelsResults = [];
+var powerInToGearboxResults = [];
+var powerLossesInGearboxResults = [];
+var dragForceResults = [];
+var rollingResistanceForceResults = [];
+var powerToOvercomeDragResults = [];
+var powerToOvercomeGradientResults = [];
+var powerToOvercomeRollingResistanceResults = [];
+var SOCResults = [];
+var auxLoadResults = [];
+var battTempResults = [];
+var powerOutOfBatteryResults = [];
+var powerLossesInBatteryResults = [];
+var totalEnergyUsedSoFarResults = [];
+var distanceTravelledResults = [];
+var accelerationResults = [];
+
+
+var totalTime = 0;
 var totalAccelEnergy = 0;
 var totalAeroEnergy = 0;
 var totalRollingEnergy = 0;
@@ -17,7 +48,8 @@ var totalEnergyLossInMotor = 0;
 var totalEnergyLossInGearbox = 0;
 var timeStep = [];
 var totalEnergyText = " ";
-
+var motorTorquePlotValues = [];
+var motorTorquePlotRPM = [];
 var totalEnergyperKM = 0;
 var totalEnergyTextperKM = "";
 
@@ -25,7 +57,8 @@ var summaryLineChart = 0;
 var energyBreakdownChart = 0;
 var master_plots_line_chart = 0;
 var totalDistanceinKM = 0;
-		  
+var totalDistanceinM = 0;
+var totalEnergyUsed = 0;		  
 
 function toAngSpeed(linearSpeed){
 		var omega = 2*linearSpeed /(veh_inputs_tyre_diameter / 1000);
@@ -57,6 +90,35 @@ function runSimulationClicked(){
 	timeArray = [];
 	timeArray10Second = [];
 	
+	targetVelocityResults = [];
+	actualVelocityResults = [];
+	wheelRPMResults = [];
+	motorRPMResults = [];
+	motorTorqueResults = [];
+	maxMotorTorqueResults = [];
+	torqueInToWheelsResults = [];
+	motorEfficiencyResults = [];
+	powerInToMotorResults = [];
+	powerLossesInMotorResults = [];
+	powerInToInverterResults = [];
+	powerLossesInInverterResults = [];
+	powerInToWheelsResults = [];
+	powerInToGearboxResults = [];
+	powerLossesInGearboxResults = [];
+	dragForceResults = [];
+	rollingResistanceForceResults = [];
+	powerToOvercomeDragResults = [];
+	powerToOvercomeGradientResults = [];
+	powerToOvercomeRollingResistanceResults = [];
+	SOCResults = [];
+	auxLoadResults = [];
+	battTempResults = [];
+	totalEnergyUsedSoFarResults = [];
+	powerOutOfBatteryResults = [];
+	powerLossesInBatteryResults = [];
+	distanceTravelledResults = [];
+	accelerationResults = [];
+
 	
 	
 	$("#simProgressBarValues").animate({
@@ -90,14 +152,14 @@ function runSimulationClicked(){
 	
 	if(DRIVE_CYCLE_TYPE ==1){
 		var startingSpeed = 0;
-		if(drive_inputs_driveCycleChoice ==  1){ timeStep = NEDC_70_array;}
-		else if(drive_inputs_driveCycleChoice ==  2){ timeStep = NEDC_100_array;}
-		else if(drive_inputs_driveCycleChoice ==  3){ timeStep = NEDC_120_array;}
-		else if(drive_inputs_driveCycleChoice ==  4){ timeStep = WLTP3a_array;}
-		else if(drive_inputs_driveCycleChoice ==  5){ timeStep = WLTP3b_array;}
-		else if(drive_inputs_driveCycleChoice ==  6){ timeStep = RoyalMail_1_array;}
-		else if(drive_inputs_driveCycleChoice ==  7){ timeStep = Farmdrop64_array;}
-		else if(drive_inputs_driveCycleChoice ==  8){ timeStep = Farmdrop87_array;}
+		if(drive_inputs_driveCycleChoice ==  1){ timeStep = Array.from(NEDC_70_array);}
+		else if(drive_inputs_driveCycleChoice ==  2){ timeStep = Array.from(NEDC_100_array);}
+		else if(drive_inputs_driveCycleChoice ==  3){ timeStep = Array.from(NEDC_120_array);}
+		else if(drive_inputs_driveCycleChoice ==  4){ timeStep = Array.from(WLTP3a_array);}
+		else if(drive_inputs_driveCycleChoice ==  5){ timeStep = Array.from(WLTP3b_array);}
+		else if(drive_inputs_driveCycleChoice ==  6){ timeStep = Array.from(RoyalMail_1_array);}
+		else if(drive_inputs_driveCycleChoice ==  7){ timeStep = Array.from(Farmdrop64_array);}
+		else if(drive_inputs_driveCycleChoice ==  8){ timeStep = Array.from(Farmdrop87_array);}
 		}
 	
 	
@@ -106,7 +168,7 @@ function runSimulationClicked(){
 		for(n = 0; n < (drive_inputs_constSpeed_RunFor*100)+1; n++) {
 			
 			var thisTimestep = {t: n/100, speed: drive_inputs_constant_speed_val/3.6};
-			console.log("ThisTimeStep t = " + thisTimestep.t);
+			//console.log("ThisTimeStep t = " + thisTimestep.t);
 
 			timeStep.push(thisTimestep);
 		}
@@ -126,7 +188,7 @@ function runSimulationClicked(){
 	
 	//timeStep = Thirty_ms_60seconddrive_array;
 	
-	var totalTime = timeStep.length;
+	totalTime = timeStep.length;
 	console.log("total time is");
 	console.log(totalTime);
 	var axisLabelTimeStep = 1;
@@ -191,7 +253,8 @@ function runSimulationClicked(){
 	totalEnergyLossInMotor = 0;
 	totalEnergyLossInGearbox = 0;
 	totalDistanceinKM = 0;
-	
+	totalDistanceinM = 0;
+	totalEnergyUsed = 0;
 	
 	//for( k = 0; k<10; k++ ){
 	for (i = 0; i < totalTime*1+0*31; i++) { 
@@ -229,7 +292,7 @@ function runSimulationClicked(){
 			
 		}
 		
-		console.log("currentTimeStep is: " + currentTimeStepNum);
+		//console.log("currentTimeStep is: " + currentTimeStepNum);
 		//console.log("currentSpeed is: " + currentSpeed);
 		//console.log("targetSpeed is: " + targetSpeed);
 		
@@ -241,7 +304,9 @@ function runSimulationClicked(){
 		var v = currentSpeed;
 		var targetAcceleration = (targetSpeed - currentSpeed) / timeStepDuration;
 		
-		var currentWheelAngSpeed = toAngSpeed(currentSpeed);
+		var currentWheelAngSpeedRadians = toAngSpeed(currentSpeed);
+		var currentWheelAngSpeedRPM = 60*currentWheelAngSpeedRadians/(2*3.142);
+		var currentMotorSpeedRPM = currentWheelAngSpeedRPM * veh_inputs_gear_ratio;
 		
 		var requiredAccelForce = veh_inputs_total_mass * targetAcceleration;
 		var requiredAccelTorque = toTorque(requiredAccelForce);
@@ -286,14 +351,7 @@ function runSimulationClicked(){
 			// *** need to add maximum braking torque
 		}
 		else{
-			//Motor must provide torque
-			// *** need to add torque available calculation
-			if(torqueToGenerate < 200){
-				torqueGenerated = torqueToGenerate;
-			}
-			else{
-				torqueGenerated = 200;
-			}
+			torqueGenerated = generateTorque(torqueToGenerate,currentMotorSpeedRPM);
 		}
 		//console.log("Torque Generated:");
 		//console.log(torqueGenerated);
@@ -338,10 +396,17 @@ function runSimulationClicked(){
 			
 			//7. Calculate battery cooling
 			
-			
-			//If negative apply realistic braking torque
-			
+		totalDistanceinM += distanceTraveled;
 		totalDistanceinKM += distanceTraveled/1000;
+		totalEnergyUsed += actualEnergyOutOfBattery*timeStepDuration/3600; 
+
+		var motorTorqueGenerated = torqueGenerated;
+		if(motorTorqueGenerated < 0){motorTorqueGenerated = 0;}
+		var maxMotorTorque = generateTorque(9999,currentMotorSpeedRPM);
+		
+		
+		
+		
 
 		
 		
@@ -370,10 +435,38 @@ function runSimulationClicked(){
 		//axisLabelTimeStep = 250;
 		//summaryPlotTimeStep = 10;
 		
-		
+	
 		
 		if(currentTimeStepNum/summaryPlotTimeStep == Math.round(currentTimeStepNum/summaryPlotTimeStep) || currentTimeStepNum == totalTime-1){
 			
+		targetVelocityResults.push(targetSpeed*3.6); 
+		actualVelocityResults.push(currentSpeed*3.6);
+		wheelRPMResults.push(currentWheelAngSpeedRPM);
+		motorRPMResults.push(currentMotorSpeedRPM);
+		motorTorqueResults.push(motorTorqueGenerated);
+		maxMotorTorqueResults.push(maxMotorTorque);
+		torqueInToWheelsResults.push(torqueGenerated);
+		motorEfficiencyResults.push(motor_efficiency);
+		powerInToMotorResults.push(actualEnergyIntoMotor/timeStepDuration);
+		powerLossesInMotorResults.push(EnergyLossInMotor/timeStepDuration);
+		powerInToInverterResults.push(actualEnergyIntoInverter/timeStepDuration);
+		powerLossesInInverterResults.push(EnergyLossInInverter/timeStepDuration);
+		powerInToWheelsResults.push(actualEnergyIntoWheels/timeStepDuration);
+		powerInToGearboxResults.push(actualEnergyIntoGearbox/timeStepDuration);
+		powerLossesInGearboxResults.push(EnergyLossInGearbox/timeStepDuration);
+		dragForceResults.push(aerodynamicDragForce);
+		rollingResistanceForceResults.push(rollingResistanceForce);
+		powerToOvercomeDragResults.push(aerodynamicDragEnergy/timeStepDuration);
+		powerToOvercomeGradientResults.push(gradientEnergy/timeStepDuration);
+		powerToOvercomeRollingResistanceResults.push(rollingResistanceEnergy/timeStepDuration);
+		SOCResults.push(drive_inputs_starting_SOC);
+		auxLoadResults.push(veh_inputs_constant_aux_load*1000);
+		battTempResults.push(drive_inputs_starting_batt_Temp);
+		totalEnergyUsedSoFarResults.push(totalEnergyUsed);
+		powerOutOfBatteryResults.push(actualEnergyOutOfBattery/timeStepDuration);
+		powerLossesInBatteryResults.push(EnergyLossInBattery/timeStepDuration);
+		distanceTravelledResults.push(totalDistanceinM);
+		accelerationResults.push(actualAcceleration);
 			
 			targetvelocityArray.push(Math.round(previousTargetSpeed*3.6*10)/10); 
 			
@@ -404,16 +497,21 @@ function runSimulationClicked(){
 	var t_end = d.getTime();
 	console.log(t_end - t_start );
 	
-	totalEnergyLossInBattery = Math.round( totalEnergyLossInBattery*100 )/100;
-	totalEnergyLossInInverter = Math.round( totalEnergyLossInInverter*100 )/100;
-	totalEnergyLossInMotor = Math.round( totalEnergyLossInMotor*100 )/100;
-	totalEnergyLossInGearbox = Math.round( totalEnergyLossInGearbox*100 )/100;
+	var dpVal = 100;
+	if(totalEnergyLossInGearbox < 0.1){
+		dpVal = 10000;
+	}
 	
-	totalgradientEnergy = Math.round( totalgradientEnergy*100 )/100;
-	totalAccelEnergy = Math.round( totalAccelEnergy*100 )/100;
-	totalAeroEnergy = Math.round( totalAeroEnergy*100 )/100;
-	totalRollingEnergy = Math.round( totalRollingEnergy*100 )/100;
-	totalAncillaryEnergy = Math.round( totalAncillaryEnergy*100 )/100;
+	totalEnergyLossInBattery = Math.round( totalEnergyLossInBattery* dpVal ) / dpVal;
+	totalEnergyLossInInverter = Math.round( totalEnergyLossInInverter* dpVal ) / dpVal;
+	totalEnergyLossInMotor = Math.round( totalEnergyLossInMotor* dpVal ) / dpVal;
+	totalEnergyLossInGearbox = Math.round( totalEnergyLossInGearbox* dpVal ) / dpVal;
+	
+	totalgradientEnergy = Math.round( totalgradientEnergy* dpVal )/ dpVal;
+	totalAccelEnergy = Math.round( totalAccelEnergy* dpVal )/ dpVal;
+	totalAeroEnergy = Math.round( totalAeroEnergy* dpVal )/ dpVal;
+	totalRollingEnergy = Math.round( totalRollingEnergy* dpVal )/ dpVal;
+	totalAncillaryEnergy = Math.round( totalAncillaryEnergy* dpVal )/ dpVal;
 	
 	totalEnergyLossInBatteryPerKM = Math.round( totalEnergyLossInBatteryPerKM*10 )/10;
 	totalEnergyLossInInverterPerKM = Math.round( totalEnergyLossInInverterPerKM*10 )/10;
@@ -427,8 +525,11 @@ function runSimulationClicked(){
 	totalAncillaryEnergyPerKM = Math.round( totalAncillaryEnergyPerKM*10 )/10;
 	
 	
+	
 	var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
-	var totalEnergy = totalAncillaryEnergy + totalRollingEnergy + totalAeroEnergy + totalAccelEnergy + totalgradientEnergy + totalLosses;
+	var totalEnergy = totalAncillaryEnergy + totalRollingEnergy + totalAeroEnergy + totalAccelEnergy + totalgradientEnergy + totalLosses;	
+	
+	
 	totalEnergy = Math.round( totalEnergy*100 )/100;
 	totalEnergyText = "Total: " + totalEnergy.toString() + " kWh";
 	
@@ -441,7 +542,7 @@ function runSimulationClicked(){
 	velocityProfileTitle = "Velocity Profile Data - Total Distance Was " + totalDistanceinKM.toString() + "km.";
 	
 	// Populate range section
-		totalCapacityWh
+		//totalCapacityWh
 		var rangeContent = "";
 		
 		var upperSOC_kWh = drive_inputs_starting_SOC/100 * totalCapacityWh/1000;
@@ -459,7 +560,108 @@ function runSimulationClicked(){
 		
 		document.getElementById("rangePanelContent").innerHTML = rangeContent;
 	
+	// Populate vehicle input section
 	
+	vehicleVariableContent = $("#vehicleVariableSummaryProto").html();
+	
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_total_mass",veh_inputs_total_mass);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_frontal_area",veh_inputs_frontal_area);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_drag_coefficient",veh_inputs_drag_coefficient);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_rolling_resistance",veh_inputs_rolling_resistance);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_tyre_diameter",veh_inputs_tyre_diameter);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_regen_percentage",veh_inputs_regen_percentage);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_constant_aux_load",veh_inputs_constant_aux_load);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_number_of_modules",veh_inputs_number_of_modules);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_system_voltage",veh_inputs_system_voltage);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_gear_ratio",veh_inputs_gear_ratio);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_frontDriveUnits",veh_inputs_frontDriveUnits);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_rearDriveUnits",veh_inputs_rearDriveUnits);
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_inverter_efficiency",veh_inputs_inverter_efficiency);
+
+	var moduleTypeString = "";
+	if(veh_inputs_module_type == 1){ moduleTypeString = "12s 20p 50v"; }
+	else if(veh_inputs_module_type == 2){ moduleTypeString = "12s 18p 50v"; }
+	else if(veh_inputs_module_type == 3){ moduleTypeString = "108s 2p 450v"; }
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_module_type",moduleTypeString);
+	
+	var motorTypeString = "";
+	if(veh_inputs_module_type == 1){ motorTypeString = "CRA"; }
+	else if(veh_inputs_module_type == 2){ motorTypeString = "Dual CRA"; }
+	else if(veh_inputs_module_type == 3){ motorTypeString = "CRB"; }
+	else if(veh_inputs_module_type == 4){ motorTypeString = "T4 Motor"; }
+	else if(veh_inputs_module_type == 5){ motorTypeString = "ATX Motor"; }
+	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_motor_type",motorTypeString);
+	
+	document.getElementById("vehicleVariableSummary").innerHTML = vehicleVariableContent;
+	
+	
+	
+	
+	// Populate drive cycle input section
+	driveCycleVariableContent = $("#driveCycleVariableSummaryProto").html();
+	
+	var driveCycleTypeString = "";
+	if(veh_inputs_module_type == 1){ driveCycleTypeString = "NEDC 70"; }
+	else if(veh_inputs_module_type == 2){ driveCycleTypeString = "NEDC 100"; }
+	else if(veh_inputs_module_type == 3){ driveCycleTypeString = "NEDC 120"; }
+	else if(veh_inputs_module_type == 4){ driveCycleTypeString = "WLTP 3a"; }
+	else if(veh_inputs_module_type == 5){ driveCycleTypeString = "WLTP 3b"; }
+	else if(veh_inputs_module_type == 6){ driveCycleTypeString = "Royal Mail 1"; }
+	else if(veh_inputs_module_type == 7){ driveCycleTypeString = "Farmdrop 64km"; }
+	else if(veh_inputs_module_type == 8){ driveCycleTypeString = "Farmdrop 87km"; }
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_driveCycleChoice",driveCycleTypeString);
+	
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_cyclesToRun",drive_inputs_cyclesToRun);
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_standardDrive_Elevation_Profile",drive_inputs_standardDrive_Elevation_Profile + "%");
+	
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_constant_speed_val",drive_inputs_constant_speed_val.toString() + " kmph");
+	
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_constSpeed_RunFor",drive_inputs_constSpeed_RunFor + " seconds");
+	
+	if(drive_inputs_SOC_State == 1){
+		driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_SOC_State","Variable");
+	}
+	else{
+		driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_SOC_State","Fixed at Starting Value");
+	}
+	
+	if(drive_inputs_constSpeed_StartType == 1){
+		driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_constSpeed_StartType",drive_inputs_constant_speed_val.toString() + " kmph");
+	}
+	else{
+		driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_constSpeed_StartType","Stationary");
+	}
+	
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_starting_SOC",drive_inputs_starting_SOC);
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_lower_limit_SOC",drive_inputs_lower_limit_SOC);
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_ambientTemp",drive_inputs_ambientTemp);
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_starting_batt_Temp",drive_inputs_starting_batt_Temp);
+	driveCycleVariableContent = driveCycleVariableContent.replace("Headwind","Headwind");
+	driveCycleVariableContent = driveCycleVariableContent.replace("drive_inputs_windSpeed",drive_inputs_windSpeed);
+
+	
+	document.getElementById("driveCycleVariableSummary").innerHTML = driveCycleVariableContent;
+	
+	document.getElementById("standardDriveInputsTable").className = "collapse";
+	document.getElementById("constantSpeedDriveInputsTable").className = "collapse";
+	if(DRIVE_CYCLE_TYPE==1){
+		document.getElementById("standardDriveInputsTable").className = "collapse.show";
+	}
+	else if(DRIVE_CYCLE_TYPE==2){
+		document.getElementById("constantSpeedDriveInputsTable").className = "collapse.show";
+	}
+	
+	
+	
+	//generate Motor Max Torque Plot
+	motorTorquePlotValues = [];
+	motorTorquePlotRPM = [];
+	for(plotRPM =0; plotRPM < 15001; plotRPM=plotRPM+500){
+		motorTorquePlotRPM.push(plotRPM);
+		motorTorquePlotValues.push(generateTorque(9999,plotRPM))
+	}
+	
+
  }
 
  
@@ -627,16 +829,7 @@ function completeSimulationStage2(){
 					lineTension: 0,
 					cubicInterpolationMode: "monotone",
 					borderWidth: 1,
-				  },
-				  { 
-					data: accelArray,
-					label: "Acceleration (m/s/s)",
-					borderColor: "#3cba9f",
-					fill: false,
-					lineTension: 0,
-					cubicInterpolationMode: "monotone",
-					borderWidth: 1,
-				  },
+				  }
 				  
 				]
 			  },
@@ -712,6 +905,32 @@ function completeSimulationStage2(){
 	});
 };
 
+function randomColor(input,input2,input3){
+	input = input/10;
+	input2 = input2/10;
+	input3 = input3/10;
+	var brightness = 100;
+  function randomChannel(brightness){
+    var r = 255-brightness;
+    var n = 0|((input * r) + brightness);
+    var s = n.toString(16);
+    return (s.length==1) ? '0'+s : s;
+  }
+  function randomChannel2(brightness){
+    var r = 255-brightness;
+    var n = 0|((input2 * r) + brightness);
+    var s = n.toString(16);
+    return (s.length==1) ? '0'+s : s;
+  }
+  function randomChannel3(brightness){
+    var r = 255-brightness;
+    var n = 0|((input3 * r) + brightness);
+    var s = n.toString(16);
+    return (s.length==1) ? '0'+s : s;
+  }
+  return '#' + randomChannel(brightness) + randomChannel2(brightness) + randomChannel3(brightness);
+}
+
 function completeSimulationStage3(){
 	master_plots_line_chart.destroy();
 	master_plots_line_chart =  new Chart(document.getElementById("master-line-chart"), {
@@ -729,38 +948,323 @@ function completeSimulationStage3(){
 					fill: false,
 					lineTension: 0,
 				  },
+				  
 				{ 
-					data: targetvelocityArray,
+					data: targetVelocityResults,
 					label: "Target Velocity (kmph)",
-					borderColor: "#3e95cd",
+					borderColor: randomColor(0,1,2),
+					backgroundColor: randomColor(0,1,2),
 					fill: false,
+					hidden: true,
 					lineTension: 0,
 					cubicInterpolationMode: "monotone",
-					borderWidth: 1,
-				  },
-				  { 
-					data: actualvelocityArray,
-					label: "Actual Velocity (kmph)",
-					borderColor: "#3a12a2",
+					borderWidth: 3,
+				},
+				{ 
+					data: actualVelocityResults,
+					label: "Vehicle Velocity (kmph)",
+					borderColor: randomColor(1,3,6),
+					backgroundColor: randomColor(1,3,6),
 					fill: false,
+					hidden: false,
 					lineTension: 0,
 					cubicInterpolationMode: "monotone",
-					borderWidth: 1,
-				  },
-				  { 
-					data: accelArray,
+					borderWidth: 3,
+				},
+				{ 
+					data: wheelRPMResults,
+					label: "Wheel Speed (RPM)",
+					borderColor: randomColor(2,6,2),
+					backgroundColor: randomColor(2,6,2),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: motorRPMResults,
+					label: "Motor Speed (RPM)",
+					borderColor: randomColor(3,1,9),
+					backgroundColor: randomColor(3,1,9),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: motorTorqueResults,
+					label: "Motor Torque Output (Nm)",
+					borderColor: randomColor(4,9,9),
+					backgroundColor: randomColor(4,9,9),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: maxMotorTorqueResults,
+					label: "Max Motor Torque Possible(Nm)",
+					borderColor: randomColor(5,6,1),
+					backgroundColor: randomColor(5,6,1),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: torqueInToWheelsResults,
+					label: "Torque In To Wheels (Nm)",
+					borderColor: randomColor(6,6,4),
+					backgroundColor: randomColor(6,6,4),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: motorEfficiencyResults,
+					label: "Motor Efficiency (%)",
+					borderColor: randomColor(7,2,4),
+					backgroundColor: randomColor(7,2,4),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerInToMotorResults,
+					label: "Power In To Motor (W)",
+					borderColor: randomColor(8,9,3),
+					backgroundColor: randomColor(8,9,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerLossesInMotorResults,
+					label: "Power Losses in Motor (W)",
+					borderColor: randomColor(9,2,7),
+					backgroundColor: randomColor(9,2,7),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerInToInverterResults,
+					label: "Power In To Inverter (W)",
+					borderColor: randomColor(0,7,3),
+					backgroundColor: randomColor(0,7,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerLossesInInverterResults,
+					label: "Power Losses in Inverter (W)",
+					borderColor: randomColor(1,2,6),
+					backgroundColor: randomColor(1,2,6),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerInToWheelsResults,
+					label: "Power In To Wheels (W)",
+					borderColor: randomColor(2,8,3),
+					backgroundColor: randomColor(2,8,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerInToGearboxResults,
+					label: "Power In To Gearbox (W)",
+					borderColor: randomColor(3,9,3),
+					backgroundColor: randomColor(3,9,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerLossesInGearboxResults,
+					label: "Power Losses in Gearbox (W)",
+					borderColor: randomColor(4,2,7),
+					backgroundColor: randomColor(4,2,7),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: dragForceResults,
+					label: "Drag Force (N)",
+					borderColor: randomColor(5,7,5),
+					backgroundColor: randomColor(5,7,5),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: rollingResistanceForceResults,
+					label: "Rolling Resistance Force (N)",
+					borderColor: randomColor(6,9,2),
+					backgroundColor: randomColor(6,9,2),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerToOvercomeDragResults,
+					label: "Power To Overcome Drag (W)",
+					borderColor: randomColor(7,6,4),
+					backgroundColor: randomColor(7,6,4),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerToOvercomeGradientResults,
+					label: "Power to Overcome Gradient (W)",
+					borderColor: randomColor(8,4,3),
+					backgroundColor: randomColor(8,4,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerToOvercomeRollingResistanceResults,
+					label: "Rolling Resistance Power (W)",
+					borderColor: randomColor(9,1,9),
+					backgroundColor: randomColor(9,1,9),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: SOCResults,
+					label: "Battery SOC (%)",
+					borderColor: randomColor(0,8,3),
+					backgroundColor: randomColor(0,8,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: auxLoadResults,
+					label: "Auxilliary Loads (W)",
+					borderColor: randomColor(1,0,3),
+					backgroundColor: randomColor(1,0,3),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: battTempResults,
+					label: "Battery Temperature (degC)",
+					borderColor: randomColor(2,7,2),
+					backgroundColor: randomColor(2,7,2),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: totalEnergyUsedSoFarResults,
+					label: "Total Energy Used (Wh)",
+					borderColor: randomColor(3,2,4),
+					backgroundColor: randomColor(3,2,4),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerOutOfBatteryResults,
+					label: "Power out of Battery Pack (W)",
+					borderColor: randomColor(4,0,1),
+					backgroundColor: randomColor(4,0,1),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: powerLossesInBatteryResults,
+					label: "Power Losses in Battery (W)",
+					borderColor: randomColor(5,0,7),
+					backgroundColor: randomColor(5,0,7),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: distanceTravelledResults,
+					label: "Distance Travelled (m)",
+					borderColor: randomColor(6,4,9),
+					backgroundColor: randomColor(6,4,9),
+					fill: false,
+					hidden: true,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 3,
+				},
+				{ 
+					data: accelerationResults,
 					label: "Acceleration (m/s/s)",
-					borderColor: "#3cba9f",
+					borderColor: randomColor(7,2,5),
 					fill: false,
+					//fillStyle: this.borderColor,
+					backgroundColor: randomColor(7,2,5),
+					hidden: true,
 					lineTension: 0,
 					cubicInterpolationMode: "monotone",
-					borderWidth: 1,
-				  },
+					borderWidth: 3,
+				},
+				
 				  
 				]
 			  },
 			  options: {
 				  legend: {
+					  position: 'right',
 					display: true,
 					labels: {
 						//fontColor: 'rgb(255, 99, 132)',
@@ -829,6 +1333,97 @@ function completeSimulationStage3(){
 
 		      } 
 	});
+	
+	max_motor_torque_chart.destroy();
+	max_motor_torque_chart =  new Chart(document.getElementById("max_motor_torque_chart"), {
+			  type: 'line',
+			  data: {
+				labels: motorTorquePlotRPM,  // timeArray  timeArray100Second
+				datasets: [
+				{ 
+					data: motorTorquePlotValues,
+					label: "Maximum Motor Torque (Nm)",
+					borderColor: "#3e95cd",
+					fill: false,
+					lineTension: 0,
+					cubicInterpolationMode: "monotone",
+					borderWidth: 1,
+				  },				  
+				]
+			  },
+			  options: {
+				  legend: {
+					display: false,
+					labels: {
+					}
+				},
+				  responsive: true,
+				  tooltips: {
+					  mode: 'index',
+					  intersect: false,
+				  },
+				   hover: {
+					  mode: 'nearest',
+					  intersect: true
+				  },
+			  elements: { 
+			  point: { radius: 0 } 
+			  },
+			  title: {
+				  display: true,
+				  text: "Maximum Motor Torque (Nm)"
+				},
+				// Container for pan options
+
+			  scales: { 
+				xAxes: [{
+							gridLines: {
+                    display:false
+                },
+                            display: true,
+                            //type: 'linear',
+                            position: 'bottom',
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Motor Speed (RPM)',
+                                //fontStyle: 'bold'
+                            },
+                            ticks: {
+     
+                                autoSkip: false,
+                                //maxTicksLimit: 10,
+								//max: 1800,
+								min: 0,
+                            }
+				}],
+				yAxes: [{
+					id: 'A',
+					type: 'linear',
+					position: 'left',
+				  }, {
+					id: 'B',
+					type: 'linear',
+					position: 'right',
+					display: false,
+					//ticks: {
+					  //max: 1,
+					 // min: 0
+					//}
+				  }
+				 ]
+				
+			  },
+					// Container for zoom options
+
+		      } 
+	});
+	
 }
+
+
+// Motor LUTs
+// Know speed, so look up max torque, then decide torque, then look up efficiency
+
+
 
 

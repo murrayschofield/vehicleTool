@@ -33,7 +33,7 @@ veh_inputs_motor_type
 value=1 >CRA (One motor per drive unit)
 value=2 >CRA (Two motors per drive unit for B12)
 value=3 >CRB Motor
-value=4 >T4 Motor
+value=4 >T4 Motor 180mm
 value=5 >ATX Motor (13.5kW 55Nm Continuous)
 
 veh_inputs_gear_ratio

@@ -23,6 +23,7 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 	
+	<script src="Chart.js"></script>
 	
 	
 	<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>-->
@@ -40,6 +41,7 @@
 	<script src="WLTP3a.js" type="text/javascript"></script>
 	<script src="WLTP3b.js" type="text/javascript"></script>
 	<script src="30ms_60seconddrive.js" type="text/javascript"></script>
+	<script src="motorLUTs.js" type="text/javascript"></script>
 	
 	<style>
 	.selectedMenuItem {
@@ -54,9 +56,11 @@
 		  //enterVehicleInputsClicked();
 		  //modifyChartJS();
 		  invalidateSimulation();
-		  gettingStartedClicked();
-		  //defineDriveCycleClicked();
-		  standardDriveButtonClicked();
+		  //gettingStartedClicked();
+		  defineDriveCycleClicked();
+		  //standardDriveButtonClicked();
+		  constantSpeedButtonClicked()
+		  setConstantSpeedDefaults();
 		  resetVehicleInputsClicked();
 		  loadT4Clicked();
 		  //runSimulationClicked();
@@ -150,6 +154,19 @@
 				options: {}
 			});
 			
+			max_motor_torque_chart = new Chart(document.getElementById("max_motor_torque_chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
 		  
 		});
 		
@@ -160,6 +177,10 @@
 			document.getElementById("batterySectionMenuItem").style.visibility = 'hidden';
 			document.getElementById("plotsMenuItem").style.visibility = 'hidden';
 			document.getElementById("UIMenuItem").style.visibility = 'hidden';
+			document.getElementById("printPageMenuItem").style.visibility = 'hidden';
+			document.getElementById("inputSummaryMenuItem").style.visibility = 'hidden';
+			document.getElementById("driveTrainInformationMenuItem").style.visibility = 'hidden';
+			
 			console.log("Invalidating SImulation Results Now.")
 			$("#simProgressBarValues").removeClass("progress-bar-success");
 			$("#simButton").addClass("btn-primary");
@@ -172,7 +193,25 @@
 			document.getElementById("rangeSectionMenuItem").style.visibility = 'visible';
 			document.getElementById("batterySectionMenuItem").style.visibility = 'visible';
 			document.getElementById("plotsMenuItem").style.visibility = 'visible';
+			document.getElementById("printPageMenuItem").style.visibility = 'visible';
+			document.getElementById("inputSummaryMenuItem").style.visibility = 'visible';
+			document.getElementById("driveTrainInformationMenuItem").style.visibility = 'visible';
 			console.log("Revealing SImulation Results Now.")
+		}
+		
+		
+		function showAllResultsSections(){
+			//document.getElementById("gettingStartedGuideSection").className = "collapse.show";
+			//document.getElementById("vehicleInputsSection").className = "collapse.show";
+			//document.getElementById("defineDriveCycleSection").className = "collapse.show";
+			document.getElementById("inputSummarySection").className = "collapse.show";
+			document.getElementById("energyBreakdownSection").className = "collapse.show";
+			//document.getElementById("UIExamplesSection").className = "collapse.show";
+			//document.getElementById("resetVehicleSection").className = "collapse.show";	
+			document.getElementById("batterySection").className = "collapse.show";
+			document.getElementById("rangeSection").className = "collapse.show";	
+			document.getElementById("PlotsSection").className = "collapse.show";	
+			document.getElementById("driveTrainInformationSection").className = "collapse.show";
 		}
 		
 		function collapseAllSections(){
@@ -189,7 +228,9 @@
 			document.getElementById("batterySection").className = "collapse";
 			document.getElementById("rangeSection").className = "collapse";	
 			document.getElementById("PlotsSection").className = "collapse";	
-
+			document.getElementById("inputSummarySection").className = "collapse";	
+			document.getElementById("driveTrainInformationSection").className = "collapse";
+			
 			$("#plotsMenuItem").removeClass("selectedMenuItem");
 			$("#batterySection").removeClass("selectedMenuItem");
 			$("#rangeSection").removeClass("selectedMenuItem");
@@ -201,7 +242,12 @@
 			$("#rangeSectionMenuItem").removeClass("selectedMenuItem");
 			$("#batterySectionMenuItem").removeClass("selectedMenuItem");
 			$("#vehiclePerformanceMenuItem").removeClass("selectedMenuItem");
+			$("#inputSummaryMenuItem").removeClass("selectedMenuItem");
+			$("#driveTrainInformationMenuItem").removeClass("selectedMenuItem");
 		}
+		
+		
+		
 		
 		function gettingStartedClicked(){
 			console.log("Getting Started Clicked");
@@ -226,6 +272,21 @@
 			document.getElementById("defineDriveCycleSection").className = "collapse.show";
 			$("#driveCycleMenuItem").addClass("selectedMenuItem");
 			$("#simulationResultsMenuItem").addClass("active");
+		}
+		
+		
+		function inputSummaryClicked(){
+			console.log("Input Summary Clicked");
+			collapseAllSections();
+			document.getElementById("inputSummarySection").className = "collapse.show";
+			$("#inputSummaryMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function driveTrainInformationClicked(){
+			console.log("Input Summary Clicked");
+			collapseAllSections();
+			document.getElementById("driveTrainInformationSection").className = "collapse.show";
+			$("#driveTrainInformationMenuItem").addClass("selectedMenuItem");
 		}
 		
 		function energyBreakdownClicked(){
@@ -338,15 +399,27 @@
                                 <li id="energyBreakdownMenuItem" >
                                     <a onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
                                 </li id="gettingStartedMenuItem">
+								<li id="inputSummaryMenuItem" >
+                                    <a onclick="inputSummaryClicked()"><i class="fa  fa-th-list fa-fw"></i> Simulation Input Summary</a>
+                                </li>
 								<li id="plotsMenuItem" >
                                     <a onclick="plotsSectionClicked()"><i class="fa fa-bar-chart-o fa-fw"></i> Results Plots</a>
                                 </li>   
+								<li id="driveTrainInformationMenuItem" >
+                                    <a onclick="driveTrainInformationClicked()"><i class="fa fa-bar-chart-o fa-fw"></i> Drive Train Information</a>
+                                </li>   
+		
                                 <li id="rangeSectionMenuItem" >
                                     <a onclick="rangeSectionClicked()"><i class="fa fa-dashboard fa-fw"></i> Range Predictions</a>
                                 </li > 
 								<li id="batterySectionMenuItem" >
                                     <a onclick="batterySectionClicked()"><i class="fa fa-database fa-fw"></i> Battery Configuration and SOC</a>
                                 </li>
+								<li id="printPageMenuItem" >
+                                    <a onclick="printPage()"><i class="fa  fa-print fa-fw"></i>Print/Save Results</a>
+                                </li>
+								
+								
                                 
                             <!--</ul>-->
                             <!-- /.nav-second-level -->
@@ -426,6 +499,18 @@
 		var veh_inputs_regen_percentage = 0
 		var veh_inputs_constant_aux_load = 0
 		
+		
+		function printPage(){
+			showAllResultsSections();
+			setTimeout(printPage2, 500);
+		}
+		
+		function printPage2(){
+			window.print();
+			energyBreakdownClicked();
+		}
+		
+		
 		function getVehicleInputValues(){
 			veh_inputs_total_mass = parseFloat($("#veh_inputs_total_mass").val());
 			veh_inputs_frontal_area = parseFloat($("#veh_inputs_frontal_area").val());
@@ -490,7 +575,7 @@
 			$("#veh_inputs_drag_coefficient").val("0.29");
 			
 			$("#veh_inputs_module_type").val("2");
-			$("#veh_inputs_system_voltage").val("2");
+			$("#veh_inputs_system_voltage").val("50");
 			$("#veh_inputs_number_of_modules").val("8");
 			
 			$("#veh_inputs_motor_type").val("5");
@@ -515,7 +600,7 @@
 			$("#veh_inputs_drag_coefficient").val("0.44");
 			
 			$("#veh_inputs_module_type").val("3");
-			$("#veh_inputs_system_voltage").val("3");
+			$("#veh_inputs_system_voltage").val("450");
 			$("#veh_inputs_number_of_modules").val("16");
 			
 			$("#veh_inputs_motor_type").val("4");
@@ -630,9 +715,9 @@
 										<div class="form-group">
                                             <label>System Voltage:</label>
                                             <select onclick="invalidateSimulation()" id="veh_inputs_system_voltage" class="form-control">
-												<option value=1 >400v (8x 50v modules in series)</option>
-												<option value=2 >50v (Like ATX)</option>
-												<option value=3 >450v (450v modules in parallel)</option>
+												<option value=400 >400v (8x 50v modules in series)</option>
+												<option value=50 >50v (Like ATX)</option>
+												<option value=450 >450v (450v modules in parallel)</option>
                                             </select>
                                         </div>
 										<div class="form-group">
@@ -657,7 +742,7 @@
                                             <select onclick="invalidateSimulation()" id="veh_inputs_motor_type"  class="form-control">
                                                 <option value=1 >CRA (One motor per drive unit)</option>
 												<option value=2 >CRA (Two motors per drive unit for B12)</option>
-                                                <option value=3 >CRB Motor</option>
+                                                <!--<option value=3 >CRB Motor</option>-->
                                                 <option value=4 >T4 Motor</option>
 												<option value=5 >ATX Motor (13.5kW 55Nm Continuous)</option>
                                             </select>
@@ -859,6 +944,10 @@
 		var drive_inputs_starting_batt_Temp = 0;
 		var drive_inputs_windSpeed = 0;
 		
+		function setConstantSpeedDefaults(){
+			
+			$("#drive_inputs_constant_speed_val").val("100");
+		}
 		
 		function getDriveCylceInputValues(){
 			
@@ -889,6 +978,7 @@
 			if ( $('#drive_inputs_SOC_State_1').prop('checked') == true){ drive_inputs_SOC_State = 1; }
 			if ( $('#drive_inputs_SOC_State_2').prop('checked') == true){ drive_inputs_SOC_State = 2; }
 			
+			drive_inputs_starting_batt_Temp = parseFloat($("#drive_inputs_starting_batt_Temp").val());
 			drive_inputs_ambientTemp = parseFloat($("#drive_inputs_ambientTemp").val());
 			drive_inputs_windSpeed = parseFloat($("#drive_inputs_starting_windSpeed").val());
 			console.log("Got windspeed as:");
@@ -1027,12 +1117,12 @@
                                             <label>Starting Condition:</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType1" value="option2" checked>Start at the constant speed.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType1" value="option2" >Start at the constant speed.
                                                 </label>
                                             </div>
 											<div class="radio">
                                                 <label>
-                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType2" value="option1" >Accelerate with maximum torque to constant speed from stationary.
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType2" value="option1" checked>Accelerate with maximum torque to constant speed from stationary.
                                                 </label>
                                             </div>
 										</div>
@@ -1254,6 +1344,283 @@
 		 </div>
 		</div>
 		
+		<div id="inputSummarySection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Simulation Inputs</h1>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Vehicle Variables </h1>
+							
+                        </div>
+                        <div class="panel-body">
+						<div id="vehicleVariableSummary">
+						</div>
+							<div id="vehicleVariableSummaryProto" class="collapse">
+							<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                            <th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Vehicle Mass</td>
+                                            <td>veh_inputs_total_mass</td>
+                                            <td>kg</td>
+                                        </tr>
+										<tr>
+                                            <td>Frontal Area</td>
+                                            <td>veh_inputs_frontal_area</td>
+                                            <td>m^2</td>
+                                        </tr>
+										<tr>
+                                            <td>Drag Coefficient</td>
+                                            <td>veh_inputs_drag_coefficient</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>Rolling Resistance</td>
+                                            <td>veh_inputs_rolling_resistance</td>
+                                            <td>kg/T</td>
+                                        </tr>
+										<tr>
+                                            <td>Tyre Diameter</td>
+                                            <td>veh_inputs_tyre_diameter</td>
+                                            <td>mm</td>
+                                        </tr>
+										<tr>
+                                            <td>Regen Percentage</td>
+                                            <td>veh_inputs_regen_percentage</td>
+                                            <td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Constant Auxiliary Load</td>
+                                            <td>veh_inputs_constant_aux_load</td>
+                                            <td>kW</td>
+                                        </tr>
+										<tr>
+                                            <td>Module Type</td>
+                                            <td>veh_inputs_module_type</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>System Voltage</td>
+                                            <td>veh_inputs_system_voltage</td>
+                                            <td>v</td>
+                                        </tr>
+										<tr>
+                                            <td>Number of Modules</td>
+                                            <td>veh_inputs_number_of_modules</td>
+                                            <td>Modules</td>
+                                        </tr>
+										<tr>
+                                            <td>Motor Type</td>
+                                            <td>veh_inputs_motor_type</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>Gear Ratio</td>
+                                            <td>veh_inputs_gear_ratio</td>
+                                            <td>#:1</td>
+                                        </tr>
+										<tr>
+                                            <td>Front Drive Units</td>
+                                            <td>veh_inputs_frontDriveUnits</td>
+                                            <td>Motors</td>
+                                        </tr>
+										<tr>
+                                            <td>Rear Drive Units</td>
+                                            <td>veh_inputs_rearDriveUnits</td>
+                                            <td>Motors</td>
+                                        </tr>
+										<tr>
+                                            <td>Inverter Efficiency (Static)</td>
+                                            <td>veh_inputs_inverter_efficiency</td>
+                                            <td>%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+								
+								
+								
+							</div>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Drive Cycle Variables </h1>
+                        </div>
+                        <div class="panel-body">
+						<div id="driveCycleVariableSummary">
+						</div>
+							<div id="driveCycleVariableSummaryProto" class = "collapse">
+							<h3>Drive Cycle Selection</h3>
+							<div id="standardDriveInputsTable" class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Drive Cycle Type</td>
+                                            <td>drive_inputs_driveCycleChoice</td>
+                                        </tr>
+										<tr>
+                                            <td>Cycles to Run</td>
+                                            <td>drive_inputs_cyclesToRun</td>
+                                        </tr>
+										<tr>
+                                            <td>Gradient</td>
+                                            <td>drive_inputs_standardDrive_Elevation_Profile</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							<div id="constantSpeedDriveInputsTable" class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Constant Speed</td>
+                                            <td>drive_inputs_constant_speed_val</td>
+                                        </tr>
+										<tr>
+                                            <td>Starting Speed</td>
+                                            <td>drive_inputs_constSpeed_StartType</td>
+                                        </tr>
+										<tr>
+                                            <td>Simulation Run Time</td>
+                                            <td>drive_inputs_constSpeed_RunFor</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							<h3>SOC and Ambient Conditions</h3>
+							<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+											<th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Starting SOC</td>
+                                            <td>drive_inputs_starting_SOC</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>SOC Lower Limit</td>
+                                            <td>drive_inputs_lower_limit_SOC</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>SOC State in Simulation</td>
+                                            <td>drive_inputs_SOC_State</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Ambient Temperature</td>
+                                            <td>drive_inputs_ambientTemp</td>
+											<td>degC</td>
+                                        </tr>
+										<tr>
+                                            <td>Starting Battery Temperature</td>
+                                            <td>drive_inputs_starting_batt_Temp</td>
+											<td>degC</td>
+                                        </tr>
+										<tr>
+                                            <td>Headwind</td>
+                                            <td>drive_inputs_windSpeed</td>
+											<td>kmph</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							</div>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+
+		<div id="driveTrainInformationSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Drive Train Information</h1>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Motor Max Torque </h1>
+							
+                        </div>
+                        <div class="panel-body">
+						
+							<canvas id="max_motor_torque_chart" width="100%" height="73%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Motor Efficiency </h1>
+                        </div>
+                        <div class="panel-body">
+
+							
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
 		<div id="energyBreakdownSection"  >		
             <div class="row">
                 <div class="col-lg-12">
@@ -1318,7 +1685,7 @@
 				<div class="col-lg-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <!--<h4>Header  </h1>-->
+                            <h4>Time Plot  </h4>
                         </div>
                         <div class="panel-body">
 

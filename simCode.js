@@ -419,7 +419,7 @@ function runSimulationClicked(){
 		//console.log("");
 		var actualAccelTorque = torqueGenerated - requiredAeroTorque - requiredRollingResistanceTorque - requiredgradientTorque;
 		var actualAccelForce = 2000*actualAccelTorque*veh_inputs_gear_ratio/veh_inputs_tyre_diameter;
-		var actualAccelEnergy = actualAccelForce * v * timeStepDuration;
+		var actualAccelEnergy = Math.max(actualAccelForce * v * timeStepDuration,0);
 		var actualAcceleration = actualAccelForce / veh_inputs_total_mass;
 			
 		
@@ -442,7 +442,7 @@ function runSimulationClicked(){
 		var actualEnergyIntoInverter =  actualEnergyIntoMotor/(veh_inputs_inverter_efficiency/100);
 		var EnergyLossInInverter = actualEnergyIntoInverter - actualEnergyIntoMotor;
 		
-		var energytoAuxilliaries = veh_inputs_constant_aux_load * timeStepDuration / 1000;
+		var energytoAuxilliaries = veh_inputs_constant_aux_load * 1000 * timeStepDuration ;
 		
 		
 		var actualEnergyOutOfBattery =  (actualEnergyIntoInverter + energytoAuxilliaries)/0.9; //*** need to add battery efficiency
@@ -480,7 +480,7 @@ function runSimulationClicked(){
 		totalAccelEnergy += Math.max(actualAccelEnergy/3600000,0);
 		totalAeroEnergy += aerodynamicDragEnergy/3600000;
 		totalRollingEnergy += rollingResistanceEnergy/3600000;
-		totalAncillaryEnergy += veh_inputs_constant_aux_load*timeStepDuration*1000/3600000;
+		totalAncillaryEnergy += energytoAuxilliaries/3600000;
 		
 		totalEnergyLossInBatteryPerKM = 1000 * totalEnergyLossInBattery / totalDistanceinKM ;
 		totalEnergyLossInInverterPerKM = 1000 * totalEnergyLossInInverter / totalDistanceinKM ;

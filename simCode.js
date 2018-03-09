@@ -318,7 +318,7 @@ function runSimulationClicked(){
 	totalEnergyUsed = 0;
 	
 	//for( k = 0; k<10; k++ ){
-	for (i = 0; i < totalTime*1+0*10; i++) { 
+	for (i = 0; i < totalTime*1+0*100; i++) { 
 		currentTimeStepNum = i;
 		currentTime = i * timeStepDuration;
 		//console.log("Time:");
@@ -421,7 +421,7 @@ function runSimulationClicked(){
 		var actualAccelForce = 2000*actualAccelTorque*veh_inputs_gear_ratio/veh_inputs_tyre_diameter;
 		var actualAccelEnergy = Math.max(actualAccelForce * v * timeStepDuration,0);
 		var actualAcceleration = actualAccelForce / veh_inputs_total_mass;
-			
+		
 		
 		currentTimeStep.vehicleTrueAccel = actualAcceleration;
 		
@@ -429,8 +429,8 @@ function runSimulationClicked(){
 		var actualForceIntoWheels = 2000*actualWheelInputTorque*veh_inputs_gear_ratio/veh_inputs_tyre_diameter;
 		var actualEnergyIntoWheels = actualForceIntoWheels * v * timeStepDuration;
 		
-		//console.log("Accel Energy is: ");
-		//console.log(actualAccelEnergy);	
+		//console.log("Actual Energy into wheels: " + actualEnergyIntoWheels);
+		//console.log("Sum of resistances: " + (aerodynamicDragEnergy + rollingResistanceEnergy + actualAccelEnergy + gradientEnergy));	
 
 		var actualEnergyIntoGearbox = actualEnergyIntoWheels/0.90; //*** need to add gearbox efficiency
 		var EnergyLossInGearbox = actualEnergyIntoGearbox - actualEnergyIntoWheels;
@@ -517,7 +517,7 @@ function runSimulationClicked(){
 		powerToOvercomeGradientResults.push(gradientEnergy/timeStepDuration);
 		powerToOvercomeRollingResistanceResults.push(rollingResistanceEnergy/timeStepDuration);
 		SOCResults.push(drive_inputs_starting_SOC);
-		auxLoadResults.push(veh_inputs_constant_aux_load*1000);
+		auxLoadResults.push(veh_inputs_constant_aux_load*1000/timeStepDuration);
 		battTempResults.push(drive_inputs_starting_batt_Temp);
 		totalEnergyUsedSoFarResults.push(totalEnergyUsed);
 		powerOutOfBatteryResults.push(actualEnergyOutOfBattery/timeStepDuration);
@@ -630,11 +630,18 @@ function runSimulationClicked(){
 	
 	
 	//var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
+	var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
+	var totalEnergyUsedMod = totalgradientEnergy + totalAccelEnergy + totalAeroEnergy + totalRollingEnergy + totalAncillaryEnergy + totalLosses;
+	
 	var totalEnergyUsed = powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000;	
 	
+	console.log("Total ancillary loss sum is: " + totalAncillaryEnergy + "kWh")
+	console.log("Sum of ancillary loss is: " +  auxLoadResults.reduce(add, 0)*timeStepDuration/3600000  + "kWh")
 	
+	console.log("Total aero loss sum is: " + totalAeroEnergy + "kWh")
+	console.log("Sum of aero loss is: " +  powerToOvercomeDragResults.reduce(add, 0)*timeStepDuration/3600000  + "kWh")
 	
-	console.log("Total Energy sum is: " + totalEnergyUsed + "kWh");
+	console.log("Total Energy sum is: " + totalEnergyUsedMod + "kWh");
 	console.log("Sum of Energy use is: " + powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
 	
 	totalEnergyUsed = Math.round( totalEnergyUsed*100 )/100;

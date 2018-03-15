@@ -743,11 +743,11 @@ function runSimulationClicked(){
 	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_module_type",moduleTypeString);
 	
 	var motorTypeString = "";
-	if(veh_inputs_module_type == 1){ motorTypeString = "CRA"; }
-	else if(veh_inputs_module_type == 2){ motorTypeString = "Dual CRA"; }
-	else if(veh_inputs_module_type == 3){ motorTypeString = "CRB"; }
-	else if(veh_inputs_module_type == 4){ motorTypeString = "T4 Motor"; }
-	else if(veh_inputs_module_type == 5){ motorTypeString = "ATX Motor"; }
+	if(veh_inputs_motor_type == 1){ motorTypeString = "CRA"; }
+	else if(veh_inputs_motor_type == 2){ motorTypeString = "Dual CRA"; }
+	else if(veh_inputs_motor_type == 3){ motorTypeString = "CRB"; }
+	else if(veh_inputs_motor_type == 4){ motorTypeString = "T4 Motor"; }
+	else if(veh_inputs_motor_type == 5){ motorTypeString = "ATX Motor"; }
 	vehicleVariableContent = vehicleVariableContent.replace("veh_inputs_motor_type",motorTypeString);
 	
 	document.getElementById("vehicleVariableSummary").innerHTML = vehicleVariableContent;

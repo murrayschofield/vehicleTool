@@ -16,14 +16,15 @@
     <link href="dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115891329-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115891329-1"></script>
+	
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
-  gtag('config', 'UA-115891329-1');
-</script>
+	  gtag('config', 'UA-115891329-1');
+	</script>
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -363,7 +364,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" >ARRIVAL Vehicle  Tool v1.0 -  built by the Battery Team.</a>				
+                <a class="navbar-brand" >ARRIVAL Vehicle  Tool v1.0 (Preview Mode) -  built by the Battery Team.</a>				
             </div>
             <!-- /.navbar-header -->
 
@@ -542,7 +543,7 @@
 			veh_inputs_inverter_efficiency = parseFloat($("#veh_inputs_inverter_efficiency").val());
 			veh_inputs_rolling_resistance = parseFloat($("#veh_inputs_rolling_resistance").val());
 			veh_inputs_tyre_diameter = parseFloat($("#veh_inputs_tyre_diameter").val());
-			veh_inputs_regen_percentage = parseFloat($("#veh_inputs_regen_percentage").val());
+			//veh_inputs_regen_percentage = parseFloat($("#veh_inputs_regen_percentage").val());
 			veh_inputs_constant_aux_load = parseFloat($("#veh_inputs_constant_aux_load").val());
 			
 			console.log(veh_inputs_frontDriveUnits);
@@ -572,7 +573,7 @@
 			
 			$("#veh_inputs_rolling_resistance").val("");
 			$("#veh_inputs_tyre_diameter").val("");
-			$("#veh_inputs_regen_percentage").val("");
+			//$("#veh_inputs_regen_percentage").val("");
 			$("#veh_inputs_constant_aux_load").val("");
 			
 		}
@@ -598,7 +599,7 @@
 			
 			$("#veh_inputs_rolling_resistance").val("0.0067");
 			$("#veh_inputs_tyre_diameter").val("546");
-			$("#veh_inputs_regen_percentage").val("0");
+			//$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("1");
 		}
 		
@@ -623,7 +624,7 @@
 			
 			$("#veh_inputs_rolling_resistance").val("0.0067");
 			$("#veh_inputs_tyre_diameter").val("685");
-			$("#veh_inputs_regen_percentage").val("0");
+			//$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("3");
 		}
 		
@@ -660,7 +661,7 @@
 			
 			$("#veh_inputs_rolling_resistance").val("0.0067");
 			$("#veh_inputs_tyre_diameter").val("655");
-			$("#veh_inputs_regen_percentage").val("0");
+			//$("#veh_inputs_regen_percentage").val("0");
 			$("#veh_inputs_constant_aux_load").val("5");
 		}
 		
@@ -840,7 +841,7 @@
                         </div>
                     </div>
                 </div>
-				<div class="col-lg-4">
+				<!--<div class="col-lg-4">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <h4> Regenerative Braking </h1>
@@ -857,7 +858,7 @@
                         <div class="panel-footer">
                         </div>
                     </div>
-                </div>
+                </div>-->
 				<div class="col-lg-4">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -1080,7 +1081,7 @@
 												<option value=2 >NEDC 100 (1200 seconds)</option>
 												<option value=3 >NEDC 120 (1200 seconds)</option>
                                                 <option value=4 >WLTP 3a (1800 seconds)</option>
-                                                <option value=5 >WLTP 3b (1800 seconds)</option>
+                                                <!--<option value=5 >WLTP 3b (1800 seconds)</option>-->
 												<option value=6 >Royal Mail (15,993 seconds)</option>
                                                 <option value=7 >Farmdrop 64km (23,664 seconds)</option>
                                                 <option value=8 >Farmdrop 87km (20,184 seconds)</option>
@@ -1842,7 +1843,7 @@
                             <h4>Battery Info</h4>
                         </div>
                         <div class="panel-body">
-
+							<p> Section not yet functional. </p>
 							<canvas id="battery-line-chart" width="100%" height="80%"></canvas>
 							
                         </div>

@@ -23,11 +23,11 @@ function ATXMaxTorque(rpm){
 	if(rpm < 3000){
 		var maxTorque = 240 * 70/240;
 	}
-	else if(rpm > 14000){
+	else if(rpm > 5000){
 		var maxTorque = 0;
 	}
 	else{
-		var adjRpm = rpm - 2400;
+		var adjRpm = rpm - 2200;
 		var maxTorque =  70/240*(-1.09049*Math.pow(10,-10)*Math.pow(adjRpm,3) + 3.43884*Math.pow(10,-6)*Math.pow(adjRpm,2) -4.09752*Math.pow(10,-2)*adjRpm+ 240);
 	}
 	return(maxTorque);

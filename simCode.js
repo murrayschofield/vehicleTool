@@ -318,7 +318,7 @@ function runSimulationClicked(){
 	totalEnergyUsed = 0;
 	
 	//for( k = 0; k<10; k++ ){
-	for (i = 0; i < totalTime*1+0*100; i++) { 
+	for (i = 0; i < totalTime*1+0*50; i++) { 
 		currentTimeStepNum = i;
 		currentTime = i * timeStepDuration;
 		//console.log("Time:");
@@ -373,16 +373,16 @@ function runSimulationClicked(){
 		var requiredAccelTorque = toTorque(requiredAccelForce);
 	
 		var aerodynamicDragForce = 0.5 * veh_inputs_drag_coefficient * 1.19 * veh_inputs_frontal_area * (v+drive_inputs_windSpeed/3.6)*(v+drive_inputs_windSpeed/3.6);
-		var aerodynamicDragEnergy = aerodynamicDragForce * v * timeStepDuration;
+		
 		var requiredAeroTorque = toTorque(aerodynamicDragForce);
 		//console.log("Aero Energy is: ");
 		//console.log(aerodynamicDragEnergy);
 		
 		var rollingResistanceForce = veh_inputs_total_mass * veh_inputs_rolling_resistance * 9.81;
-		var rollingResistanceEnergy  = rollingResistanceForce  * v * timeStepDuration;
+		
 		var requiredRollingResistanceTorque = toTorque(rollingResistanceForce);
 		
-		var gradientAngle = 0
+		var gradientAngle = 0;
 		
 		//setup elevation for this timestep
 		if(DRIVE_CYCLE_TYPE ==1){
@@ -395,7 +395,7 @@ function runSimulationClicked(){
 		//console.log(gradientAngle);
 		
 		var gradientForce = veh_inputs_total_mass * 9.81 * Math.sin(gradientAngle);
-		var gradientEnergy  = gradientForce  * v * timeStepDuration;
+		
 		var requiredgradientTorque = toTorque(gradientForce);
 		
 		//console.log("Gradient force is: ");
@@ -419,23 +419,33 @@ function runSimulationClicked(){
 		//console.log("");
 		var actualAccelTorque = torqueGenerated - requiredAeroTorque - requiredRollingResistanceTorque - requiredgradientTorque;
 		var actualAccelForce = 2000*actualAccelTorque*veh_inputs_gear_ratio/veh_inputs_tyre_diameter;
-		var actualAccelEnergy = Math.max(actualAccelForce * v * timeStepDuration,0);
 		var actualAcceleration = actualAccelForce / veh_inputs_total_mass;
 		
+		var actualAccelEnergy = Math.max(actualAccelForce * (v + actualAcceleration* timeStepDuration/2) * timeStepDuration,0);
 		
 		currentTimeStep.vehicleTrueAccel = actualAcceleration;
 		
+		
+		if (torqueGenerated > 0){
+			var aerodynamicDragEnergy = aerodynamicDragForce * (v ) * timeStepDuration;
+		}
+		else{
+			var aerodynamicDragEnergy = 0;
+		}
+		//var aerodynamicDragEnergy = aerodynamicDragForce * (v ) * timeStepDuration;
+		var rollingResistanceEnergy  = rollingResistanceForce  * (v + actualAcceleration* timeStepDuration/2) * timeStepDuration;
+		var gradientEnergy  = gradientForce  * (v + actualAcceleration* timeStepDuration/2) * timeStepDuration;
 		var actualWheelInputTorque = Math.max(torqueGenerated,0);
 		var actualForceIntoWheels = 2000*actualWheelInputTorque*veh_inputs_gear_ratio/veh_inputs_tyre_diameter;
-		var actualEnergyIntoWheels = actualForceIntoWheels * v * timeStepDuration;
+		var actualEnergyIntoWheels = actualForceIntoWheels * (v + actualAcceleration* timeStepDuration/2) * timeStepDuration;
 		
-		//console.log("Actual Energy into wheels: " + actualEnergyIntoWheels);
+		
 		//console.log("Sum of resistances: " + (aerodynamicDragEnergy + rollingResistanceEnergy + actualAccelEnergy + gradientEnergy));	
 
 		var actualEnergyIntoGearbox = actualEnergyIntoWheels/0.90; //*** need to add gearbox efficiency
 		var EnergyLossInGearbox = actualEnergyIntoGearbox - actualEnergyIntoWheels;
 		
-		var motor_efficiency = 95;
+		var motor_efficiency = 95;////
 		var actualEnergyIntoMotor =  actualEnergyIntoGearbox/(motor_efficiency/100);
 		var EnergyLossInMotor = actualEnergyIntoMotor - actualEnergyIntoGearbox;
 		
@@ -444,12 +454,38 @@ function runSimulationClicked(){
 		
 		var energytoAuxilliaries = veh_inputs_constant_aux_load * 1000 * timeStepDuration ;
 		
-		
-		var actualEnergyOutOfBattery =  (actualEnergyIntoInverter + energytoAuxilliaries)/0.9; //*** need to add battery efficiency
+		var battery_efficiency = 100;
+		var actualEnergyOutOfBattery =  (actualEnergyIntoInverter + energytoAuxilliaries)/(battery_efficiency/100); //*** need to add battery efficiency
 		var EnergyLossInBattery = actualEnergyOutOfBattery - actualEnergyIntoInverter - energytoAuxilliaries;	
 		
+		var actualEnergyOutOfBatteryMod = energytoAuxilliaries + actualEnergyIntoWheels/1;
+		
 		var distanceTraveled = currentSpeed*timeStepDuration;
-			
+		
+		/*
+		console.log("");
+		console.log("currentTimeStep is: " + currentTimeStepNum);
+		console.log("velocity (kmph): " + (v * 3.6));
+		console.log("accel (kmph/s): " + (actualAcceleration * 3.6));
+		console.log("actualAccelEnergy: " + actualAccelEnergy);
+		console.log("Actual Energy into wheels: " + actualEnergyIntoWheels);
+		console.log("Torque Generated: " + torqueGenerated);
+		console.log("Accel Force: " + actualAccelForce);
+		console.log("Energy to Aux: " + energytoAuxilliaries);
+		console.log("Energy to Aero: " + aerodynamicDragEnergy);
+		console.log("Energy to Rolling: " + rollingResistanceEnergy);
+		console.log("Energy to Accel: " + actualAccelEnergy);
+		console.log("Energy to Gearbox Losses: " + EnergyLossInGearbox);
+		console.log("Energy to Motor Losses: " + EnergyLossInMotor);
+		console.log("Energy to Inverter Losses: " + EnergyLossInInverter);
+		
+		var energySum = energytoAuxilliaries + EnergyLossInGearbox + aerodynamicDragEnergy + rollingResistanceEnergy + actualAccelEnergy + EnergyLossInMotor + EnergyLossInInverter ;
+		
+		console.log("Sum of Above: " + energySum);
+		console.log("Total Energy Use: " + actualEnergyOutOfBattery);
+		console.log("Total Energy UseMod: " + actualEnergyOutOfBatteryMod);
+		*/
+		
 			//4.Calculate Battery Voltage and Current and C Rate
 			
 			
@@ -462,8 +498,11 @@ function runSimulationClicked(){
 			
 		totalDistanceinM += distanceTraveled;
 		totalDistanceinKM += distanceTraveled/1000;
-		totalEnergyUsed += 1000*actualEnergyOutOfBattery/3600000; 
+		totalEnergyUsed += 1000*actualEnergyOutOfBattery/3600000; // in Wh
 
+		//console.log("Total Energy So Far: " + totalEnergyUsed);
+		//console.log("  ");
+		
 		var motorTorqueGenerated = torqueGenerated;
 		if(motorTorqueGenerated < 0){motorTorqueGenerated = 0;}
 		var maxMotorTorque = generateTorque(9999,currentMotorSpeedRPM);
@@ -630,10 +669,15 @@ function runSimulationClicked(){
 	
 	
 	//var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
-	var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
-	var totalEnergyUsedMod = totalgradientEnergy + totalAccelEnergy + totalAeroEnergy + totalRollingEnergy + totalAncillaryEnergy + totalLosses;
+	//var totalLosses = totalEnergyLossInGearbox + totalEnergyLossInMotor + totalEnergyLossInInverter + totalEnergyLossInBattery;
+	//var totalEnergyUsedMod = totalgradientEnergy + totalAccelEnergy + totalAeroEnergy + totalRollingEnergy + totalAncillaryEnergy + totalLosses;
 	
-	var totalEnergyUsed = powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000;	
+	
+	totalEnergyUsed = totalEnergyUsed/1000;
+	console.log("Total Energy Used is: " + totalEnergyUsed + "kWh");
+	//var totalEnergyUsed = powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000;	
+	
+	
 	
 	console.log("Total ancillary loss sum is: " + totalAncillaryEnergy + "kWh")
 	console.log("Sum of ancillary loss is: " +  auxLoadResults.reduce(add, 0)*timeStepDuration/3600000  + "kWh")
@@ -641,8 +685,8 @@ function runSimulationClicked(){
 	console.log("Total aero loss sum is: " + totalAeroEnergy + "kWh")
 	console.log("Sum of aero loss is: " +  powerToOvercomeDragResults.reduce(add, 0)*timeStepDuration/3600000  + "kWh")
 	
-	console.log("Total Energy sum is: " + totalEnergyUsedMod + "kWh");
-	console.log("Sum of Energy use is: " + powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
+	//console.log("Total Energy sum is: " + totalEnergyUsedMod + "kWh");
+	//console.log("Sum of Energy use is: " + powerOutOfBatteryResults.reduce(add, 0)*timeStepDuration/3600000 + "kWh" );
 	
 	totalEnergyUsed = Math.round( totalEnergyUsed*100 )/100;
 	totalEnergyText = "Total: " + totalEnergyUsed.toString() + " kWh";
@@ -784,7 +828,7 @@ function runSimulationClicked(){
 	
 	drivetrainEfficenciesContent = $("#drivetrainEfficenciesContent").html();
 	
-	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("battery_efficiency","90");
+	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("battery_efficiency","100");
 	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("veh_inputs_inverter_efficiency",veh_inputs_inverter_efficiency);
 	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("motor_efficiency",motor_efficiency);
 	drivetrainEfficenciesContent = drivetrainEfficenciesContent.replace("gearbox_efficiency","90");

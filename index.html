@@ -1,318 +1,2207 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head 3 >
-    <!-- Required meta tags -->
+
+<head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Arrival Vehicle Attributes Tool">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Arrival Vehicle Tool">
     <meta name="author" content="Murray Schofield">
 
-    <!-- Bootstrap CSS -->
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Arrival Vehicle Tool</title>
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115891329-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  gtag('config', 'UA-115891329-1');
+</script>
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/metisMenu/metisMenu.min.js"></script>
+	<script src="simCode.js"></script>
+    <script src="dist/js/sb-admin-2.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+	
+	<script src="Chart.js"></script>
+	
+	
+	<!--<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>-->
+	<!--<script src="chartmodify.js" type="text/javascript"></script>-->
+	<!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
+	 <script src="piecelabel.js"></script>
+	 <!--<script src="chartjs-plugin-zoom.js"></script>-->
+	<!-- Standard Drivecycles -->
 	<script src="NEDC_100.js" type="text/javascript"></script>
-<!-- Latest compiled and minified JavaScript -->
+	<script src="NEDC_70.js" type="text/javascript"></script>
+	<script src="NEDC_120.js" type="text/javascript"></script>
+	<script src="Farmdrop64.js" type="text/javascript"></script>
+	<script src="Farmdrop87.js" type="text/javascript"></script>
+	<script src="RoyalMail_1.js" type="text/javascript"></script>
+	<script src="WLTP3a.js" type="text/javascript"></script>
+	<script src="WLTP3b.js" type="text/javascript"></script>
+	<script src="30ms_60seconddrive.js" type="text/javascript"></script>
+	<script src="motorLUTs.js" type="text/javascript"></script>
 	
-	
-	
-	
-	
-    <title>Attributes Tool</title>
-	
-	    <!--Load the AJAX API-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	
-    <script type="text/javascript">
-
-    </script>
-  </head>
-  <body>
-  
-     <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">ARRIVAL</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-
-
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-    <!-- Page Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
-          <h1 class="mt-5">Arrival Vehicle Attributes Tool</h1>
-          <p class="lead">Enter your vehicle inputs then click "Run Simulation".</p>
-				</br>
-				</br>
+	<style>
+	.selectedMenuItem {
+		background-color: rgba(238, 238, 238, 1);
+		<!--style="background-color: rgba(238, 238, 238, 1);"--> 
+	} 
+	</style> 
+	 
+	<script> 
+		$(function(){
+		  //$("#navBarsideBar").load("pages/navBarsideBar.html");  
+		  //enterVehicleInputsClicked();
+		  //modifyChartJS();
+		  invalidateSimulation();
+		  gettingStartedClicked();
+		  //defineDriveCycleClicked();
+		  standardDriveButtonClicked();
+		  //constantSpeedButtonClicked()
+		  //setConstantSpeedDefaults();
+		  resetVehicleInputsClicked();
+		  loadT4Clicked();
+		  //runSimulationClicked();
 		  
-		  </div>
-	   </div>
-	   
-	    <div class="row">
-			<div class="col-lg-12 text-center">
-				<h2 class="mt-5">Vehicle Parameters</h2>	  
-			</div>
-	    </div>
-		
-		<div class="row">		
-		 <!-- Button -->
-			<div class="col-lg-4 col-md-offset-2">
-				
-				<div class="form-group">
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Total Vehicle Mass (kg)</span>
-						<input id="mass" type="text" class="form-control" placeholder="Value in kg." aria-describedby="basic-addon1">
-					</div>
-					</br>
-					
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Rolling Resistance Coefficient</span>
-						<input id="rr" type="text" class="form-control" placeholder="e.g. 0.0067." aria-describedby="basic-addon1">
-					</div>
-					</br>
-					
-				</div>
-			</div>
-			<div class="col-lg-4 ">
-				<div class="form-group">
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Frontal Area (m^2)</span>
-						<input id="fa" type="text" class="form-control" placeholder="Value in m^2." aria-describedby="basic-addon1">
-					</div>
-					</br>
-					
-					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1">Drag Coefficient</span>
-						<input id="cd" type="text" class="form-control" placeholder="e.g. 0.44." aria-describedby="basic-addon1">
-					</div>
-					</br>
-					
-				</div>
-			</div>
-		
-		</div>
-		<div class="row">		
-			
+		  //document.getElementById('simProgressBar').style.visibility = 'visible';
+		  //document.getElementById('simProgressBar').style.visibility = 'hidden';
+		  //document.getElementById('simProgressBar').className = "collapse.show";
+		  
+		  //Adjust chart to add center text
+		  Chart.pluginService.register({
+  beforeDraw: function (chart) {
+    if (chart.config.options.elements.center) {
+      //Get ctx from string
+      var ctx = chart.chart.ctx;
 
-				<div class="form-group">
-			
-					<label class="col-md-4 control-label" for="singlebutton"></label>
-					<div class="col-md-4 text-center"> 
-						<button id="singlebutton" name="singlebutton" class="btn btn-lg btn-primary">Run Simulation</button> 
-					</div>
-					
-				</div>
-				
-				<div id="chart" style="width:400; height:300"></div>
-			
-		</div>
-	</div>
-      
+      //Get options from the center object in options
+      var centerConfig = chart.config.options.elements.center;
+      var fontStyle = centerConfig.fontStyle || 'Arial';
+      var txt = centerConfig.text;
+      var color = centerConfig.color || '#000';
+      var sidePadding = centerConfig.sidePadding || 20;
+      var sidePaddingCalculated = (sidePadding/100) * (chart.innerRadius * 2)
+      //Start with a base font of 30px
+      ctx.font = "30px " + fontStyle;
 
-	
-	
+      //Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+      var stringWidth = ctx.measureText(txt).width;
+      var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
 
-	
-	<script src="./papaparse.min.js"></script>
-	<script>
-	  $(document).ready(function(){
-		
-	  });
-	  
-	  function runSimulation(p1, p2) {
-	  
+      // Find out how much the font can grow in width.
+      var widthRatio = elementWidth / stringWidth;
+      var newFontSize = Math.floor(30 * widthRatio);
+      var elementHeight = (chart.innerRadius * 2);
 
-			var m = parseFloat( $('#mass').val() );
-			var rr = parseFloat( $('#rr').val() );
-			var fa = parseFloat( $('#fa').val() );
-			var cd = parseFloat( $('#cd').val() );
-			
-			timeStep = NEDC_100_array
-			for (i = 1; i < 1200; i++) { 
-			  currentTime = i;
-			  
-			  var previousTimeStep = timeStep[currentTime-1];
-			  var currentTimeStep = timeStep[currentTime];
-			  var nextTimeStep = timeStep[currentTime+1];
-			  var v = currentTimeStep.speed;
-			  var a = currentTimeStep.speed - previousTimeStep.speed ;
-			  
-			  currentTimeStep.accel = a;
-			  
-			  currentTimeStep.aerodynamicDragPower = 0.5 * cd * 1.19 * fa * v*v*v;
-			  
-			  currentTimeStep.rollingResistancePower = m * rr * 9.81 * v;
-			  
-			  currentTimeStep.accelerationPower = m * Math.max(a,0) * v;
-			  
-			  currentTimeStep.deccelerationPower = m * Math.min(a,0) * v;
-			  
-			  currentTimeStep.powerAtWheels = currentTimeStep.aerodynamicDragPower + currentTimeStep.rollingResistancePower + currentTimeStep.accelerationPower ;
-			  
-			  currentTimeStep.batteryPower = currentTimeStep.powerAtWheels / 0.95 / 0.95 / 0.85 / 0.95;
-			  
-			  console.log(timeStep[currentTime]);
-			  
-			  
-			  
-			}
-		return p1 * p2;              
-		}
-	</script>
-	
-  </body>
-  
-  
-	<script>
-		$(document).ready(function(){
-		
-		//Set default values for inputs
-		$('#mass').val(4250)
-		$('#rr').val(0.0067)
-		$('#fa').val(4.7)
-		$('#cd').val(0.44)
-		
-		displayChart();
-/*	
-		    // Load the Visualization API and the piechart package.
-google.load('visualization', '1.1', {packages: ['line']});
+      // Pick a new font size so it will not be larger than the height of label.
+      var fontSizeToUse = Math.min(newFontSize, elementHeight);
 
-// Set a callback to run when the Google Visualization API is loaded.
-google.setOnLoadCallback(drawChart);
+      //Set font settings to draw it correctly.
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+      var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+      ctx.font = fontSizeToUse+"px " + fontStyle;
+      ctx.fillStyle = color;
 
-// Callback that creates and populates a data table, 
-// instantiates the pie chart, passes in the data and
-// draws it.
-function drawChart() {
-
-  // Create the data table.
-  var data = new google.visualization.DataTable();
-  data.addColumn('number', 'Day');
-  data.addColumn('number', 'Guardians of the Galaxy');
-  data.addColumn('number', 'The Avengers');
-      data.addColumn('number', 'Transformers: Age of Extinction');
-
-      data.addRows([
-        [1,  37.8, 80.8, 41.8],
-        [2,  30.9, 69.5, 32.4],
-        [3,  25.4,   57, 25.7],
-        [4,  11.7, 18.8, 10.5],
-        [5,  11.9, 17.6, 10.4],
-        [6,   8.8, 13.6,  7.7],
-        [7,   7.6, 12.3,  9.6],
-        [8,  12.3, 29.2, 10.6],
-        [9,  16.9, 42.9, 14.8],
-        [10, 12.8, 30.9, 11.6],
-        [11,  5.3,  7.9,  4.7],
-        [12,  6.6,  8.4,  5.2],
-        [13,  4.8,  6.3,  3.6],
-        [14,  4.2,  6.2,  3.4]
-      ]);
-
-
-  // Set chart options
-  var options = {
-    chart: {
-      title:'Box Office Earnings in First Two Weeks of Opening',
-      subtitle: 'in millions of dollars (USD)'
-    },
-                 'width':  900,
-                 'height': 500};
-
-  // Instantiate and draw our chart, passing in some options.
-  var chart = new google.charts.Line(document.getElementById('chart'));
-  
-  chart.draw(data, options);
-}
-		
-		*/
-		
-			$("button").click(function(){
-				runSimulation(0,1);
-				
-				
+      //Draw text in center
+      ctx.fillText(txt, centerX, centerY);
+    }
+  }
+});
+		  //End of adjust chart
+			summaryLineChart = new Chart(document.getElementById("line-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
 			});
+
+			energyBreakdownChart = new Chart(document.getElementById("doughnut-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+			
+			master_plots_line_chart = new Chart(document.getElementById("master-line-chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+			
+			max_motor_torque_chart = new Chart(document.getElementById("max_motor_torque_chart"), {
+				type: 'line',
+				data: {
+					labels: ["January", "February", "March", "April", "May", "June", "July"],
+					datasets: [{
+						label: "My First dataset",
+						backgroundColor: 'rgb(255, 99, 132)',
+						borderColor: 'rgb(255, 99, 132)',
+						data: [0, 10, 5, 2, 20, 30, 45],
+					}]
+				},
+				options: {}
+			});
+		  
 		});
 		
 		
-		function displayChart(){
-		    
-  
+		function invalidateSimulation(){
+			document.getElementById("energyBreakdownMenuItem").style.visibility = 'hidden';
+			document.getElementById("rangeSectionMenuItem").style.visibility = 'hidden';
+			document.getElementById("batterySectionMenuItem").style.visibility = 'hidden';
+			document.getElementById("plotsMenuItem").style.visibility = 'hidden';
+			document.getElementById("UIMenuItem").style.visibility = 'hidden';
+			document.getElementById("printPageMenuItem").style.visibility = 'hidden';
+			document.getElementById("inputSummaryMenuItem").style.visibility = 'hidden';
+			document.getElementById("driveTrainInformationMenuItem").style.visibility = 'hidden';
+			
+			console.log("Invalidating SImulation Results Now.")
+			$("#simProgressBarValues").removeClass("progress-bar-success");
+			$("#simButton").addClass("btn-primary");
+			$("#simButton").removeClass("btn-success");
+			$('#simProgressBarValues').css('width', '0%');
+		}
+		
+		function validateSimulation(){
+			document.getElementById("energyBreakdownMenuItem").style.visibility = 'visible';
+			document.getElementById("rangeSectionMenuItem").style.visibility = 'visible';
+			document.getElementById("batterySectionMenuItem").style.visibility = 'visible';
+			document.getElementById("plotsMenuItem").style.visibility = 'visible';
+			document.getElementById("printPageMenuItem").style.visibility = 'visible';
+			document.getElementById("inputSummaryMenuItem").style.visibility = 'visible';
+			document.getElementById("driveTrainInformationMenuItem").style.visibility = 'visible';
+			console.log("Revealing SImulation Results Now.")
+		}
+		
+		
+		function showAllResultsSections(){
+			//document.getElementById("gettingStartedGuideSection").className = "collapse.show";
+			//document.getElementById("vehicleInputsSection").className = "collapse.show";
+			//document.getElementById("defineDriveCycleSection").className = "collapse.show";
+			document.getElementById("inputSummarySection").className = "collapse.show";
+			document.getElementById("energyBreakdownSection").className = "collapse.show";
+			//document.getElementById("UIExamplesSection").className = "collapse.show";
+			//document.getElementById("resetVehicleSection").className = "collapse.show";	
+			document.getElementById("batterySection").className = "collapse.show";
+			document.getElementById("rangeSection").className = "collapse.show";	
+			document.getElementById("PlotsSection").className = "collapse.show";	
+			document.getElementById("driveTrainInformationSection").className = "collapse.show";
+		}
+		
+		function collapseAllSections(){
+			console.log("Collapsing All Section");	
+			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
+			//document.getElementById("vehicleInputsSection").style.visibility = 'hidden';
+			
+			document.getElementById("gettingStartedGuideSection").className = "collapse";
+			document.getElementById("vehicleInputsSection").className = "collapse";
+			document.getElementById("defineDriveCycleSection").className = "collapse";
+			document.getElementById("energyBreakdownSection").className = "collapse";
+			document.getElementById("UIExamplesSection").className = "collapse";
+			document.getElementById("resetVehicleSection").className = "collapse";	
+			document.getElementById("batterySection").className = "collapse";
+			document.getElementById("rangeSection").className = "collapse";	
+			document.getElementById("PlotsSection").className = "collapse";	
+			document.getElementById("inputSummarySection").className = "collapse";	
+			document.getElementById("driveTrainInformationSection").className = "collapse";
+			
+			$("#plotsMenuItem").removeClass("selectedMenuItem");
+			$("#batterySection").removeClass("selectedMenuItem");
+			$("#rangeSection").removeClass("selectedMenuItem");
+			$("#gettingStartedMenuItem").removeClass("selectedMenuItem");
+			$("#vehicleInputsMenuItem").removeClass("selectedMenuItem");
+			$("#driveCycleMenuItem").removeClass("selectedMenuItem");
+			$("#simulationResultsMenuItem").removeClass("selectedMenuItem");
+			$("#energyBreakdownMenuItem").removeClass("selectedMenuItem");
+			$("#rangeSectionMenuItem").removeClass("selectedMenuItem");
+			$("#batterySectionMenuItem").removeClass("selectedMenuItem");
+			$("#vehiclePerformanceMenuItem").removeClass("selectedMenuItem");
+			$("#inputSummaryMenuItem").removeClass("selectedMenuItem");
+			$("#driveTrainInformationMenuItem").removeClass("selectedMenuItem");
 		}
 		
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		function displayPieChart(){
-		    
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
+		function gettingStartedClicked(){
+			console.log("Getting Started Clicked");
+			collapseAllSections();
+			document.getElementById("gettingStartedGuideSection").className = "collapse.show";
+			$("#gettingStartedMenuItem").addClass("selectedMenuItem");
+			$( "#simulationResultsMenuItem" ).click();
 		}
 		
 		
 		
-	</script>
+		function enterVehicleInputsClicked(){
+			console.log("Enter Vehicle Inputs Clicked");
+			collapseAllSections();
+			document.getElementById("vehicleInputsSection").className = "collapse.show";
+			$("#vehicleInputsMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function defineDriveCycleClicked(){
+			console.log("Define Drive Cycles Clicked");
+			collapseAllSections();
+			document.getElementById("defineDriveCycleSection").className = "collapse.show";
+			$("#driveCycleMenuItem").addClass("selectedMenuItem");
+			$("#simulationResultsMenuItem").addClass("active");
+		}
+		
+		
+		function inputSummaryClicked(){
+			console.log("Input Summary Clicked");
+			collapseAllSections();
+			document.getElementById("inputSummarySection").className = "collapse.show";
+			$("#inputSummaryMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function driveTrainInformationClicked(){
+			console.log("Input Summary Clicked");
+			collapseAllSections();
+			document.getElementById("driveTrainInformationSection").className = "collapse.show";
+			$("#driveTrainInformationMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function energyBreakdownClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("energyBreakdownSection").className = "collapse.show";
+			$("#energyBreakdownMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function rangeSectionClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("rangeSection").className = "collapse.show";
+			$("#rangeSectionMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function batterySectionClicked(){
+			console.log("Energy Breakdown Clicked");
+			collapseAllSections();
+			document.getElementById("batterySection").className = "collapse.show";
+			$("#batterySectionMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function plotsSectionClicked(){
+			console.log("PlotsSection Clicked");
+			collapseAllSections();
+			document.getElementById("PlotsSection").className = "collapse.show";
+			$("#plotsMenuItem").addClass("selectedMenuItem");
+		}
+		
+		function UIExamplesClicked(){
+			console.log("UI Examples Clicked");
+			collapseAllSections();
+			document.getElementById("UIExamplesSection").className = "collapse.show";
+			
+		}
+		
+		function resetClicked(){
+			invalidateSimulation();
+			console.log("Reset Clicked");
+			collapseAllSections();
+			document.getElementById("resetVehicleSection").className = "collapse.show";
+			$("#gettingStartedMenuItem").addClass("selectedMenuItem");
+			standardDriveButtonClicked();
+		    resetVehicleInputsClicked();
+		}
+		
+		
+	</script> 
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+		<!--<div id="navBarsideBar"></div>-->
+
+		<!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" >ARRIVAL Vehicle  Tool v1.0 -  built by the Battery Team.</a>				
+            </div>
+            <!-- /.navbar-header -->
+
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+
+						<li>  
+                        </li>
+						<li id="gettingStartedMenuItem"  > 
+                            <a  onclick="gettingStartedClicked()"><i class="fa fa-book fa-fw"></i> Getting Started Guide</a>
+                        </li>
+                        
+						<li id="vehicleInputsMenuItem" >
+                            <a onclick="enterVehicleInputsClicked()"><i class="fa fa-car fa-fw"></i>  Enter Vehicle Inputs</a>
+                        </li>
+						<li id="driveCycleMenuItem" >
+                            <a onclick="defineDriveCycleClicked()" ><i class="fa fa-road fa-fw"></i> Define Drive Cycle</a>
+                        </li>
+						
+						</br>
+						<li style="padding-left: 10px;padding-right: 10px;" id="gettingStartedMenuItem">
+                            <a  id="simButton" class="btn btn-primary btn-lg"  onclick="runSimulationClicked()" role="button">Run Simulation</a>
+						</li>
+						
+						<li >
+						<div id="simProgressBar">
+							<div class="progress">
+							  <div id="simProgressBarValues"  class="progress-bar" style="-webkit-transition: none !important;
+								transition: none !important;" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style=" width: 0%;">
+								<!--2%-->
+							  </div>
+							</div>
+						</div>
+						
+						</li>
+						
+						
+                        <!--<li id="simulationResultsMenuItem" class="active" >
+                            <a ><i class="fa fa-bar-chart-o fa-fw"></i> Simulation Results<span class="fa arrow"></span></a>
+                            <ul  class="nav nav-second-level"> -->
+                                <li id="energyBreakdownMenuItem" >
+                                    <a onclick="energyBreakdownClicked()"><i class="fa fa-flash fa-fw"></i> Energy Breakdown</a>
+                                </li id="gettingStartedMenuItem">
+								<li id="inputSummaryMenuItem" >
+                                    <a onclick="inputSummaryClicked()"><i class="fa  fa-th-list fa-fw"></i> Simulation Input Summary</a>
+                                </li>
+								<li id="plotsMenuItem" >
+                                    <a onclick="plotsSectionClicked()"><i class="fa fa-bar-chart-o fa-fw"></i> Results Plots</a>
+                                </li>   
+								<li id="driveTrainInformationMenuItem" >
+                                    <a onclick="driveTrainInformationClicked()"><i class="fa fa-bar-chart-o fa-fw"></i> Drive Train Information</a>
+                                </li>   
+		
+                                <li id="rangeSectionMenuItem" >
+                                    <a onclick="rangeSectionClicked()"><i class="fa fa-dashboard fa-fw"></i> Range Predictions</a>
+                                </li > 
+								<li id="batterySectionMenuItem" >
+                                    <a onclick="batterySectionClicked()"><i class="fa fa-database fa-fw"></i> Battery Configuration and SOC</a>
+                                </li>
+								<li id="printPageMenuItem" >
+                                    <a onclick="printPage()"><i class="fa  fa-print fa-fw"></i>Print/Save Results</a>
+                                </li>
+								
+								
+                                
+                            <!--</ul>-->
+                            <!-- /.nav-second-level -->
+                        <!--</li>-->
+                        <li id="UIMenuItem" >
+                            <a onclick="UIExamplesClicked()" ><i class="fa fa-wrench fa-fw"></i> UI Example Elements</a>
+                        </li >                      
+
+						</br>
+						<li style="padding-left: 10px;padding-right: 10px;">
+						</br>						
+							<a  onclick="resetClicked()" class="btn btn-warning "  onclick="runSimulationClicked()" role="button">Reset Vehicle Tool</a>
+                        
+						</br>
+						</br>
+						</li>
+						
+						
+
+						
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+		
+        <div id="page-wrapper">
+		
+		<div id="gettingStartedGuideSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Getting Started Guide</h1>
+					<p> 1. Click on "Enter Vehicle Inputs" on the side menu and enter vehicle inputs. </p>
+					<p> 2. Click on "Define Drive Cycle" on the side menu and define the drive cycle, you can choose from standard cycles, or constant speeds and other scenarios. </p>
+					<p> 3. Click on the "Run Simulation" Button to generate results. You have to do this every time you change an input value. </p>
+					<p> 4. Under "Simulation Results" in the side menu you can explore many different results and graphs from the simulation. </p>
+					</br>
+					<p> To request new features or changes please contact Murray Schofield on telegram: @murrayschof </p>
+					
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="resetVehicleSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">The Vehicle Tool is Now Reset</h1>
+					</br>
+					<a onclick="enterVehicleInputsClicked()"> Click here to go to vehicle inputs.</a>
+                        
+					
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		
+		<script>
+		
+		var veh_inputs_total_mass = 0
+		var veh_inputs_frontal_area = 0
+		var veh_inputs_drag_coefficient = 0
+		var veh_inputs_module_type = 0
+		var veh_inputs_system_voltage = 0
+		var veh_inputs_number_of_modules = 0
+		var veh_inputs_motor_type = 0
+		var veh_inputs_gear_ratio = 0
+		
+		var veh_inputs_frontDriveUnits = 0
+		var veh_inputs_rearDriveUnits = 0
+		
+		var veh_inputs_inverter_efficiency = 0
+		var veh_inputs_rolling_resistance = 0
+		var veh_inputs_tyre_diameter = 0
+		var veh_inputs_regen_percentage = 0
+		var veh_inputs_constant_aux_load = 0
+		
+		
+		function printPage(){
+			showAllResultsSections();
+			setTimeout(printPage2, 500);
+		}
+		
+		function printPage2(){
+			window.print();
+			energyBreakdownClicked();
+		}
+		
+		
+		function getVehicleInputValues(){
+			veh_inputs_total_mass = parseFloat($("#veh_inputs_total_mass").val());
+			veh_inputs_frontal_area = parseFloat($("#veh_inputs_frontal_area").val());
+			veh_inputs_drag_coefficient = parseFloat($("#veh_inputs_drag_coefficient").val());
+			veh_inputs_module_type = parseFloat($("#veh_inputs_module_type").val());
+			veh_inputs_system_voltage = parseFloat($("#veh_inputs_system_voltage").val());
+			veh_inputs_number_of_modules = parseFloat($("#veh_inputs_number_of_modules").val());
+			veh_inputs_motor_type = parseFloat($("#veh_inputs_motor_type").val());
+			veh_inputs_gear_ratio = parseFloat($("#veh_inputs_gear_ratio").val());
+			
+			if ( $('#veh_inputs_frontDriveUnits0').prop('checked') == true){ veh_inputs_frontDriveUnits = 0 }
+			if ( $('#veh_inputs_frontDriveUnits1').prop('checked') == true){ veh_inputs_frontDriveUnits = 1 }
+			if ( $('#veh_inputs_frontDriveUnits2').prop('checked') == true){ veh_inputs_frontDriveUnits = 2 }
+			
+			if ( $('#veh_inputs_rearDriveUnits0').prop('checked') == true){ veh_inputs_rearDriveUnits = 0 }
+			if ( $('#veh_inputs_rearDriveUnits1').prop('checked') == true){ veh_inputs_rearDriveUnits = 1 }
+			if ( $('#veh_inputs_rearDriveUnits2').prop('checked') == true){ veh_inputs_rearDriveUnits = 2 }
+			
+			veh_inputs_inverter_efficiency = parseFloat($("#veh_inputs_inverter_efficiency").val());
+			veh_inputs_rolling_resistance = parseFloat($("#veh_inputs_rolling_resistance").val());
+			veh_inputs_tyre_diameter = parseFloat($("#veh_inputs_tyre_diameter").val());
+			veh_inputs_regen_percentage = parseFloat($("#veh_inputs_regen_percentage").val());
+			veh_inputs_constant_aux_load = parseFloat($("#veh_inputs_constant_aux_load").val());
+			
+			console.log(veh_inputs_frontDriveUnits);
+			console.log(veh_inputs_rearDriveUnits);
+
+		}
+		
+		
+		
+		function resetVehicleInputsClicked(){
+		console.log("resetVehicleInputsClicked");
+			$("#veh_inputs_total_mass").val("");
+			$("#veh_inputs_frontal_area").val("");
+			$("#veh_inputs_drag_coefficient").val("");
+			
+			$("#veh_inputs_module_type").val("");
+			$("#veh_inputs_system_voltage").val("");
+			$("#veh_inputs_number_of_modules").val("");
+			
+			$("#veh_inputs_motor_type").val("");
+			$("#veh_inputs_gear_ratio").val("");
+			
+			$("#veh_inputs_frontDriveUnits0").prop("checked", true);
+			$("#veh_inputs_rearDriveUnits0").prop("checked", true);
+			
+			$("#veh_inputs_inverter_efficiency").val("");
+			
+			$("#veh_inputs_rolling_resistance").val("");
+			$("#veh_inputs_tyre_diameter").val("");
+			$("#veh_inputs_regen_percentage").val("");
+			$("#veh_inputs_constant_aux_load").val("");
+			
+		}
+		
+		function loadATXClicked(){
+		invalidateSimulation();
+		console.log("loadATXClicked");
+			$("#veh_inputs_total_mass").val("575");
+			$("#veh_inputs_frontal_area").val("1.99");
+			$("#veh_inputs_drag_coefficient").val("0.29");
+			
+			$("#veh_inputs_module_type").val("2");
+			$("#veh_inputs_system_voltage").val("50");
+			$("#veh_inputs_number_of_modules").val("4");
+			
+			$("#veh_inputs_motor_type").val("5");
+			$("#veh_inputs_gear_ratio").val("6");
+			
+			$("#veh_inputs_frontDriveUnits0").prop("checked", true);
+			$("#veh_inputs_rearDriveUnits1").prop("checked", true);
+			
+			$("#veh_inputs_inverter_efficiency").val("95");
+			
+			$("#veh_inputs_rolling_resistance").val("0.0067");
+			$("#veh_inputs_tyre_diameter").val("546");
+			$("#veh_inputs_regen_percentage").val("0");
+			$("#veh_inputs_constant_aux_load").val("1");
+		}
+		
+		function loadT4Clicked(){
+		invalidateSimulation();
+		console.log("loadT4Clicked");			
+			$("#veh_inputs_total_mass").val("1825");
+			$("#veh_inputs_frontal_area").val("4.7");
+			$("#veh_inputs_drag_coefficient").val("0.44");
+			
+			$("#veh_inputs_module_type").val("3");
+			$("#veh_inputs_system_voltage").val("450");
+			$("#veh_inputs_number_of_modules").val("16");
+			
+			$("#veh_inputs_motor_type").val("4");
+			$("#veh_inputs_gear_ratio").val("12");
+			
+			$("#veh_inputs_frontDriveUnits0").prop("checked", true);
+			$("#veh_inputs_rearDriveUnits1").prop("checked", true);
+			
+			$("#veh_inputs_inverter_efficiency").val("95");
+			
+			$("#veh_inputs_rolling_resistance").val("0.0067");
+			$("#veh_inputs_tyre_diameter").val("685");
+			$("#veh_inputs_regen_percentage").val("0");
+			$("#veh_inputs_constant_aux_load").val("3");
+		}
+		
+		function loadT8Clicked(){
+		console.log("loadT8Clicked");
+
+		}
+		
+		function loadPodClicked(){
+		console.log("loadPodClicked");
+		
+		}
+		
+		function loadB12Clicked(){
+
+		}
+		
+		function loadMustangClicked(){
+			$("#veh_inputs_total_mass").val("2000");
+			$("#veh_inputs_frontal_area").val("2.2");
+			$("#veh_inputs_drag_coefficient").val("0.45");
+			
+			$("#veh_inputs_module_type").val("1");
+			$("#veh_inputs_system_voltage").val("400");
+			$("#veh_inputs_number_of_modules").val("16");
+			
+			$("#veh_inputs_motor_type").val("1");
+			$("#veh_inputs_gear_ratio").val("6.25");
+			
+			$("#veh_inputs_frontDriveUnits2").prop("checked", true);
+			$("#veh_inputs_rearDriveUnits2").prop("checked", true);
+			
+			$("#veh_inputs_inverter_efficiency").val("95");
+			
+			$("#veh_inputs_rolling_resistance").val("0.0067");
+			$("#veh_inputs_tyre_diameter").val("655");
+			$("#veh_inputs_regen_percentage").val("0");
+			$("#veh_inputs_constant_aux_load").val("5");
+		}
+		
+		</script>
+		
+		<div id="vehicleInputsSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Enter Vehicle Inputs</h1>
+					
+                </div>
+				<div class="col-lg-12">
+                    <!-- Load Vehicle button -->
+					<div class="btn-group">
+					  <button type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Click Here to Load a Default Vehicle <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a href="#" onclick="resetVehicleInputsClicked()">Reset All Inputs</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#" onclick="loadATXClicked()">Load ATX</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#" onclick="loadT4Clicked()">Load T4</a></li>
+						<li role="separator" class="divider"></li>
+						<!--<li><a href="#" onclick="loadT8Clicked()">Load T8</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#" onclick="loadB12Clicked()">Load B12</a></li>
+						<li role="separator" class="divider"></li>-->
+						<li><a href="#" onclick="loadMustangClicked()">Load Mustang</a></li>
+					  </ul>
+					</div>
+                </div>
+				<div class="col-lg-12">
+				</br>
+				</div>
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Vehicle Parameters </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Vehicle Total Mass including Payload (kg):</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_total_mass" class="form-control" placeholder="Enter total mass for simulation, including payload.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Frontal Area (m^2):</label>
+                                            <input onclick="invalidateSimulation()"  id="veh_inputs_frontal_area" class="form-control" placeholder="Find this value accurately using a CAD package.">
+                                        </div>
+										<div class="form-group">
+                                            <label>Drag Coefficient:</label>
+                                            <input onclick="invalidateSimulation()"  id="veh_inputs_drag_coefficient" class="form-control" placeholder="Usually a value between 0.1 and 1.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                    </form>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Battery Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Battery Module Type:</label>
+                                            <select onclick="invalidateSimulation()"  id="veh_inputs_module_type" class="form-control">
+                                                <option value=1 >12s 20p 50v Prototype Module</option>
+                                                <option value=2 >12s 18p 50v Arrival Module</option>
+                                                <option value=3 >108s 2p 450v Arrival module</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>System Voltage:</label>
+                                            <select onclick="invalidateSimulation()" id="veh_inputs_system_voltage" class="form-control">
+												<option value=400 >400v (8x 50v modules in series)</option>
+												<option value=50 >50v (Like ATX)</option>
+												<option value=450 >450v (450v modules in parallel)</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Total Number of Modules in Vehicle:</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_number_of_modules" class="form-control" placeholder="The total number of physical modules in the vehicle.">
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Drivetrain Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Motor Type:</label>
+                                            <select onclick="invalidateSimulation()" id="veh_inputs_motor_type"  class="form-control">
+                                                <option value=1 >CRA (One motor per drive unit)</option>
+												<option value=2 >CRA (Two motors per drive unit for B12)</option>
+                                                <!--<option value=3 >CRB Motor</option>-->
+                                                <option value=4 >T4 Motor</option>
+												<option value=5 >ATX Motor (13.5kW 55Nm Continuous)</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Gear Ratio in Drive Unit:</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_gear_ratio" class="form-control" placeholder="e.g. if the ratio is 12:1, enter 12 here.">	
+                                        </div>
+										<div class="form-group">
+                                            <label>Front Drive Units: </label>
+											<label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits0" value="1" checked>0
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits1" value="2" >1
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline2" id="veh_inputs_frontDriveUnits2" value="3" >2
+                                            </label>
+                                        </div>
+										<div class="form-group">
+                                            <label>Rear Drive Units: </label>
+											<label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits0" value="option6" >0
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits1" value="option7" checked>1
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosInline3" id="veh_inputs_rearDriveUnits2" value="option8">2
+                                            </label>
+                                        </div>
+										<div class="form-group">
+                                            <label>Inverter Efficiency (%):</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_inverter_efficiency" class="form-control" placeholder="Default Value: 95.">
+											
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+										
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Wheel Setup </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Single Wheel Rolling Resistance</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_rolling_resistance" class="form-control" placeholder="Usually a value between 0.005 and 0.015.">	
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tyre Diameter (mm)</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_tyre_diameter" class="form-control" placeholder="Value in millimeters.">
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Regenerative Braking </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Percentage of available braking energy regenerated.</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_regen_percentage" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <p class="help-block">More options coming soon.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+				<div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Auxiliary Power Consumption </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Constant Auxiliary Power Consumption (kW).</label>
+                                            <input onclick="invalidateSimulation()" id="veh_inputs_constant_aux_load" class="form-control" placeholder="This is the percentage before losses through drivetrain.">	
+                                            <p class="help-block">More options coming soon.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<script>
+		
+		function collapsedriveCyclePanels(){
+			console.log("Collapsing All Drive Cycle Panels");	
+			invalidateSimulation();
+			//document.getElementById("GettingStartedGuideSection").style.visibility = 'hidden';
+			//document.getElementById("vehicleInputsSection").style.visibility = 'hidden';
+			
+			//document.getElementById("standardDriveButton").className = "collapse";
+			
+			$("#standardDriveButton").removeClass("btn-primary");
+			$("#standardDriveButton").addClass("btn-default");
+			
+			$("#constantSpeedButton").removeClass("btn-primary");
+			$("#constantSpeedButton").addClass("btn-default");
+			
+			$("#accelProfileButton").removeClass("btn-primary");
+			$("#accelProfileButton").addClass("btn-default");
+			
+			$("#staticChargeButton").removeClass("btn-primary");
+			$("#staticChargeButton").addClass("btn-default");
+			
+			$("#hillClimbButton").removeClass("btn-primary");
+			$("#hillClimbButton").addClass("btn-default");
+			
+			document.getElementById("standardCyclePanel").className = "collapse";
+			document.getElementById("constantSpeedPanel").className = "collapse";
+			document.getElementById("accelProfilePanel").className = "collapse";
+			document.getElementById("staticChargePanel").className = "collapse";
+			document.getElementById("hillClimbPanel").className = "collapse";
+			getDriveCylceInputValues();
+			
+		}
+		
+		function standardDriveButtonClicked(){
+			DRIVE_CYCLE_TYPE = 1;
+			collapsedriveCyclePanels();
+			document.getElementById("standardCyclePanel").className = "collapse.show";
+			$("#standardDriveButton").removeClass("btn-default");
+			$("#standardDriveButton").addClass("btn-primary");
+		}
+		
+		function constantSpeedButtonClicked(){
+			DRIVE_CYCLE_TYPE = 2;
+			collapsedriveCyclePanels();
+			document.getElementById("constantSpeedPanel").className = "collapse.show";
+			$("#constantSpeedButton").removeClass("btn-default");
+			$("#constantSpeedButton").addClass("btn-primary");
+			console.log("Constant speed cycle clicked");
+		}
+		
+		function accelProfileButtonClicked(){
+			DRIVE_CYCLE_TYPE = 3;
+			collapsedriveCyclePanels();
+			document.getElementById("accelProfilePanel").className = "collapse.show";
+			$("#accelProfileButton").removeClass("btn-default");
+			$("#accelProfileButton").addClass("btn-primary");
+		}
+		
+		function staticChargeButtonClicked(){
+			DRIVE_CYCLE_TYPE = 4;
+			collapsedriveCyclePanels();
+			document.getElementById("staticChargePanel").className = "collapse.show";
+			$("#staticChargeButton").removeClass("btn-default");
+			$("#staticChargeButton").addClass("btn-primary");
+		}
+		
+		function hillClimbButtonClicked(){
+			DRIVE_CYCLE_TYPE = 5;
+			collapsedriveCyclePanels();
+			document.getElementById("hillClimbPanel").className = "collapse.show";
+			$("#hillClimbButton").removeClass("btn-default");
+			$("#hillClimbButton").addClass("btn-primary");
+		}
+		
+		</script>
+		
+		<script>
+		var DRIVE_CYCLE_TYPE = 0;
+		var drive_inputs_driveCycleChoice = 0;
+		var drive_inputs_cyclesToRun = 0;
+		var drive_inputs_standardDrive_Elevation_Profile = 0;
+		
+		var drive_inputs_constant_speed_val = 0;
+		var drive_inputs_constSpeed_StartType = 0;
+		var drive_inputs_constSpeed_RunFor = 0;
+		var drive_inputs_constSpeed_Elevation_Profile = 0;
+		
+		var drive_inputs_starting_SOC = 0;
+		var drive_inputs_SOC_State = 0;
+		var drive_inputs_ambientTemp = 0;
+		var drive_inputs_starting_batt_Temp = 0;
+		var drive_inputs_windSpeed = 0;
+		
+		function setConstantSpeedDefaults(){
+			
+			$("#drive_inputs_constant_speed_val").val("100");
+		}
+		
+		function getDriveCylceInputValues(){
+			
+			// Standard Drive Cycle
+			drive_inputs_driveCycleChoice = parseFloat($("#drive_inputs_driveCycleChoice").val());
+			
+			if ( $('#drive_inputs_cyclesToRun1').prop('checked') == true){ drive_inputs_cyclesToRun = 1; }
+			if ( $('#drive_inputs_cyclesToRun5').prop('checked') == true){ drive_inputs_cyclesToRun = 5; }
+			if ( $('#drive_inputs_cyclesToRun10').prop('checked') == true){ drive_inputs_cyclesToRun = 10; }
+			if ( $('#drive_inputs_cyclesToRun99').prop('checked') == true){ drive_inputs_cyclesToRun = 99; }
+			
+			drive_inputs_standardDrive_Elevation_Profile = parseFloat($("#drive_inputs_standardDrive_Elevation_Profile").val());
+			
+			
+			// Constant Speed Type Cycle
+			drive_inputs_constant_speed_val = parseFloat($("#drive_inputs_constant_speed_val").val());
+			
+			if ( $('#drive_inputs_constSpeed_StartType1').prop('checked') == true){ drive_inputs_constSpeed_StartType = 1; }
+			if ( $('#drive_inputs_constSpeed_StartType2').prop('checked') == true){ drive_inputs_constSpeed_StartType = 2; }
+
+			if ( $('#drive_inputs_constSpeed_RunFor_30').prop('checked') == true){ drive_inputs_constSpeed_RunFor = 30; }
+			if ( $('#drive_inputs_constSpeed_RunFor_60').prop('checked') == true){ drive_inputs_constSpeed_RunFor = 60; }
+			if ( $('#drive_inputs_constSpeed_RunFor_600').prop('checked') == true){ drive_inputs_constSpeed_RunFor = 600; }
+			if ( $('#drive_inputs_constSpeed_RunFor_99').prop('checked') == true){ drive_inputs_constSpeed_RunFor = 99; }
+			
+			drive_inputs_starting_SOC = parseFloat($("#drive_inputs_starting_SOC").val());
+			drive_inputs_lower_limit_SOC = parseFloat($("#drive_inputs_lower_limit_SOC").val());
+			if ( $('#drive_inputs_SOC_State_1').prop('checked') == true){ drive_inputs_SOC_State = 1; }
+			if ( $('#drive_inputs_SOC_State_2').prop('checked') == true){ drive_inputs_SOC_State = 2; }
+			
+			drive_inputs_starting_batt_Temp = parseFloat($("#drive_inputs_starting_batt_Temp").val());
+			drive_inputs_ambientTemp = parseFloat($("#drive_inputs_ambientTemp").val());
+			drive_inputs_windSpeed = parseFloat($("#drive_inputs_starting_windSpeed").val());
+			console.log("Got windspeed as:");
+			console.log(drive_inputs_windSpeed);
+		}
+		</script>
+		
+		<div id="defineDriveCycleSection"  >		
+            <div class="row">
+                
+				<div class="col-lg-12">
+                    <h1 class="page-header">Define Drive Cycle</h1>
+                </div>
+				
+                <!--
+				<div class="col-lg-12">
+				<h2> Select Drive Cycle Type: </h2>
+                <div class="btn-group btn-group-justified  " role="group" aria-label="...">
+				  <div class="btn-group" role="group">
+					<button id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary btn-lg" id="standardDriveButton">Use Standard Drive Cycle</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default btn-lg">Use Constant Speed</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default btn-lg">Use Acceleration Profile</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default btn-lg">Use Static Charging</button>
+				  </div>
+				  <div class="btn-group" role="group">
+					<button id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default btn-lg">Use Hill Climb</button>
+				  </div>
+				</div>
+                </div>
+				-->
+
+			<div id="" class="col-lg-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Choose Drive Cycle Type: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <button  id="standardDriveButton" type="button" onclick="standardDriveButtonClicked()" class="btn btn-primary " id="standardDriveButton">Use Standard Drive Cycle</button>
+							<button  id="constantSpeedButton" type="button" onclick="constantSpeedButtonClicked()" class="btn btn-default ">Use Constant Speed</button>
+							<button  id="accelProfileButton" type="button" onclick="accelProfileButtonClicked()" class="btn btn-default ">Use Acceleration Profile</button>
+							<button  id="staticChargeButton" type="button" onclick="staticChargeButtonClicked()" class="btn btn-default ">Use Static Charging</button>
+							<button  id="hillClimbButton" type="button" onclick="hillClimbButtonClicked()" class="btn btn-default ">Use Hill Climb</button>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+
+			
+
+
+			
+			<div id="standardCyclePanel">
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Drive Cycle: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                            <label>Drive Cycle:</label>
+                                            <select onclick="invalidateSimulation()"  id="drive_inputs_driveCycleChoice" class="form-control">
+                                                <option value=1 >NEDC 70 (1200 seconds)</option>
+												<option value=2 >NEDC 100 (1200 seconds)</option>
+												<option value=3 >NEDC 120 (1200 seconds)</option>
+                                                <option value=4 >WLTP 3a (1800 seconds)</option>
+                                                <option value=5 >WLTP 3b (1800 seconds)</option>
+												<option value=6 >Royal Mail (15,993 seconds)</option>
+                                                <option value=7 >Farmdrop 64km (23,664 seconds)</option>
+                                                <option value=8 >Farmdrop 87km (20,184 seconds)</option>
+                                            </select>
+                            </div>
+							<div class="form-group">
+                                            <label>Run Simulation:</label>
+                                            
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun1" value="option1" checked>For 1 Cycle
+                                                </label>
+                                            </div>
+											<!--<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun5" value="option2" >For 5 Cycle
+                                                </label>
+                                            </div>-->
+											<!--<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun10" value="option3" >For 10 Cycles
+                                                </label>
+                                            </div>-->
+											<!--<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_cyclesToRun99" value="option4" >Repeat cycle until 0% SOC
+                                                </label>
+                                            </div>-->
+                            </div>
+							<div class="form-group">
+                                            <label>Elevation Profile:</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_standardDrive_Elevation_Profile" class="form-control">
+                                                <option value=0 >0% (Flat road)</option>
+												<option value=2 >2% (Up hill)</option>
+                                                <option value=5 >5% (Up hill)</option>
+												<option value=-2 >2% (Down hill)</option>
+                                                <option value=-5 >5% (Down hill)</option>
+                                            </select>
+											<p class="help-block">Varying elevation profiles coming soon.</p>
+										</div>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
 	
+			</div> 
+			
+			<div id="constantSpeedPanel">
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Drive Cycle: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Constant Speed (kmph):</label>
+                                            <input onclick="invalidateSimulation()"  id="drive_inputs_constant_speed_val"  class="form-control" placeholder="">	
+                                            
+                                        </div>
+										</br>
+										</br>
+										<div class="form-group">
+                                            <label>Starting Condition:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType1" value="option2" >Start at the constant speed.
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosa" id="drive_inputs_constSpeed_StartType2" value="option1" checked>Accelerate with maximum torque to constant speed from stationary.
+                                                </label>
+                                            </div>
+										</div>
+										<div class="form-group">
+                                            <label>Run Simulation:</label>
+                                            
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_30" value="option1" checked>For 30 Seconds
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_60" value="option2" >For 60 Seconds
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_600" value="option3" >For 10 Minutes
+                                                </label>
+                                            </div>
+											<!--<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadiosb" id="drive_inputs_constSpeed_RunFor_99" value="option4" >Until 0% SOC
+                                                </label>
+                                            </div>-->
+										</div>
+										<div class="form-group">
+                                            <label>Gradient:</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_constSpeed_Elevation_Profile" class="form-control">
+                                                <option value=0 >0% (Flat road)</option>
+												<option value=1 >1% (Up hill)</option>
+												<option value=2 >2% (Up hill)</option>
+                                                <option value=5 >5% (Up hill)</option>
+                                                <option value=10 >10% (Up hill)</option>
+												<option value=-1 >1% (Down hill)</option>
+												<option value=-2 >2% (Down hill)</option>
+                                                <option value=-5 >5% (Down hill)</option>
+                                                <option value=-10 >10% (Down hill)</option>
+                                            </select>
+										</div>
+										
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+  
+			</div> 
+			
+			<div id="accelProfilePanel">
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Drive Cycle: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Acceleration profile tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+
+			</div>
+			
+			<div id="staticChargePanel">
+	
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Drive Cycle: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Static charging tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+
+			</div>
+			
+			<div id="hillClimbPanel">
+	
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Drive Cycle:: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <p class="help-block">Hill climb tool not yet complete. Please select a different simulation type.</p>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+ 
+			</div>
+			</div>
+			
+
+			<div id="" class="col-lg-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define State of Charge (SOC): </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                        <div class="form-group">
+                                            <label>Starting SOC (When vehicle starts in range calculation):</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_starting_SOC" class="form-control">
+                                                <option value=100 >100% (Full Charge)</option>
+												<option value=95 >95%</option>
+												<option value=90 >90%</option>
+												<option value=85 >85%</option>
+												<option value=80 >80%</option>
+												<option value=60 >60%</option>
+												<option value=40 >40%</option>
+												<option value=20 >20%</option>
+												<option value=10 >10%</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>SOC Lower Limit (When vehicle stops in range calculation):</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_lower_limit_SOC" class="form-control">
+                                                <option value=0 >0% (Full discharge, not recommended)</option>
+												<option value=5 >5%</option>
+												<option value=10 >10%</option>
+												<option value=15 >15%</option>
+												<option value=50 >50%</option>
+												<option value=80 >80%</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>SOC State For Drive Cycle:</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_SOC_State_1" value="option1" checked>Variable SOC (Charges and Discharges)
+                                                </label>
+                                            </div>
+											<div class="radio">
+                                                <label>
+                                                    <input onclick="invalidateSimulation()" type="radio" name="optionsRadios" id="drive_inputs_SOC_State_2" value="option2" >Fixed at starting SOC
+                                                </label>
+                                            </div>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+			</div>
+
+
+
+			<div class="col-lg-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4> Define Environmental Conditions: </h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+										<div class="form-group">
+                                            <label>Ambient Temperature:</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_ambientTemp"  class="form-control">
+                                                <option value=25 >25 degC Ambient</option>
+												<option value=30 >30 degC Ambient</option>
+												<option value=40 >40 degC Ambient</option>
+												<option value=50 >50 degC Ambient</option>
+												<option value=20 >20 degC Ambient</option>
+												<option value=15 >15 degC Ambient</option>
+												<option value=10 >10 degC Ambient</option>
+												<option value=0 >0 degC Ambient</option>
+												<option value=-10 >-10degC Ambient</option>
+												<option value=-20 >-20degC Ambient</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Starting Battery Pack Temperature:</label>
+                                            <select onclick="invalidateSimulation()" id="drive_inputs_starting_batt_Temp" class="form-control">
+                                                <option value=25 >25 degC Battery</option>
+												<option value=30 >30 degC Battery</option>
+												<option value=40 >40 degC Battery</option>
+												<option value=50 >50 degC Battery</option>
+												<option value=20 >20 degC Battery</option>
+												<option value=15 >15 degC Battery</option>
+												<option value=10 >10 degC Battery</option>
+												<option value=0 >0 degC Battery</option>
+												<option value=010 >-10degC Battery</option>
+												<option value=-20 >-20degC Battery</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>Wind:</label>
+                                            <select onclick="invalidateSimulation()"  id="drive_inputs_starting_windSpeed" class="form-control">
+                                                <option value=0 >0 kmph</option>
+												<option value=10 >10 kmph headwind</option>
+												<option value=20 >20 kmph headwind</option>
+												<option value=50 >50 kmph headwind</option>
+												<option value=-10 >10 kmph tailwind</option>
+												<option value=-20 >20 kmph tailwind</option>
+												<option value=-50 >50 kmph tailwind</option>
+                                            </select>
+                                        </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+            </div>
+		 </div>
+		</div>
+		
+		<div id="inputSummarySection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Simulation Inputs</h1>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Vehicle Variables </h1>
+							
+                        </div>
+                        <div class="panel-body">
+						<div id="vehicleVariableSummary">
+						</div>
+							<div id="vehicleVariableSummaryProto" class="collapse">
+							<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                            <th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Vehicle Mass</td>
+                                            <td>veh_inputs_total_mass</td>
+                                            <td>kg</td>
+                                        </tr>
+										<tr>
+                                            <td>Frontal Area</td>
+                                            <td>veh_inputs_frontal_area</td>
+                                            <td>m^2</td>
+                                        </tr>
+										<tr>
+                                            <td>Drag Coefficient</td>
+                                            <td>veh_inputs_drag_coefficient</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>Rolling Resistance</td>
+                                            <td>veh_inputs_rolling_resistance</td>
+                                            <td>kg/T</td>
+                                        </tr>
+										<tr>
+                                            <td>Tyre Diameter</td>
+                                            <td>veh_inputs_tyre_diameter</td>
+                                            <td>mm</td>
+                                        </tr>
+										<tr>
+                                            <td>Regen Percentage</td>
+                                            <td>veh_inputs_regen_percentage</td>
+                                            <td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Constant Auxiliary Load</td>
+                                            <td>veh_inputs_constant_aux_load</td>
+                                            <td>kW</td>
+                                        </tr>
+										<tr>
+                                            <td>Module Type</td>
+                                            <td>veh_inputs_module_type</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>System Voltage</td>
+                                            <td>veh_inputs_system_voltage</td>
+                                            <td>v</td>
+                                        </tr>
+										<tr>
+                                            <td>Number of Modules</td>
+                                            <td>veh_inputs_number_of_modules</td>
+                                            <td>Modules</td>
+                                        </tr>
+										<tr>
+                                            <td>Motor Type</td>
+                                            <td>veh_inputs_motor_type</td>
+                                            <td>NA</td>
+                                        </tr>
+										<tr>
+                                            <td>Gear Ratio</td>
+                                            <td>veh_inputs_gear_ratio</td>
+                                            <td>#:1</td>
+                                        </tr>
+										<tr>
+                                            <td>Front Drive Units</td>
+                                            <td>veh_inputs_frontDriveUnits</td>
+                                            <td>Motors</td>
+                                        </tr>
+										<tr>
+                                            <td>Rear Drive Units</td>
+                                            <td>veh_inputs_rearDriveUnits</td>
+                                            <td>Motors</td>
+                                        </tr>
+										<tr>
+                                            <td>Inverter Efficiency (Static)</td>
+                                            <td>veh_inputs_inverter_efficiency</td>
+                                            <td>%</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+								
+								
+								
+							</div>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Drive Cycle Variables </h1>
+                        </div>
+                        <div class="panel-body">
+						<div id="driveCycleVariableSummary">
+						</div>
+							<div id="driveCycleVariableSummaryProto" class = "collapse">
+							<h3>Drive Cycle Selection</h3>
+							<div id="standardDriveInputsTable" class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Drive Cycle Type</td>
+                                            <td>drive_inputs_driveCycleChoice</td>
+                                        </tr>
+										<tr>
+                                            <td>Cycles to Run</td>
+                                            <td>drive_inputs_cyclesToRun</td>
+                                        </tr>
+										<tr>
+                                            <td>Gradient</td>
+                                            <td>drive_inputs_standardDrive_Elevation_Profile</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							<div id="constantSpeedDriveInputsTable" class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Constant Speed</td>
+                                            <td>drive_inputs_constant_speed_val</td>
+                                        </tr>
+										<tr>
+                                            <td>Starting Speed</td>
+                                            <td>drive_inputs_constSpeed_StartType</td>
+                                        </tr>
+										<tr>
+                                            <td>Simulation Run Time</td>
+                                            <td>drive_inputs_constSpeed_RunFor</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							<h3>SOC and Ambient Conditions</h3>
+							<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Variable</th>
+                                            <th>Value</th>
+											<th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Starting SOC</td>
+                                            <td>drive_inputs_starting_SOC</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>SOC Lower Limit</td>
+                                            <td>drive_inputs_lower_limit_SOC</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>SOC State in Simulation</td>
+                                            <td>drive_inputs_SOC_State</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Ambient Temperature</td>
+                                            <td>drive_inputs_ambientTemp</td>
+											<td>degC</td>
+                                        </tr>
+										<tr>
+                                            <td>Starting Battery Temperature</td>
+                                            <td>drive_inputs_starting_batt_Temp</td>
+											<td>degC</td>
+                                        </tr>
+										<tr>
+                                            <td>Headwind</td>
+                                            <td>drive_inputs_windSpeed</td>
+											<td>kmph</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							</div>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+
+		<div id="driveTrainInformationSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Drive Train Information</h1>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Motor Max Torque </h1>
+							
+                        </div>
+                        <div class="panel-body">
+						
+							<canvas id="max_motor_torque_chart" width="100%" height="73%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<!--
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Motor Efficiency </h1>
+                        </div>
+                        <div class="panel-body">
+							<div id="motorEfficenciesContent">
+								
+							
+							
+							</div>
+							
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				-->
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Static Efficiencies </h1>
+                        </div>
+                        <div class="panel-body">
+							<div id="drivetrainEfficenciesContent">
+							<p> All efficiencies are assumed static at the moment. They are also assumed identical in regen mode. Dynamic efficiencies from test data will be added soon.</p>
+								<div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Assumed Efficiency</th>
+											<th>Unit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+										<tr>
+                                            <td>Battery Pack</td>
+                                            <td>battery_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Inverter</td>
+                                            <td>veh_inputs_inverter_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Motor</td>
+                                            <td>motor_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Gearbox</td>
+                                            <td>gearbox_efficiency</td>
+											<td>%</td>
+                                        </tr>
+										<tr>
+                                            <td>Regenerative Braking Amount</td>
+                                            <td>veh_inputs_regen_percentage</td>
+											<td>%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+							
+							
+							
+							</div>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="energyBreakdownSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Energy Breakdown</h1>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Energy Breakdown </h1>
+							
+                        </div>
+                        <div class="panel-body">
+							<form role="form">
+							<div class="form-group">
+                                            <label>Display as: </label>
+											<label class="radio-inline">
+                                                <input onclick="displayAsEnergyPerKilometer()" type="radio" name="plotType1" id="displayAsEnergyPerKilometerbox" value="1" checked>Energy per kilometer
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input onclick="displayAsTotalEnergy()" type="radio" name="plotType1" id="displayAsTotalEnergybox" value="2" >Percentage of Total Energy
+                                            </label>   
+                            </div>
+							</form>
+							<canvas id="doughnut-chart" width="100%" height="73%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="col-lg-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4> Velocity Profile </h1>
+                        </div>
+                        <div class="panel-body">
+
+							<canvas id="line-chart" width="100%" height="80%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+				
+		<div id="PlotsSection"  >		
+            <div class="row">
+                <!--<div class="col-lg-12">
+                    <h1 class="page-header">Results Plots</h1>
+                </div>-->
+				<br/>
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Time Plot  </h4>
+                        </div>
+                        <div class="panel-body">
+
+							<canvas id="master-line-chart" width="100%" height="48%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="rangeSection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Range Information</h1>
+                </div>
+				
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Range Header</h4>
+                        </div>
+                        <div class="panel-body">
+							<div id="rangePanelContent">
+							
+							
+							
+							</div>
+							
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+		
+		<div id="batterySection"  >		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Battery Information</h1>
+                </div>
+				
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>Battery Info</h4>
+                        </div>
+                        <div class="panel-body">
+
+							<canvas id="battery-line-chart" width="100%" height="80%"></canvas>
+							
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+                <!-- /.col-lg-12 -->
+            </div>
+		</div>
+
+		
+		<div id="UIExamplesSection" >
+			<!-- /#collapsible section 1 -->		
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">UI Example Elements</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Default Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Primary Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Success Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Info Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            Warning Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            Danger Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            Green Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            Yellow Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            Red Panel
+                        </div>
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                        </div>
+                        <div class="panel-footer">
+                            Panel Footer
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Collapsible Accordion Panel Group
+                        </div>
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Collapsible Group Item #1</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Collapsible Group Item #2</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Collapsible Group Item #3</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Basic Tabs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#home" data-toggle="tab">Home</a>
+                                </li>
+                                <li><a href="#profile" data-toggle="tab">Profile</a>
+                                </li>
+                                <li><a href="#messages" data-toggle="tab">Messages</a>
+                                </li>
+                                <li><a href="#settings" data-toggle="tab">Settings</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="home">
+                                    <h4>Home Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile">
+                                    <h4>Profile Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="messages">
+                                    <h4>Messages Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="settings">
+                                    <h4>Settings Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pill Tabs
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="#home-pills" data-toggle="tab">Home</a>
+                                </li>
+                                <li><a href="#profile-pills" data-toggle="tab">Profile</a>
+                                </li>
+                                <li><a href="#messages-pills" data-toggle="tab">Messages</a>
+                                </li>
+                                <li><a href="#settings-pills" data-toggle="tab">Settings</a>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="home-pills">
+                                    <h4>Home Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="profile-pills">
+                                    <h4>Profile Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="messages-pills">
+                                    <h4>Messages Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                                <div class="tab-pane fade" id="settings-pills">
+                                    <h4>Settings Tab</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="well">
+                        <h4>Normal Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="well well-lg">
+                        <h4>Large Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-4">
+                    <div class="well well-sm">
+                        <h4>Small Well</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="jumbotron">
+                        <h1>Jumbotron</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing.</p>
+                        <p><a class="btn btn-primary btn-lg" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        
+		</div>
+		
+		
+		
+		
+		</div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    
+
+</body>
+
+
 
 </html>

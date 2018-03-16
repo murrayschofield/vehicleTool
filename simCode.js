@@ -80,7 +80,7 @@ var motorTorquePlotValues = [];
 var motorTorquePlotRPM = [];
 var totalEnergyperKM = 0;
 var totalEnergyTextperKM = "";
-
+var vehicleType = "custom";
 var summaryLineChart = 0;
 var energyBreakdownChart = 0;
 var master_plots_line_chart = 0;
@@ -104,8 +104,8 @@ function toAngSpeed(linearSpeed){
 
 function runSimulationClicked(){
 	
-	
-	
+	//ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
+	ga('send', 'event', 'RangeTool' ,'Run Simulation', vehicleType, veh_inputs_total_mass);
 	
 	
 	getVehicleInputValues();

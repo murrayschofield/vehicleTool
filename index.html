@@ -25,6 +25,16 @@
 
 	  gtag('config', 'UA-115891329-1');
 	</script>
+	
+	<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-115891329-1', 'auto');
+ga('send', 'pageview');
+</script>
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -66,6 +76,7 @@
 		  //$("#navBarsideBar").load("pages/navBarsideBar.html");  
 		  //enterVehicleInputsClicked();
 		  //modifyChartJS();
+		  ga('send', 'event', 'RangeTool' ,'Page Nav', 'Page Loaded');
 		  invalidateSimulation();
 		  gettingStartedClicked();
 		  //defineDriveCycleClicked();
@@ -192,6 +203,8 @@
 			document.getElementById("inputSummaryMenuItem").style.visibility = 'hidden';
 			document.getElementById("driveTrainInformationMenuItem").style.visibility = 'hidden';
 			
+			
+			
 			console.log("Invalidating SImulation Results Now.")
 			$("#simProgressBarValues").removeClass("progress-bar-success");
 			$("#simButton").addClass("btn-primary");
@@ -261,6 +274,7 @@
 		
 		
 		function gettingStartedClicked(){
+		
 			console.log("Getting Started Clicked");
 			collapseAllSections();
 			document.getElementById("gettingStartedGuideSection").className = "collapse.show";
@@ -271,6 +285,7 @@
 		
 		
 		function enterVehicleInputsClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Vehicle Inputs');
 			console.log("Enter Vehicle Inputs Clicked");
 			collapseAllSections();
 			document.getElementById("vehicleInputsSection").className = "collapse.show";
@@ -278,6 +293,7 @@
 		}
 		
 		function defineDriveCycleClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Drive Cycle Inputs');
 			console.log("Define Drive Cycles Clicked");
 			collapseAllSections();
 			document.getElementById("defineDriveCycleSection").className = "collapse.show";
@@ -287,6 +303,7 @@
 		
 		
 		function inputSummaryClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Input Summary');
 			console.log("Input Summary Clicked");
 			collapseAllSections();
 			document.getElementById("inputSummarySection").className = "collapse.show";
@@ -294,6 +311,7 @@
 		}
 		
 		function driveTrainInformationClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Drive Train Info');
 			console.log("Input Summary Clicked");
 			collapseAllSections();
 			document.getElementById("driveTrainInformationSection").className = "collapse.show";
@@ -301,6 +319,7 @@
 		}
 		
 		function energyBreakdownClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Energy Breakdown');
 			console.log("Energy Breakdown Clicked");
 			collapseAllSections();
 			document.getElementById("energyBreakdownSection").className = "collapse.show";
@@ -308,6 +327,7 @@
 		}
 		
 		function rangeSectionClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Range Section');
 			console.log("Energy Breakdown Clicked");
 			collapseAllSections();
 			document.getElementById("rangeSection").className = "collapse.show";
@@ -315,6 +335,7 @@
 		}
 		
 		function batterySectionClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Battery Section');
 			console.log("Energy Breakdown Clicked");
 			collapseAllSections();
 			document.getElementById("batterySection").className = "collapse.show";
@@ -322,6 +343,7 @@
 		}
 		
 		function plotsSectionClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Plots Section');
 			console.log("PlotsSection Clicked");
 			collapseAllSections();
 			document.getElementById("PlotsSection").className = "collapse.show";
@@ -336,6 +358,7 @@
 		}
 		
 		function resetClicked(){
+		ga('send', 'event', 'RangeTool' ,'Page Nav', 'Reset Page');
 			invalidateSimulation();
 			console.log("Reset Clicked");
 			collapseAllSections();
@@ -554,6 +577,7 @@
 		
 		
 		function resetVehicleInputsClicked(){
+		vehicleType = "custom(R)";
 		console.log("resetVehicleInputsClicked");
 			$("#veh_inputs_total_mass").val("");
 			$("#veh_inputs_frontal_area").val("");
@@ -579,6 +603,7 @@
 		}
 		
 		function loadATXClicked(){
+		vehicleType = "ATX";
 		invalidateSimulation();
 		console.log("loadATXClicked");
 			$("#veh_inputs_total_mass").val("575");
@@ -604,6 +629,7 @@
 		}
 		
 		function loadT4Clicked(){
+		vehicleType = "T4";
 		invalidateSimulation();
 		console.log("loadT4Clicked");			
 			$("#veh_inputs_total_mass").val("1825");
@@ -643,6 +669,7 @@
 		}
 		
 		function loadMustangClicked(){
+		vehicleType = "Mustang";
 			$("#veh_inputs_total_mass").val("2000");
 			$("#veh_inputs_frontal_area").val("2.2");
 			$("#veh_inputs_drag_coefficient").val("0.45");
